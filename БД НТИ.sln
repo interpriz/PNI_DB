@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30320.27
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "БД НТИ", "БД НТИ.csproj", "{7E09AF2D-3383-449E-8C26-DFEE5178110B}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Установка БД экспериментов", "..\Установка БД экспериментов\Установка БД экспериментов.vdproj", "{236A1491-4D2B-4A85-B6AB-E5A6FAE563A8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7E09AF2D-3383-449E-8C26-DFEE5178110B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E09AF2D-3383-449E-8C26-DFEE5178110B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E09AF2D-3383-449E-8C26-DFEE5178110B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E09AF2D-3383-449E-8C26-DFEE5178110B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{236A1491-4D2B-4A85-B6AB-E5A6FAE563A8}.Debug|Any CPU.ActiveCfg = Debug
+		{236A1491-4D2B-4A85-B6AB-E5A6FAE563A8}.Release|Any CPU.ActiveCfg = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E1DC30A7-1F2F-49DE-96AD-4EC6EA4D8977}
+	EndGlobalSection
+EndGlobal
