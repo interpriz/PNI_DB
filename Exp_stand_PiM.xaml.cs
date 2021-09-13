@@ -19,7 +19,7 @@ namespace БД_НТИ
     /// <summary>
     /// Логика взаимодействия для Stand_PiM.xaml
     /// </summary>
-
+    //комментарий
     public partial class Exp_stand_PiM : Page
     {
         String conn_str = User.Connection_string;
