@@ -17,9 +17,9 @@ using Npgsql;
 namespace БД_НТИ
 {
     /// <summary>
-    /// Логика взаимодействия для Exp_obj.xaml
+    /// Логика взаимодействия для Task_class.xaml
     /// </summary>
-    public partial class Exp_obj : Page
+    public partial class Task_class : Page
     {
         string php_name;
         string tpe_name;
@@ -31,7 +31,9 @@ namespace БД_НТИ
         //Experiment exp_wind = (Experiment)Application.Current.Windows.OfType<Window>().ToList()[2];
         Experiment_add exp_wind_add;
         Experiment_search exp_wind_search;
-        public Exp_obj(string contr)
+
+        Modeling_add model_wind_add;
+        public Task_class(string contr)
         {
             InitializeComponent();
             NpgsqlConnection sqlconn = new NpgsqlConnection(conn_str);
@@ -41,9 +43,18 @@ namespace БД_НТИ
             switch (contrpar)
             {
                 case "ExpOldTask":
-                    exp_wind_add = (Experiment_add)Application.Current.Windows.OfType<Window>().Where(x => x.Name == "Experiment_wind").FirstOrDefault();
+                case "ModelOldTask":
+                    if (contrpar == "ExpOldTask")
+                    {
+                        exp_wind_add = (Experiment_add)Application.Current.Windows.OfType<Window>().Where(x => x.Name == "Experiment_wind").FirstOrDefault();
+                        Txtblock_obj_or_pc.Text = "3. Выбор экспериментального объекта";
+                    }
+                    else
+                    {
+                        model_wind_add = (Modeling_add)Application.Current.Windows.OfType<Window>().Where(x => x.Name == "Modeling_wind").FirstOrDefault();
+                        Txtblock_obj_or_pc.Text = "3. Выбор объекта моделирования";
+                    }
 
-                    Txtblock_obj_or_pc.Text = "3. Выбор экспериментального объекта";
                     Combox_exp_obj.IsEditable = false;
                     Combox_phys_proc.IsEditable = false;
                     Combox_type_equip.IsEditable = false;
@@ -64,9 +75,18 @@ namespace БД_НТИ
                     break;
 
                 case "ExpNewTask":
-                    exp_wind_add = (Experiment_add)Application.Current.Windows.OfType<Window>().Where(x => x.Name == "Experiment_wind").FirstOrDefault();
+                case "ModelNewTask":
+                    if (contrpar == "ExpOldTask")
+                    {
+                        exp_wind_add = (Experiment_add)Application.Current.Windows.OfType<Window>().Where(x => x.Name == "Experiment_wind").FirstOrDefault();
+                        Txtblock_obj_or_pc.Text = "3. Выбор экспериментального объекта";
+                    }
+                    else
+                    {
+                        model_wind_add = (Modeling_add)Application.Current.Windows.OfType<Window>().Where(x => x.Name == "Modeling_wind").FirstOrDefault();
+                        Txtblock_obj_or_pc.Text = "3. Выбор объекта моделирования";
+                    }
 
-                    Txtblock_obj_or_pc.Text = "3. Выбор экспериментального объекта";
                     Combox_exp_obj.IsEditable = true;
                     Combox_phys_proc.IsEditable = true;
                     Combox_type_equip.IsEditable = true;
@@ -142,6 +162,7 @@ namespace БД_НТИ
             switch (contrpar)
             {
                 case "ExpOldTask":
+                case "ModelOldTask":
                     ComboBoxItem comitem = new ComboBoxItem();
                     comitem = (ComboBoxItem)Combox_phys_proc.SelectedItem;
                     if (comitem != null)
@@ -157,10 +178,21 @@ namespace БД_НТИ
                     Combox_type_equip.Items.Clear();
                     Combox_exp_obj.Items.Clear();
                     Butt_image.IsEnabled = false;
-                    exp_wind_add.Butt_next.IsEnabled = false;
-                    exp_wind_add.item2.IsEnabled = false;
-                    exp_wind_add.item3.IsEnabled = false;
-                    bool_exp.obj = true;
+                    if (contrpar == "ExpOldTask")
+                    {
+                        exp_wind_add.Butt_next.IsEnabled = false;
+                        exp_wind_add.item2.IsEnabled = false;
+                        exp_wind_add.item3.IsEnabled = false;
+                        bool_exp.obj = true;
+                    }
+                    else
+                    {
+                        model_wind_add.Butt_next.IsEnabled = false;
+                        model_wind_add.item2.IsEnabled = false;
+                        model_wind_add.item3.IsEnabled = false;
+                        bool_model.obj = true;
+                    }
+                    
                     Data.id = null;
                     Data.id_obj = null;
 
@@ -181,6 +213,7 @@ namespace БД_НТИ
                     break;
                 
                 case "ExpNewTask":
+                case "ModelNewTask":
                     Data.id = null;
                     ComboBoxItem comitem_2 = new ComboBoxItem();
                     comitem_2 = (ComboBoxItem)Combox_phys_proc.SelectedItem;
@@ -194,11 +227,25 @@ namespace БД_НТИ
                     }
                     if ((Combox_type_equip.Text != "") && (Combox_exp_obj.Text != ""))
                     {
-                        exp_wind_add.Butt_next.IsEnabled = true;
+                        if (contrpar == "ExpOldTask")
+                        {
+                            exp_wind_add.Butt_next.IsEnabled = true;
+                        }
+                        else
+                        {
+                            model_wind_add.Butt_next.IsEnabled = true;
+                        }
                     }
                     else
                     {
-                        exp_wind_add.Butt_next.IsEnabled = false;
+                        if (contrpar == "ExpOldTask")
+                        {
+                            exp_wind_add.Butt_next.IsEnabled = false;
+                        }
+                        else
+                        {
+                            model_wind_add.Butt_next.IsEnabled = false;
+                        }
                     }
                     break;
 
@@ -248,6 +295,7 @@ namespace БД_НТИ
             switch (contrpar)
             {
                 case "ExpOldTask":
+                case "ModelOldTask":
                     ComboBoxItem comitem = new ComboBoxItem();
                     comitem = (ComboBoxItem)Combox_type_equip.SelectedItem;
                     if (comitem != null)
@@ -259,13 +307,23 @@ namespace БД_НТИ
                         tpe_name = Combox_type_equip.Text;
                     }
 
-
                     Combox_exp_obj.Items.Clear();
                     Butt_image.IsEnabled = false;
-                    exp_wind_add.Butt_next.IsEnabled = false;
-                    exp_wind_add.item2.IsEnabled = false;
-                    exp_wind_add.item3.IsEnabled = false;
-                    bool_exp.obj = true;
+                    if (contrpar == "ExpOldTask")
+                    {
+                        exp_wind_add.Butt_next.IsEnabled = false;
+                        exp_wind_add.item2.IsEnabled = false;
+                        exp_wind_add.item3.IsEnabled = false;
+                        bool_exp.obj = true;
+                    }
+                    else
+                    {
+                        model_wind_add.Butt_next.IsEnabled = false;
+                        model_wind_add.item2.IsEnabled = false;
+                        model_wind_add.item3.IsEnabled = false;
+                        bool_model.obj = true;
+                    }
+                    
                     Data.id = null;
                     Data.id_obj = null;
 
@@ -297,6 +355,7 @@ namespace БД_НТИ
                     break;
 
                 case "ExpNewTask":
+                case "ModelNewTask":
                     Data.id = null;
                     ComboBoxItem comitem_2 = new ComboBoxItem();
                     comitem_2 = (ComboBoxItem)Combox_type_equip.SelectedItem;
@@ -310,11 +369,25 @@ namespace БД_НТИ
                     }
                     if ((Combox_phys_proc.Text != "") && (Combox_exp_obj.Text != ""))
                     {
-                        exp_wind_add.Butt_next.IsEnabled = true;
+                        if (contrpar == "ExpOldTask")
+                        {
+                            exp_wind_add.Butt_next.IsEnabled = true;
+                        }
+                        else
+                        {
+                            model_wind_add.Butt_next.IsEnabled = true;
+                        }
                     }
                     else
                     {
-                        exp_wind_add.Butt_next.IsEnabled = false;
+                        if (contrpar == "ExpOldTask")
+                        {
+                            exp_wind_add.Butt_next.IsEnabled = false;
+                        }
+                        else
+                        {
+                            model_wind_add.Butt_next.IsEnabled = false;
+                        }
                     }
                     break;
 
@@ -365,6 +438,7 @@ namespace БД_НТИ
             switch (contrpar)
             {
                 case "ExpOldTask":
+                case "ModelOldTask":
                     Data.id = null;
                     Data.id_obj = null;
                     Butt_image.IsEnabled = true;
@@ -384,13 +458,25 @@ namespace БД_НТИ
                     Data.id = comm_id_add.ExecuteScalar().ToString();
                     sqlconn.Close();
 
-                    exp_wind_add.item2.IsEnabled = true;
-                    exp_wind_add.Butt_next.IsEnabled = true;
-                    //exp_wind_add.item3.IsEnabled = false;
-                    bool_exp.obj = true;
+                    if (contrpar == "ExpOldTask")
+                    {
+                        exp_wind_add.item2.IsEnabled = true;
+                        exp_wind_add.Butt_next.IsEnabled = true;
+                        //exp_wind_add.item3.IsEnabled = false;
+                        bool_exp.obj = true;
+                    }
+                    else
+                    {
+                        model_wind_add.item2.IsEnabled = true;
+                        model_wind_add.Butt_next.IsEnabled = true;
+                        //exp_wind_add.item3.IsEnabled = false;
+                        bool_model.obj = true;
+                    }
+                        
                     break;
 
                 case "ExpNewTask":
+                case "ModelNewTask":
                     Data.id = null;
                     ComboBoxItem comitem_2 = new ComboBoxItem();
                     comitem_2 = (ComboBoxItem)Combox_exp_obj.SelectedItem;
@@ -404,11 +490,25 @@ namespace БД_НТИ
                     }
                     if ((Combox_phys_proc.Text != "") && (Combox_type_equip.Text != ""))
                     {
-                        exp_wind_add.Butt_next.IsEnabled = true;
+                        if (contrpar == "ExpOldTask")
+                        {
+                            exp_wind_add.Butt_next.IsEnabled = true;
+                        }
+                        else
+                        {
+                            model_wind_add.Butt_next.IsEnabled = true;
+                        }
                     }
                     else
                     {
-                        exp_wind_add.Butt_next.IsEnabled = false;
+                        if (contrpar == "ExpOldTask")
+                        {
+                            exp_wind_add.Butt_next.IsEnabled = false;
+                        }
+                        else
+                        {
+                            model_wind_add.Butt_next.IsEnabled = false;
+                        }
                     }
                     break;
 
@@ -457,7 +557,14 @@ namespace БД_НТИ
             }
             else
             {
-                exp_wind_add.Butt_next.IsEnabled = false;
+                if ((contrpar == "ExpOldTask") || (contrpar == "ExpNewTask"))
+                {
+                    exp_wind_add.Butt_next.IsEnabled = false;
+                }
+                else if ((contrpar == "ModelOldTask") || (contrpar == "ModelNewTask"))
+                {
+                    model_wind_add.Butt_next.IsEnabled = false;
+                }
             }
         }
 
@@ -473,7 +580,14 @@ namespace БД_НТИ
             }
             else
             {
-                exp_wind_add.Butt_next.IsEnabled = false;
+                if ((contrpar == "ExpOldTask") || (contrpar == "ExpNewTask"))
+                {
+                    exp_wind_add.Butt_next.IsEnabled = false;
+                }
+                else if ((contrpar == "ModelOldTask") || (contrpar == "ModelNewTask"))
+                {
+                    model_wind_add.Butt_next.IsEnabled = false;
+                }
             }
         }
 
@@ -489,7 +603,14 @@ namespace БД_НТИ
             }
             else
             {
-                exp_wind_add.Butt_next.IsEnabled = false;
+                if ((contrpar == "ExpOldTask") || (contrpar == "ExpNewTask"))
+                {
+                    exp_wind_add.Butt_next.IsEnabled = false;
+                }
+                else if ((contrpar == "ModelOldTask") || (contrpar == "ModelNewTask"))
+                {
+                    model_wind_add.Butt_next.IsEnabled = false;
+                }
             }
         }
     }

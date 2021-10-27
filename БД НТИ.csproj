@@ -203,6 +203,9 @@
     <Compile Include="Exp_search_geom.xaml.cs">
       <DependentUpon>Exp_search_geom.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Modeling_add.xaml.cs">
+      <DependentUpon>Modeling_add.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Vvod_func.xaml.cs">
       <DependentUpon>Vvod_func.xaml</DependentUpon>
     </Compile>
@@ -256,6 +259,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Modeling_add.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Vvod_func.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -272,7 +279,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Exp_obj.xaml">
+    <Page Include="Task_class.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -305,8 +312,8 @@
     <Compile Include="Experiment_add.xaml.cs">
       <DependentUpon>Experiment_add.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Exp_obj.xaml.cs">
-      <DependentUpon>Exp_obj.xaml</DependentUpon>
+    <Compile Include="Task_class.xaml.cs">
+      <DependentUpon>Task_class.xaml</DependentUpon>
     </Compile>
     <Compile Include="Menu.xaml.cs">
       <DependentUpon>Menu.xaml</DependentUpon>

@@ -1,4 +1,4 @@
-﻿<Page x:Class="БД_НТИ.Exp_obj"
+﻿<Page x:Class="БД_НТИ.Task_class"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 

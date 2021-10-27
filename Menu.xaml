@@ -50,13 +50,19 @@
                     <MenuItem
                     Header="Добавление результатов эксперимента" Background="LightCyan" FontSize="12" >
                         <MenuItem
-                        Header="Существующая задача" x:Name="ExpOldTask" Background="LightCyan" Click="MenuItem_Click" FontSize="12"/>
+                        Header="Существующий класс задачи" x:Name="ExpOldTask" Background="LightCyan" Click="MenuItem_Click" FontSize="12"/>
                         <MenuItem
-                        Header="Новая задача" x:Name="ExpNewTask" Background="LightCyan" Click="MenuItem_Click" FontSize="12"/>
+                        Header="Новый класс задачи" x:Name="ExpNewTask" Background="LightCyan" Click="MenuItem_Click" FontSize="12"/>
                     </MenuItem>
                 </MenuItem>
                 <MenuItem
-                 Header="Численное моделирование" Width="225" Background="LightCyan" Padding="16,0,-200,0" Margin="0,0,0,20" BorderBrush="#FF000E99" BorderThickness="1"/>
+                 Header="Численное моделирование" Width="225" Background="LightCyan" Padding="16,0,-200,0" Margin="0,0,0,20" BorderBrush="#FF000E99" BorderThickness="1">
+                    <MenuItem Header="Поиск результатов моделирования" x:Name="ModelSearch" FontSize="12"/>
+                    <MenuItem Header="Добавление результатов моделирования" FontSize="12" >
+                        <MenuItem Header="Существующий класс задачи" x:Name="ModelOldTask" FontSize="12" Click="MenuItem_Click"/>
+                        <MenuItem Header="Новый класс задачи" x:Name="ModelNewTask" FontSize="12" Click="MenuItem_Click"/>
+                    </MenuItem>
+                </MenuItem>
                 <MenuItem
                  Header="Верификация" Background="LightCyan" Margin="0,0,-5,0" BorderBrush="#FF000E99" BorderThickness="1"/>
             </Menu>

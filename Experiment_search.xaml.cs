@@ -22,7 +22,7 @@ namespace БД_НТИ
     {
         string conn_str = User.Connection_string;
         string step = "step1";
-        Page new_Exp_obj;
+        Page new_Task_class;
         Page new_Geom;
         Page new_Stand_PiM;
         Page new_result_view;
@@ -30,8 +30,8 @@ namespace БД_НТИ
         public Experiment_search()
         {
             InitializeComponent();
-            new_Exp_obj = new Exp_obj("ExpSearch");
-            frame.Navigate(new_Exp_obj);
+            new_Task_class = new Task_class("ExpSearch");
+            frame.Navigate(new_Task_class);
         }
         private void ButtonCloseMenu_Click(object sender, RoutedEventArgs e)
         {
@@ -158,8 +158,8 @@ namespace БД_НТИ
         private void item1_Selected(object sender, RoutedEventArgs e)
         {
             Butt_next.Visibility = Visibility.Visible;
-            new_Exp_obj = new Exp_obj("ExpSearch");
-            frame.Navigate(new_Exp_obj);
+            new_Task_class = new Task_class("ExpSearch");
+            frame.Navigate(new_Task_class);
             item2.IsEnabled = false;
             item3.IsEnabled = false;
             item4.IsEnabled = false;

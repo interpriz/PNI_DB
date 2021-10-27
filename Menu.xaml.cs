@@ -51,15 +51,10 @@ namespace БД_НТИ
                     break;
 
                 case "ExpOldTask":
+                case "ExpNewTask":
                     this.Hide();
                     Window newin2 = new Experiment_add(item.Name);
                     newin2.ShowDialog();
-                    break;
-
-                case "ExpNewTask":
-                    this.Hide();
-                    Window newin3 = new Experiment_add(item.Name);
-                    newin3.ShowDialog();
                     break;
 
                 case "ExpSearch":
@@ -67,8 +62,16 @@ namespace БД_НТИ
                     Window newin4 = new Experiment_search();
                     newin4.ShowDialog();
                     break;
+
+                case "ModelOldTask":
+                case "ModelNewTask":
+                    this.Hide();
+                    Window newin5 = new Modeling_add(item.Name);
+                    newin5.ShowDialog();
+                    break;
             }
             
         }
+
     }
 }
