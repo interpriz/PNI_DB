@@ -24,6 +24,7 @@ namespace БД_НТИ
         public string condition;
         string conn_str = User.Connection_string;
         Page new_Task_class;
+        Page new_Geom_param;
 
         public Modeling_add(string zadacha)
         {
@@ -64,7 +65,6 @@ namespace БД_НТИ
                             item1.IsSelected = false;
                             item2.IsEnabled = true;
                             item2.IsSelected = true;
-                            condition = "step2";
                             break;
 
                         case "ModelNewTask":
@@ -219,8 +219,8 @@ namespace БД_НТИ
                                     
                                     item1.IsSelected = false;
                                     item2.IsEnabled = true;
+                                    bool_model.obj = true;
                                     item2.IsSelected = true;
-                                    condition = "step2";
                                 }
                             }
                             break;
@@ -230,7 +230,6 @@ namespace БД_НТИ
                 case "step2":
                     item2.IsSelected = false;
                     item3.IsSelected = true;
-                    condition = "step3";
                     break;
                 
             }
@@ -257,13 +256,18 @@ namespace БД_НТИ
 
         private void item2_Selected(object sender, RoutedEventArgs e)
         {
-            
+            if (bool_model.obj)
+            {
+                new_Geom_param = new Geom_param(task);
+                bool_model.obj = false;
+            }
+            frame.Navigate(new_Geom_param);
+            condition = "step2";
         }
     }
     public class bool_model
     {
         public static bool obj;//true - страница обновилась, false - страница не менялась
-        public static bool stand;
         public static bool geom;
     }
 }
