@@ -244,25 +244,59 @@ namespace БД_НТИ
                     //timer1.Stop();
                     this.Close();
                     break;
+                case "step2":
+                    item2.IsSelected = false;
+                    item1.IsSelected = true;
+                    break;
                 
             }
 
         }
 
+        private void Check_id_obj()
+        {
+            NpgsqlConnection sqlconn = new NpgsqlConnection(conn_str);
+            sqlconn.Open();
+
+            //проверка: есть ли привязанные стенды
+            NpgsqlCommand comm_try = new NpgsqlCommand($"select \"Id$\" from main_block.\"Stand_ID*\" where \"ID*\"={Data.id}", sqlconn);
+            NpgsqlDataReader read_try = comm_try.ExecuteReader();
+            while (read_try.Read())
+            {
+                Data.id_obj = read_try[1].ToString();
+            }
+            read_try.Close();
+
+            if (Data.id_obj == null)
+            {
+                NpgsqlCommand comm_ins_id = new NpgsqlCommand($"insert into main_block.\"Stand_ID*\"(\"ID*\",\"Stand_id\") values ({Data.id}, 0); ", sqlconn);  //добавление id
+                comm_ins_id.ExecuteNonQuery();
+
+                NpgsqlCommand comm_try2 = new NpgsqlCommand($"select \"Id$\" from main_block.\"Stand_ID*\" where \"ID*\"={Data.id}", sqlconn);
+                Data.id_obj = comm_try2.ExecuteScalar().ToString();
+            }
+
+            sqlconn.Close();
+        }
+
         private void item1_Selected(object sender, RoutedEventArgs e)
         {
-
+            Butt_next.Visibility = Visibility.Visible;
+            condition = "step1";
+            frame.Navigate(new_Task_class);
         }
 
         private void item2_Selected(object sender, RoutedEventArgs e)
         {
             if (bool_model.obj)
             {
+                Check_id_obj();
                 new_Geom_param = new Geom_param(task);
                 bool_model.obj = false;
             }
             frame.Navigate(new_Geom_param);
             condition = "step2";
+            Butt_next.Visibility = Visibility.Hidden;
         }
     }
     public class bool_model
