@@ -290,6 +290,7 @@ namespace БД_НТИ
         {
             if (bool_model.obj)
             {
+                new_Geom_param = new Geom_param("Modeling");
                 Check_id_obj();
                 new_Geom_param = new Geom_param(task);
                 bool_model.obj = false;
