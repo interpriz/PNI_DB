@@ -227,7 +227,7 @@ namespace БД_НТИ
                     }
                     if ((Combox_type_equip.Text != "") && (Combox_exp_obj.Text != ""))
                     {
-                        if (contrpar == "ExpOldTask")
+                        if (contrpar == "ExpNewTask")
                         {
                             exp_wind_add.Butt_next.IsEnabled = true;
                         }
@@ -238,7 +238,7 @@ namespace БД_НТИ
                     }
                     else
                     {
-                        if (contrpar == "ExpOldTask")
+                        if (contrpar == "ExpNewTask")
                         {
                             exp_wind_add.Butt_next.IsEnabled = false;
                         }
@@ -369,7 +369,7 @@ namespace БД_НТИ
                     }
                     if ((Combox_phys_proc.Text != "") && (Combox_exp_obj.Text != ""))
                     {
-                        if (contrpar == "ExpOldTask")
+                        if (contrpar == "ExpNewTask")
                         {
                             exp_wind_add.Butt_next.IsEnabled = true;
                         }
@@ -380,7 +380,7 @@ namespace БД_НТИ
                     }
                     else
                     {
-                        if (contrpar == "ExpOldTask")
+                        if (contrpar == "ExpNewTask")
                         {
                             exp_wind_add.Butt_next.IsEnabled = false;
                         }
@@ -490,7 +490,7 @@ namespace БД_НТИ
                     }
                     if ((Combox_phys_proc.Text != "") && (Combox_type_equip.Text != ""))
                     {
-                        if (contrpar == "ExpOldTask")
+                        if (contrpar == "ExpNewTask")
                         {
                             exp_wind_add.Butt_next.IsEnabled = true;
                         }
@@ -501,7 +501,7 @@ namespace БД_НТИ
                     }
                     else
                     {
-                        if (contrpar == "ExpOldTask")
+                        if (contrpar == "ExpNewTask")
                         {
                             exp_wind_add.Butt_next.IsEnabled = false;
                         }
