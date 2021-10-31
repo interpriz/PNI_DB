@@ -117,11 +117,25 @@ namespace БД_НТИ
         public string header { get; set; }      //имя заголовка (номер)
         public int realization { get; set; }    // номер строки (реализации)  в базе данных
 
+        public static string mode = "Experiment";              //Modeling Experiment
+
+        public string button_name { get; set; }
+
         // конструктор заголовка
         public rowheader(string v1, int v2)
         {
             this.header = v1;
             this.realization = v2;
+            switch (mode)
+            {
+                case "Experiment":
+                    button_name = "Добавить результаты эксперимента";
+                    break;
+
+                case "Modeling":
+                    button_name = "Добавить результаты моделирования";
+                    break;
+            }
         }
     }
 }

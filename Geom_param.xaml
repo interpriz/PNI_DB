@@ -110,7 +110,7 @@
                                    materialDesign:ShadowAssist.ShadowEdges="Bottom,Left"
                                    VerticalAlignment="Top" Height="80" >
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="3. Ввод геометрических параметров объекта" 
+                <TextBlock x:Name="page_name" Text="3. Ввод геометрических параметров объекта" 
                    Background="Transparent"  FontSize="24" 
                    FontFamily="Comic Sans MS" VerticalAlignment="Center" Height="35" Margin="38,8,0,7" HorizontalAlignment="Left"/>
                 <TextBlock x:Name="txt_proc" Width="145" Margin="30,8,0,7" FontSize="14" TextWrapping="Wrap" FontFamily="Comic Sans MS" VerticalAlignment="Center"/>
@@ -242,7 +242,7 @@
                                                     <StackPanel Orientation="Horizontal" Height="{Binding RowHeight, ElementName=datagrid2}">
                                                         <Label Content="{Binding header}"/>
                                                         <Button Width="150" Height="50" Click="Button_Click" Tag ="{Binding header}">
-                                                            <TextBlock Text="Добавить результаты эксперимента" TextWrapping="Wrap" FontSize="10"/>
+                                                            <TextBlock x:Name="butt_add_results" Text="{Binding button_name}" TextWrapping="Wrap" FontSize="10"/>
                                                         </Button>
                                                         <CheckBox x:Name="check_del" />
                                                     </StackPanel>

@@ -57,6 +57,7 @@ namespace БД_НТИ
 
             Data.channels = new List<channel>();
             rowheaders = new ObservableCollection<rowheader>();
+            rowheader.mode = page_mode;
             string id_obj = Data.id_obj; //Id$ - в БД (идентификатор обьекта)
 
 
@@ -76,6 +77,17 @@ namespace БД_НТИ
             }
             reader_par.Close();
 
+            switch (page_mode)
+            {
+                case "Experiment":
+                    page_name.Text = "3.Ввод геометрических параметров объекта";
+                    break;
+
+                case "Modeling":
+                    page_name.Text = "2.Ввод геометрических параметров объекта";
+                    break;
+            }
+            
 
             NpgsqlCommand com_name = new NpgsqlCommand($"select * from main_block.select_names_id({Data.id});", sqlconn);
             NpgsqlDataReader rdr1 = com_name.ExecuteReader();
