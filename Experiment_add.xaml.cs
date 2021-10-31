@@ -475,7 +475,7 @@ namespace БД_НТИ
             if (bool_exp.stand)
             {
                 Geom_param.save = true;
-                new_Geom_par = new Geom_param();
+                new_Geom_par = new Geom_param("Experiment");
                 bool_exp.stand = false;
             }
             frame.Navigate(new_Geom_par);

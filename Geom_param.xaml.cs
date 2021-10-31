@@ -27,6 +27,8 @@ namespace БД_НТИ
         int chanell_DB_count;
 
         Experiment_add exp_wind = (Experiment_add)Application.Current.Windows.OfType<Window>().Where(x => x.Name == "Experiment_wind").FirstOrDefault();
+        Modeling_add model_wind = (Modeling_add)Application.Current.Windows.OfType<Window>().Where(x => x.Name == "Modeling_wind").FirstOrDefault();
+
 
         public static MaterialDesignThemes.Wpf.DialogHost dialog = new MaterialDesignThemes.Wpf.DialogHost();
         //List<channel> Data.channels = new List<channel>();   //список каналов
@@ -40,15 +42,22 @@ namespace БД_НТИ
 
         public static bool save = true;//проверка сохранения перед добавлением результатов экспериента
 
-        public Geom_param()
+        static string page_mode;
+
+        public Geom_param(string page_mode) //Modeling - при работе с моделированием /Experiment - при работе с экспериментами
         {
             InitializeComponent();
+
+            Geom_param.page_mode = page_mode;
+
+            // окошко добавления нового параметра
             bool_exp.geom = true;
             dialog = Dialog_add_param;
 
+
             Data.channels = new List<channel>();
             rowheaders = new ObservableCollection<rowheader>();
-            string id_obj = Data.id_obj;
+            string id_obj = Data.id_obj; //Id$ - в БД (идентификатор обьекта)
 
 
             NpgsqlConnection sqlconn = new NpgsqlConnection(conn_str);
@@ -448,10 +457,20 @@ namespace БД_НТИ
                             if (select == "Новый параметр")
                             {
                                 dialog.IsOpen = true;
-                                //Experiment_add exp_wind = (Experiment_add)Application.Current.Windows[4];
-                                Experiment_add exp_wind = (Experiment_add)Application.Current.Windows.OfType<Window>().Where(x => x.Name == "Experiment_wind").FirstOrDefault();
-                                exp_wind.Butt_back.IsEnabled = false;
-                                exp_wind.listview_items.IsEnabled = false;
+                                switch (page_mode)
+                                {
+                                    case "Experiment":
+                                        //Experiment_add exp_wind = (Experiment_add)Application.Current.Windows[4];
+                                        Experiment_add exp_wind = (Experiment_add)Application.Current.Windows.OfType<Window>().Where(x => x.Name == "Experiment_wind").FirstOrDefault();
+                                        exp_wind.Butt_back.IsEnabled = false;
+                                        exp_wind.listview_items.IsEnabled = false;
+                                        break;
+
+                                    case "Modeling":
+
+                                        break;
+                                }
+                                
                             }
                             else
                             {
@@ -542,8 +561,17 @@ namespace БД_НТИ
                 {
                     Parametrs.insert_parametr("Геометрические параметры", name, short_name, unit);
                     dialog.IsOpen = false;
-                    exp_wind.Butt_back.IsEnabled = true;
-                    exp_wind.listview_items.IsEnabled = true;
+                    switch (page_mode)
+                    {
+                        case "Experiment":
+                            exp_wind.Butt_back.IsEnabled = true;
+                            exp_wind.listview_items.IsEnabled = true;
+                            break;
+
+                        case "Modeling":
+
+                            break;
+                    }
                     cmb_parametrs.Add(txt_par_name.Text);
                 }
                 else
@@ -641,12 +669,21 @@ namespace БД_НТИ
                 //DB_constr.chan_dann.Clear();
                 //DB_constr.sech_count_db.Clear();
                 DB_constr.Del();
-                exp_wind.new_Construct = new Exp_construct();
-                //exp_wind.condition = "step4";
-                exp_wind.item3.IsSelected = false;
-                exp_wind.item4.IsEnabled = true;
-                exp_wind.item4.IsSelected = true;
-                //exp_wind.frame.Navigate(exp_wind.new_Construct);
+                switch (page_mode)
+                {
+                    case "Experiment":
+                        exp_wind.new_Construct = new Exp_construct();
+                        //exp_wind.condition = "step4";
+                        exp_wind.item3.IsSelected = false;
+                        exp_wind.item4.IsEnabled = true;
+                        exp_wind.item4.IsSelected = true;
+                        //exp_wind.frame.Navigate(exp_wind.new_Construct);
+                        break;
+
+                    case "Modeling":
+
+                        break;
+                }
             }
             else
             {
@@ -658,8 +695,18 @@ namespace БД_НТИ
 
         private void Dialog_add_param_DialogClosing(object sender, MaterialDesignThemes.Wpf.DialogClosingEventArgs eventArgs)
         {
-            exp_wind.Butt_back.IsEnabled = true;
-            exp_wind.listview_items.IsEnabled = true;
+            switch (page_mode)
+            {
+                case "Experiment":
+                    exp_wind.Butt_back.IsEnabled = true;
+                    exp_wind.listview_items.IsEnabled = true;
+                    break;
+
+                case "Modeling":
+
+                    break;
+            }
+            
         }
 
         private void messbut2_Click(object sender, RoutedEventArgs e)

@@ -223,8 +223,6 @@ namespace БД_НТИ
                                     condition = "step2";
                                 }
                             }
-
-
                             break;
                     }
 
