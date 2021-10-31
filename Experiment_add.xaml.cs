@@ -265,7 +265,7 @@ namespace БД_НТИ
                 case "step2":
                     //if (bool_exp.stand)
                     //{
-                    //    new_Geom_par = new Exp_geom_param();
+                    //    new_Geom_par = new Geom_param();
                     //    bool_exp.stand = false;
                     //}
                     //frame.Navigate(new_Geom_par);
@@ -401,7 +401,7 @@ namespace БД_НТИ
         //                {
         //                    Butt_next.IsEnabled = true;
         //                    item3.IsEnabled = true;
-        //                    new_Geom_par = new Exp_geom_param();
+        //                    new_Geom_par = new Geom_param();
         //                    c2++;
         //                }                    
         //            }
@@ -474,8 +474,8 @@ namespace БД_НТИ
             Butt_next.Visibility = Visibility.Hidden;
             if (bool_exp.stand)
             {
-                Exp_geom_param.save = true;
-                new_Geom_par = new Exp_geom_param();
+                Geom_param.save = true;
+                new_Geom_par = new Geom_param();
                 bool_exp.stand = false;
             }
             frame.Navigate(new_Geom_par);

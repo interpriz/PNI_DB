@@ -1,4 +1,4 @@
-﻿<Page x:Class="БД_НТИ.Exp_geom_param"
+﻿<Page x:Class="БД_НТИ.Geom_param"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -8,7 +8,7 @@
       xmlns:local="clr-namespace:БД_НТИ"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="Exp_geom_param" Background="LightCyan"
+      Title="Geom_param" Background="LightCyan"
       Width="1102" Height="530"
       FontFamily="Comic Sans MS" Foreground="#FF000E99">
     <Page.Resources>

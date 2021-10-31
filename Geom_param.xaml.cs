@@ -19,9 +19,9 @@ using Npgsql;
 namespace БД_НТИ
 {
     /// <summary>
-    /// Логика взаимодействия для Exp_geom_param.xaml
+    /// Логика взаимодействия для Geom_param.xaml
     /// </summary>
-    public partial class Exp_geom_param : Page
+    public partial class Geom_param : Page
     {
 
         int chanell_DB_count;
@@ -40,7 +40,7 @@ namespace БД_НТИ
 
         public static bool save = true;//проверка сохранения перед добавлением результатов экспериента
 
-        public Exp_geom_param()
+        public Geom_param()
         {
             InitializeComponent();
             bool_exp.geom = true;
@@ -336,7 +336,7 @@ namespace БД_НТИ
                             if (el.Text != data.cols[columnIndex][0] && data.cols[columnIndex][1] != "new")
                             {
                                 data.cols[columnIndex][1] = "update";
-                                Exp_geom_param.save = false;
+                                Geom_param.save = false;
                             }
                         }
                         else

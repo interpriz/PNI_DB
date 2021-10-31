@@ -1,0 +1,33 @@
+﻿<Page x:Class="БД_НТИ.Model_rezh"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:local="clr-namespace:БД_НТИ"
+      mc:Ignorable="d" 
+      Width="1102" Height="530"
+      Title="Model_rezh" Background="LightCyan" FontFamily="Comic Sans MS" Foreground="#FF000E99">
+
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="PaleTurquoise"/>
+                <GradientStop Color="LightCyan" Offset="0.6"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="85*"/>
+        </Grid.RowDefinitions>
+
+        <materialDesign:Card  Background="#FF86E2FD" Grid.Row="0" 
+                                   materialDesign:ShadowAssist.ShadowDepth="Depth3"  
+                                   materialDesign:ShadowAssist.ShadowEdges="Bottom,Left"
+                                   VerticalAlignment="Top" Height="80" >
+            <TextBlock Text="3. Задание режмных параметров" Grid.Row="0" 
+                   Background="Transparent" Foreground="#FF000E99" FontSize="24" 
+                   FontFamily="Comic Sans MS" VerticalAlignment="Center" Height="35" Margin="38,8,0,7" HorizontalAlignment="Left"/>
+        </materialDesign:Card>
+    </Grid>
+</Page>
