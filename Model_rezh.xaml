@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:po="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
       xmlns:local="clr-namespace:БД_НТИ"
       mc:Ignorable="d" 
       Width="1102" Height="530"
@@ -25,9 +26,89 @@
                                    materialDesign:ShadowAssist.ShadowDepth="Depth3"  
                                    materialDesign:ShadowAssist.ShadowEdges="Bottom,Left"
                                    VerticalAlignment="Top" Height="80" >
-            <TextBlock Text="3. Задание режмных параметров" Grid.Row="0" 
+            <TextBlock Text="3. Задание режимных параметров" Grid.Row="0" 
                    Background="Transparent" Foreground="#FF000E99" FontSize="24" 
                    FontFamily="Comic Sans MS" VerticalAlignment="Center" Height="35" Margin="38,8,0,7" HorizontalAlignment="Left"/>
         </materialDesign:Card>
+
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="4*"/>
+                <RowDefinition Height="41*"/>
+            </Grid.RowDefinitions>
+            <materialDesign:Card Grid.Row="0" Background="#FFB8ECFD" materialDesign:ShadowAssist.ShadowDepth="Depth3">
+                <StackPanel Orientation="Horizontal" x:Name="stackpanel_chan">
+                    <RadioButton Content="Канал 1" BorderBrush="#FF000E99" Checked="RadioButton_Checked" x:Name="radiobut_chan1" 
+                                 Style="{StaticResource MaterialDesignTabRadioButton}" FontSize="14"
+                                 HorizontalContentAlignment="Center" Margin="0,4"/>
+                </StackPanel>
+            </materialDesign:Card>
+
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="35*"/>
+                    <ColumnDefinition Width="23*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Column="0" Margin="0,0,10,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="44*" />
+                        <ColumnDefinition Width="20*"/>
+                        <ColumnDefinition Width="67*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.Resources>
+                        <ResourceDictionary>
+                            <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="#FFB8ECFD" po:Freeze="True" />
+                            <SolidColorBrush x:Key="PrimaryHueMidForegroundBrush" Color="#FF000E99" po:Freeze="True" />
+                            <SolidColorBrush x:Key="SecondaryAccentBrush" Color="#FF000E99" po:Freeze="True"/>
+                        </ResourceDictionary>
+                    </Grid.Resources>
+                    <StackPanel Grid.Column="0" Margin="10,0,0,0">
+                        <DataGrid HorizontalScrollBarVisibility="Auto" FontSize="10" Height="300" Margin="7,20,0,0" BorderThickness="1"
+                                              CanUserDeleteRows="False" CanUserAddRows="False" CanUserResizeColumns="False" 
+                                                  CanUserReorderColumns="False" CanUserResizeRows="False" CanUserSortColumns="False" AutoGenerateColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn IsReadOnly="True">
+                                    <DataGridTextColumn.Header>
+                                        <TextBlock Text="Режимные параметры" TextWrapping="Wrap" Width="148" TextAlignment="Center" Margin="10,0,0,0" FontSize="12"/>
+                                    </DataGridTextColumn.Header>
+                                </DataGridTextColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <Button Margin="55,10,55,0" HorizontalAlignment="Center" Height="45" Width="100" >
+                            <TextBlock Text="Добавить параметр" Width="60" TextWrapping="Wrap" TextAlignment="Center" FontSize="12" Height="40" Margin="0" />
+                        </Button>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="46,143,34,193" Height="74" Width="20">
+                        <Button Content=">>" Margin="0,0,0,5" Padding="4" FontSize="15" />
+                        <Button Content="&lt;&lt;" Margin="0,5,0,0" Padding="4" FontSize="15" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="2" Margin="0,0,115,0">
+                        <DataGrid HorizontalScrollBarVisibility="Auto" Height="300" Margin="0,20,7,0" BorderThickness="1" 
+                                              FontSize="10"
+                                              CanUserDeleteRows="False" CanUserAddRows="False" CanUserResizeColumns="False" 
+                                                  CanUserReorderColumns="False" CanUserResizeRows="False" CanUserSortColumns="False" AutoGenerateColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn IsReadOnly="True">
+                                    <DataGridTextColumn.Header>
+                                        <TextBlock Text="Измеряемые параметры" TextWrapping="Wrap" Width="180" TextAlignment="Center" FontSize="12" />
+                                    </DataGridTextColumn.Header>
+                                </DataGridTextColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </Grid>
+
+                <Grid Grid.Column="1">
+                    <DataGrid Margin="30,60,337,90">
+                        
+                    </DataGrid>
+                    <DataGrid Margin="100,60,47,90"/>
+                </Grid>
+
+            </Grid>
+
+        </Grid>
+
     </Grid>
 </Page>
