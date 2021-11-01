@@ -263,7 +263,7 @@ namespace БД_НТИ
             NpgsqlDataReader read_try = comm_try.ExecuteReader();
             while (read_try.Read())
             {
-                Data.id_obj = read_try[1].ToString();
+                Data.id_obj = read_try[0].ToString();
             }
             read_try.Close();
 
@@ -290,8 +290,9 @@ namespace БД_НТИ
         {
             if (bool_model.obj)
             {
+                
                 Check_id_obj();
-                new_Geom_param = new Geom_param(task);
+                new_Geom_param = new Geom_param("Modeling");
                 bool_model.obj = false;
             }
             frame.Navigate(new_Geom_param);

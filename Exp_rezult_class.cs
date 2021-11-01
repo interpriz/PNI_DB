@@ -648,6 +648,7 @@ namespace БД_НТИ
                 {
                     sec.pars.add_row();
                 }
+                sec.age = "new";
             }
         }
 
@@ -1071,8 +1072,15 @@ namespace БД_НТИ
             NpgsqlConnection sqlconn = new NpgsqlConnection(User.Connection_string);
             sqlconn.Open();
             //добавить в mode_cros_section запись c сечением 0 mode
-            NpgsqlCommand com_add = new NpgsqlCommand($"INSERT INTO main_block.\"Mode_cros_section\" (\"Id_R_C\", \"Id_mode\", id_cros_section) VALUES( {id_r_c_},{rezh_},{sec_}); ", sqlconn);
-            com_add.ExecuteNonQuery();
+            NpgsqlCommand comm = new NpgsqlCommand($"select count(\"Id_rcm\") from main_block.\"Mode\" where \"Id_R_C\" ={id_r_c_} and \"Id_mode\" = {rezh_}", sqlconn);
+            string number_of_modes = comm.ExecuteScalar().ToString();
+            if (number_of_modes == "0")
+            {
+                NpgsqlCommand com_add1 = new NpgsqlCommand($"INSERT INTO main_block.\"Mode\" (\"Id_R_C\", \"Id_mode\") VALUES( {id_r_c_},{rezh_}); ", sqlconn);
+                com_add1.ExecuteNonQuery();
+            }
+            NpgsqlCommand com_add2 = new NpgsqlCommand($"INSERT INTO main_block.\"Cros_section\" (\"Id_rcm\", id_cros_section) VALUES( (select \"Id_rcm\" from main_block.\"Mode\" where \"Id_R_C\"={id_r_c_} and \"Id_mode\" ={rezh_}) ,{sec_}); ", sqlconn);
+            com_add2.ExecuteNonQuery();
 
             sqlconn.Close();
         }
@@ -1442,6 +1450,7 @@ namespace БД_НТИ
             foreach (section sec in sections)
             {
                 sec.pars.add_row();
+                //sec.age = "new";???
             }
         }
 

@@ -479,7 +479,9 @@ namespace БД_НТИ
                                         break;
 
                                     case "Modeling":
-
+                                        Modeling_add model_wind = (Modeling_add)Application.Current.Windows.OfType<Window>().Where(x => x.Name == "Modeling_wind").FirstOrDefault();
+                                        model_wind.Butt_back.IsEnabled = false;
+                                        model_wind.listview_items.IsEnabled = false;
                                         break;
                                 }
                                 
@@ -581,7 +583,8 @@ namespace БД_НТИ
                             break;
 
                         case "Modeling":
-
+                            model_wind.Butt_back.IsEnabled = true;
+                            model_wind.listview_items.IsEnabled = true;
                             break;
                     }
                     cmb_parametrs.Add(txt_par_name.Text);
@@ -667,7 +670,7 @@ namespace БД_НТИ
             }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)// добавление результатов экспериментов
+        private void Button_Click(object sender, RoutedEventArgs e)// добавление результатов экспериментов/моделирования
         {
             if (save)
             {
@@ -715,7 +718,8 @@ namespace БД_НТИ
                     break;
 
                 case "Modeling":
-
+                    model_wind.Butt_back.IsEnabled = true;
+                    model_wind.listview_items.IsEnabled = true;
                     break;
             }
             
