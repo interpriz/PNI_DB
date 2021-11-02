@@ -696,6 +696,9 @@ namespace БД_НТИ
                         break;
 
                     case "Modeling":
+                        model_wind.new_Model_rezh = new Model_rezh();
+                        model_wind.item2.IsSelected = false;
+                        model_wind.item3.IsSelected = true;
 
                         break;
                 }

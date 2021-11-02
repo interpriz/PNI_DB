@@ -25,6 +25,7 @@ namespace БД_НТИ
         string conn_str = User.Connection_string;
         Page new_Task_class;
         Page new_Geom_param;
+        public Page new_Model_rezh;
 
         public Modeling_add(string zadacha)
         {
@@ -228,8 +229,6 @@ namespace БД_НТИ
 
                     break;
                 case "step2":
-                    item2.IsSelected = false;
-                    item3.IsSelected = true;
                     break;
                 
             }
@@ -248,7 +247,11 @@ namespace БД_НТИ
                     item2.IsSelected = false;
                     item1.IsSelected = true;
                     break;
-                
+                case "step3":
+                    item3.IsSelected = false;
+                    item2.IsSelected = true;
+                    break;
+
             }
 
         }
@@ -298,6 +301,13 @@ namespace БД_НТИ
             frame.Navigate(new_Geom_param);
             condition = "step2";
             Butt_next.Visibility = Visibility.Hidden;
+        }
+
+        private void item3_Selected(object sender, RoutedEventArgs e)
+        {
+            Butt_next.Visibility = Visibility.Visible;
+            frame.Navigate(new_Model_rezh);
+            condition = "step3";
         }
     }
     public class bool_model

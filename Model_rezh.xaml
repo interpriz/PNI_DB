@@ -9,6 +9,12 @@
       mc:Ignorable="d" 
       Width="1102" Height="530"
       Title="Model_rezh" Background="LightCyan" FontFamily="Comic Sans MS" Foreground="#FF000E99">
+    <Page.Resources>
+        <ResourceDictionary>
+            <Style TargetType="{x:Type RadioButton}" BasedOn="{StaticResource MaterialDesignTabRadioButton}"/>
+            <SolidColorBrush x:Key="SecondaryAccentBrush" Color="#FF000E99" po:Freeze="True"/>
+        </ResourceDictionary>
+    </Page.Resources>
 
     <Grid>
         <Grid.Background>
@@ -39,8 +45,7 @@
             <materialDesign:Card Grid.Row="0" Background="#FFB8ECFD" materialDesign:ShadowAssist.ShadowDepth="Depth3">
                 <StackPanel Orientation="Horizontal" x:Name="stackpanel_chan">
                     <RadioButton Content="Канал 1" BorderBrush="#FF000E99" Checked="RadioButton_Checked" x:Name="radiobut_chan1" 
-                                 Style="{StaticResource MaterialDesignTabRadioButton}" FontSize="14"
-                                 HorizontalContentAlignment="Center" Margin="0,4"/>
+                                 FontSize="14" HorizontalContentAlignment="Center" Margin="0,4"/>
                 </StackPanel>
             </materialDesign:Card>
 
@@ -99,11 +104,32 @@
                     </StackPanel>
                 </Grid>
 
-                <Grid Grid.Column="1">
-                    <DataGrid Margin="30,60,337,90">
-                        
-                    </DataGrid>
-                    <DataGrid Margin="100,60,47,90"/>
+                <Grid Grid.Column="1" >
+                    <Grid Margin="30,60,47,90">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30*"/>
+                            <ColumnDefinition Width="70*"/>
+                        </Grid.ColumnDefinitions>
+                        <DataGrid Grid.Column="0" x:Name="column_rezh_numbers" AutoGenerateColumns="False" Grid.ColumnSpan="2" RowHeight="67">
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn x:Name="userControlColumn" Header="№ Режима">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <RadioButton Content="{Binding number}" GroupName="rezhims" 
+                                                             BorderBrush="#FF000E99"
+                                                             VerticalAlignment="Center" HorizontalAlignment="Center" Checked="RadioButton_Checked_rezh" />
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <DataGrid Grid.Column="1" x:Name="exp_rezh_params" IsReadOnly="True" AutoGenerateColumns="False" CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False" RowHeight="67"> 
+                            
+                        </DataGrid>
+                    </Grid>
+                    
                 </Grid>
 
             </Grid>

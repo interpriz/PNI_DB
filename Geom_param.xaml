@@ -101,6 +101,10 @@
     </Page.Resources>
 
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="110*"/>
+            <ColumnDefinition Width="441*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="80"/>
             <RowDefinition Height="38*"/>
@@ -108,7 +112,7 @@
         <materialDesign:Card  Background="#FF86E2FD" Grid.Row="0" 
                                    materialDesign:ShadowAssist.ShadowDepth="Depth3"  
                                    materialDesign:ShadowAssist.ShadowEdges="Bottom,Left"
-                                   VerticalAlignment="Top" Height="80" >
+                                   VerticalAlignment="Top" Height="80" Grid.ColumnSpan="2" >
             <StackPanel Orientation="Horizontal">
                 <TextBlock x:Name="page_name" Text="3. Ввод геометрических параметров объекта" 
                    Background="Transparent"  FontSize="24" 
@@ -121,7 +125,7 @@
         </materialDesign:Card>
 
 
-        <materialDesign:DialogHost Margin="0,0,0,0" Grid.Row="1" x:Name="Dialog_add_param" OverlayBackground="#b8eeff" DialogClosing="Dialog_add_param_DialogClosing">
+        <materialDesign:DialogHost Margin="0,0,0,0" Grid.Row="1" x:Name="Dialog_add_param" OverlayBackground="#b8eeff" DialogClosing="Dialog_add_param_DialogClosing" Grid.ColumnSpan="2">
             <materialDesign:DialogHost.DialogContent >
                 <Grid Background="LightCyan">
                     <StackPanel Orientation="Vertical" Margin="20">
@@ -278,7 +282,7 @@
             </Grid>
         </materialDesign:DialogHost>
 
-        <materialDesign:Snackbar x:Name="messbar2" IsActive="False" Margin="210,0,256,-90" Grid.Row="2" Width="624" Background="#000175" Foreground="LightCyan">
+        <materialDesign:Snackbar x:Name="messbar2" IsActive="False" Margin="216,0,262,-90" Grid.Row="1" Width="624" Background="#000175" Foreground="LightCyan" Grid.ColumnSpan="2">
             <materialDesign:SnackbarMessage Margin="15" Height="65">
                 <StackPanel Orientation="Horizontal" Margin="0,-15,0,-15">
                     <ScrollViewer Width="471" CanContentScroll="True" Margin="0,0,0,4" >
