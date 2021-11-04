@@ -30,6 +30,12 @@ namespace БД_НТИ
 
         String conn_str = User.Connection_string;       //строка подключения
 
+        ObservableCollection<Rezh>  rezh_all = new ObservableCollection<Rezh>();
+        ObservableCollection<Rezh>  rezh_izm = new ObservableCollection<Rezh>();
+
+        ObservableCollection<exp_rezh_number> exp_rezh_numbers = new ObservableCollection<exp_rezh_number>();
+        parametrs rezh_pars = new parametrs();
+
         public class exp_rezh_number // заголовок строк таблиц
         {
             public string number { get; set; }      //отображаемый номер режима
@@ -61,10 +67,16 @@ namespace БД_НТИ
             Parametrs.geom_pars = new Dictionary<string, Param>();
             while (reader_par1.Read())
             {
+                Rezh str = new Rezh();
+                str.rezh = reader_par1[0].ToString();
+                rezh_all.Add(str);
+
                 Param p = new Param() { short_name = reader_par1[1].ToString(), unit = reader_par1[2].ToString() };
                 Parametrs.geom_pars.Add(reader_par1[0].ToString(), p);
             }
             reader_par1.Close();
+            datagrid_rezh_all.ItemsSource = rezh_all;
+            datagrid_rezh_izm.ItemsSource = rezh_izm;
             sqlconn.Close();
             radiobut_chan1.IsChecked = true;
         }
@@ -75,6 +87,7 @@ namespace БД_НТИ
             string[] names = radio.Content.ToString().Split(' ');
             chan = Convert.ToInt32(names[1]) - 1; //номер канала (начиная с 0 (т.е. №-1))
 
+
             NpgsqlConnection sqlconn = new NpgsqlConnection(conn_str);
             sqlconn.Open();
 
@@ -83,9 +96,10 @@ namespace БД_НТИ
 
             NpgsqlCommand com_params = new NpgsqlCommand($"select* from main_block.select_exp_rezh_params({Id_r_c})", sqlconn);
             NpgsqlDataReader reader_par = com_params.ExecuteReader();
+            rezh_pars = new parametrs();
+            exp_rezh_numbers = new ObservableCollection<exp_rezh_number>();
 
-            ObservableCollection<exp_rezh_number> exp_rezh_numbers = new ObservableCollection<exp_rezh_number>();
-            parametrs rezh_pars = new parametrs();
+
             while (reader_par.Read())
             {
                 int id_mode = (int)reader_par[0];
@@ -111,6 +125,36 @@ namespace БД_НТИ
             exp_rezh_params.Columns.Clear();
             column_rezh_numbers.ItemsSource = exp_rezh_numbers;
             parametrs_table_build(exp_rezh_params, rezh_pars);
+
+            //перенос элементов из правой таблицы в левую
+            if (rezh_izm.Count != 0)
+            {
+                for (int i = 0; i < rezh_pars.column_headers.Count; i++)
+                {
+                    foreach (Rezh par in rezh_izm)
+                    {
+                        if (par.rezh != rezh_pars.column_headers[i])
+                        {
+                            datagrid_rezh_izm.SelectedItem = datagrid_rezh_izm.Items[rezh_izm.IndexOf(par)];
+                            butt_rezh_del_Click(null, null);
+                            break;
+                        }
+                    }
+                }
+            }
+            // перенос элементов из левой в правую(тех, что есть в таблицу с режимами)
+            for (int i = 0; i < rezh_pars.column_headers.Count; i++)
+            {
+                foreach (Rezh par in datagrid_rezh_all.ItemsSource)
+                {
+                    if (par.rezh == rezh_pars.column_headers[i])
+                    {
+                        datagrid_rezh_all.SelectedItem = datagrid_rezh_all.Items[datagrid_rezh_all.Items.IndexOf(par)];
+                        butt_rezh_add_Click(null, null);
+                        break;
+                    }
+                }
+            }
 
             sqlconn.Close();
         }
@@ -139,7 +183,47 @@ namespace БД_НТИ
         private void RadioButton_Checked_rezh(object sender, RoutedEventArgs e)
         {
             var radio = sender as RadioButton;
-            int rezh = Convert.ToInt32(radio.Content.ToString());
+            int rezh = Convert.ToInt32(radio.Content.ToString())-1;
+        }
+
+        private void butt_rezh_add_Click(object sender, RoutedEventArgs e)
+        {
+            if (datagrid_rezh_all.SelectedItems.Count != 0)
+            {
+                for (int i = 0; i < datagrid_rezh_all.SelectedItems.Count; i++)
+                {
+                    Rezh rezh = datagrid_rezh_all.SelectedItems[i] as Rezh;
+                    rezh_all.Remove(rezh);
+                    rezh_izm.Add(rezh);
+                }
+            }
+        }
+
+        private void butt_rezh_del_Click(object sender, RoutedEventArgs e)
+        {
+            if (datagrid_rezh_izm.SelectedItems.Count != 0)
+            {
+                for (int i = 0; i < datagrid_rezh_izm.SelectedItems.Count; i++)
+                {
+                    Rezh rezh = datagrid_rezh_izm.SelectedItems[i] as Rezh;
+                    //bool fl = true;
+                    //for (int j = 0; j < DB_constr.rezhs_6_db[chan].Count; j++)
+                    //{
+                    //    if (rezh.rezh == DB_constr.rezhs_6_db[chan][j].rezh)
+                    //    {
+                    //        fl = false;
+                    //        j = DB_constr.rezhs_6_db[chan].Count;
+                    //    }
+                    //}
+                    //if (fl)
+                    //{
+                        
+                    //}
+                    rezh_izm.Remove(rezh);
+                    rezh_all.Add(rezh);
+
+                }
+            }
         }
     }
 }

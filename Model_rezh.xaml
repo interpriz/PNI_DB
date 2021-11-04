@@ -69,11 +69,11 @@
                         </ResourceDictionary>
                     </Grid.Resources>
                     <StackPanel Grid.Column="0" Margin="10,0,0,0">
-                        <DataGrid HorizontalScrollBarVisibility="Auto" FontSize="10" Height="300" Margin="7,20,0,0" BorderThickness="1"
+                        <DataGrid x:Name="datagrid_rezh_all" HorizontalScrollBarVisibility="Auto" FontSize="10" Height="300" Margin="7,20,0,0" BorderThickness="1"
                                               CanUserDeleteRows="False" CanUserAddRows="False" CanUserResizeColumns="False" 
                                                   CanUserReorderColumns="False" CanUserResizeRows="False" CanUserSortColumns="False" AutoGenerateColumns="False">
                             <DataGrid.Columns>
-                                <DataGridTextColumn IsReadOnly="True">
+                                <DataGridTextColumn IsReadOnly="True" Binding="{Binding rezh, Mode=TwoWay}">
                                     <DataGridTextColumn.Header>
                                         <TextBlock Text="Режимные параметры" TextWrapping="Wrap" Width="148" TextAlignment="Center" Margin="10,0,0,0" FontSize="12"/>
                                     </DataGridTextColumn.Header>
@@ -85,16 +85,16 @@
                         </Button>
                     </StackPanel>
                     <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="46,143,34,193" Height="74" Width="20">
-                        <Button Content=">>" Margin="0,0,0,5" Padding="4" FontSize="15" />
-                        <Button Content="&lt;&lt;" Margin="0,5,0,0" Padding="4" FontSize="15" />
+                        <Button x:Name="add" Content=">>" Margin="0,0,0,5" Padding="4" FontSize="15" Click="butt_rezh_add_Click" />
+                        <Button x:Name="del" Content="&lt;&lt;" Margin="0,5,0,0" Padding="4" FontSize="15" Click="butt_rezh_del_Click" />
                     </StackPanel>
                     <StackPanel Grid.Column="2" Margin="0,0,115,0">
-                        <DataGrid HorizontalScrollBarVisibility="Auto" Height="300" Margin="0,20,7,0" BorderThickness="1" 
+                        <DataGrid x:Name="datagrid_rezh_izm" HorizontalScrollBarVisibility="Auto" Height="300" Margin="0,20,7,0" BorderThickness="1" 
                                               FontSize="10"
                                               CanUserDeleteRows="False" CanUserAddRows="False" CanUserResizeColumns="False" 
                                                   CanUserReorderColumns="False" CanUserResizeRows="False" CanUserSortColumns="False" AutoGenerateColumns="False">
                             <DataGrid.Columns>
-                                <DataGridTextColumn IsReadOnly="True">
+                                <DataGridTextColumn IsReadOnly="True" Binding="{Binding rezh, Mode=TwoWay}">
                                     <DataGridTextColumn.Header>
                                         <TextBlock Text="Измеряемые параметры" TextWrapping="Wrap" Width="180" TextAlignment="Center" FontSize="12" />
                                     </DataGridTextColumn.Header>
