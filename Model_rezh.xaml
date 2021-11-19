@@ -89,14 +89,19 @@
                         <Button x:Name="del" Content="&lt;&lt;" Margin="0,5,0,0" Padding="4" FontSize="15" Click="butt_rezh_del_Click" />
                     </StackPanel>
                     <StackPanel Grid.Column="2" Margin="0,0,115,0">
-                        <DataGrid x:Name="datagrid_rezh_izm" HorizontalScrollBarVisibility="Auto" Height="300" Margin="0,20,7,0" BorderThickness="1" 
+                        <DataGrid x:Name="datagrid_rezh_izm" HorizontalScrollBarVisibility="Auto" Height="300" Margin="0,20,-155,0" BorderThickness="1" 
                                               FontSize="10"
                                               CanUserDeleteRows="False" CanUserAddRows="False" CanUserResizeColumns="False" 
                                                   CanUserReorderColumns="False" CanUserResizeRows="False" CanUserSortColumns="False" AutoGenerateColumns="False">
                             <DataGrid.Columns>
                                 <DataGridTextColumn IsReadOnly="True" Binding="{Binding rezh, Mode=TwoWay}">
                                     <DataGridTextColumn.Header>
-                                        <TextBlock Text="Измеряемые параметры" TextWrapping="Wrap" Width="180" TextAlignment="Center" FontSize="12" />
+                                        <TextBlock Text="Измеряемые параметры" TextWrapping="Wrap" Width="150" TextAlignment="Center" FontSize="12" />
+                                    </DataGridTextColumn.Header>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn IsReadOnly="True" Binding="{Binding value, Mode=TwoWay}">
+                                    <DataGridTextColumn.Header>
+                                        <TextBlock Text="Значения" TextWrapping="Wrap" Width="90" TextAlignment="Center" FontSize="12" />
                                     </DataGridTextColumn.Header>
                                 </DataGridTextColumn>
                             </DataGrid.Columns>
@@ -105,7 +110,7 @@
                 </Grid>
 
                 <Grid Grid.Column="1" >
-                    <Grid Margin="30,60,47,90">
+                    <Grid Margin="55,55,22.333,95">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="30*"/>
                             <ColumnDefinition Width="70*"/>

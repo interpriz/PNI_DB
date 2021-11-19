@@ -30,8 +30,14 @@ namespace БД_НТИ
 
         String conn_str = User.Connection_string;       //строка подключения
 
-        ObservableCollection<Rezh>  rezh_all = new ObservableCollection<Rezh>();
-        ObservableCollection<Rezh>  rezh_izm = new ObservableCollection<Rezh>();
+        class Rezh_value
+        {
+            public string rezh { get; set; }
+            public string value { get; set; }
+        }
+
+        ObservableCollection<Rezh_value>  rezh_all = new ObservableCollection<Rezh_value>();
+        ObservableCollection<Rezh_value>  rezh_izm = new ObservableCollection<Rezh_value>();
 
         ObservableCollection<exp_rezh_number> exp_rezh_numbers = new ObservableCollection<exp_rezh_number>();
         parametrs rezh_pars = new parametrs();
@@ -67,7 +73,7 @@ namespace БД_НТИ
             Parametrs.geom_pars = new Dictionary<string, Param>();
             while (reader_par1.Read())
             {
-                Rezh str = new Rezh();
+                Rezh_value str = new Rezh_value();
                 str.rezh = reader_par1[0].ToString();
                 rezh_all.Add(str);
 
@@ -131,7 +137,7 @@ namespace БД_НТИ
             {
                 for (int i = 0; i < rezh_pars.column_headers.Count; i++)
                 {
-                    foreach (Rezh par in rezh_izm)
+                    foreach (Rezh_value par in rezh_izm)
                     {
                         if (par.rezh != rezh_pars.column_headers[i])
                         {
@@ -145,7 +151,7 @@ namespace БД_НТИ
             // перенос элементов из левой в правую(тех, что есть в таблицу с режимами)
             for (int i = 0; i < rezh_pars.column_headers.Count; i++)
             {
-                foreach (Rezh par in datagrid_rezh_all.ItemsSource)
+                foreach (Rezh_value par in datagrid_rezh_all.ItemsSource)
                 {
                     if (par.rezh == rezh_pars.column_headers[i])
                     {
@@ -184,6 +190,14 @@ namespace БД_НТИ
         {
             var radio = sender as RadioButton;
             int rezh = Convert.ToInt32(radio.Content.ToString())-1;
+            for(int i =0; i<rezh_izm.Count; i++)
+            {
+                rezh_izm[i].value = rezh_pars.par_value(rezh_izm[i].rezh, rezh).value;
+            }
+            datagrid_rezh_izm.ItemsSource = null;
+            datagrid_rezh_izm.ItemsSource = rezh_izm;
+
+
         }
 
         private void butt_rezh_add_Click(object sender, RoutedEventArgs e)
@@ -192,7 +206,7 @@ namespace БД_НТИ
             {
                 for (int i = 0; i < datagrid_rezh_all.SelectedItems.Count; i++)
                 {
-                    Rezh rezh = datagrid_rezh_all.SelectedItems[i] as Rezh;
+                    Rezh_value rezh = datagrid_rezh_all.SelectedItems[i] as Rezh_value;
                     rezh_all.Remove(rezh);
                     rezh_izm.Add(rezh);
                 }
@@ -205,7 +219,7 @@ namespace БД_НТИ
             {
                 for (int i = 0; i < datagrid_rezh_izm.SelectedItems.Count; i++)
                 {
-                    Rezh rezh = datagrid_rezh_izm.SelectedItems[i] as Rezh;
+                    Rezh_value rezh = datagrid_rezh_izm.SelectedItems[i] as Rezh_value;
                     //bool fl = true;
                     //for (int j = 0; j < DB_constr.rezhs_6_db[chan].Count; j++)
                     //{
