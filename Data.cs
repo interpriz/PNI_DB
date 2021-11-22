@@ -50,11 +50,13 @@ namespace БД_НТИ
         public static Dictionary<string, Param> integral_pars { get; set; } //Интегральные характеристики физического процесса
 
         public static Dictionary<string, Param> coord_pars { get; set; } //координаты
+        public static Dictionary<string, Param> reshatel_pars { get; set; } //Настройки решателя
+        public static Dictionary<string, Param> setka_pars { get; set; } //Параметры сетки
 
         public static Param get_param(string name)
         {
             Param p = new Param() { short_name = "", unit = ""};
-            List<Dictionary<string, Param>> lst = new List<Dictionary<string, Param>> { geom_pars, reg_pars, phys_pars, integral_pars, coord_pars };
+            List<Dictionary<string, Param>> lst = new List<Dictionary<string, Param>> { geom_pars, reg_pars, phys_pars, integral_pars, coord_pars, reshatel_pars, setka_pars };
             foreach (Dictionary<string, Param> dic in lst)
             {
                 if (dic != null)
@@ -72,7 +74,7 @@ namespace БД_НТИ
 
             if (get_param(name).short_name != "") return name;
 
-            List<Dictionary<string, Param>> lst = new List<Dictionary<string, Param>> { geom_pars, reg_pars, phys_pars, integral_pars, coord_pars };
+            List<Dictionary<string, Param>> lst = new List<Dictionary<string, Param>> { geom_pars, reg_pars, phys_pars, integral_pars, coord_pars, reshatel_pars, setka_pars };
             foreach(Dictionary<string, Param> dic in lst)
             {
                 foreach (KeyValuePair<string, Param> p in dic)
@@ -89,7 +91,7 @@ namespace БД_НТИ
 
         public static void update_parametrs()
         {
-            List<string> types_of_param = new List<string> { "Геометрические параметры", "Режимные параметры", "Теплофизические параметры", "Интегральные характеристики физического процесса", "Координаты"  };
+            List<string> types_of_param = new List<string> { "Геометрические параметры", "Режимные параметры", "Теплофизические параметры", "Интегральные характеристики физического процесса", "Координаты","Настройки решателя", "Параметры сетки"  };
             NpgsqlConnection sqlconn = new NpgsqlConnection(conn_str);
             sqlconn.Open();
 
@@ -128,6 +130,14 @@ namespace БД_НТИ
                             Parametrs.coord_pars.Add(reader_par[0].ToString(), p);
                             break;
 
+                        case "Настройки решателя":
+                            Parametrs.reshatel_pars.Add(reader_par[0].ToString(), p);
+                            break;
+
+                        case "Параметры сетки":
+                            Parametrs.setka_pars.Add(reader_par[0].ToString(), p);
+                            break;
+
 
                     }
                 }
@@ -163,6 +173,14 @@ namespace БД_НТИ
 
                 case "Координаты":
                     Parametrs.coord_pars.Add(name, p);
+                    break;
+
+                case "Настройки решателя":
+                    Parametrs.reshatel_pars.Add(name, p);
+                    break;
+
+                case "Параметры сетки":
+                    Parametrs.setka_pars.Add(name, p);
                     break;
             }
             sqlconn.Close();

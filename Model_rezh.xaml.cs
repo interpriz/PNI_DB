@@ -186,6 +186,7 @@ namespace БД_НТИ
             }
         }
 
+
         private void RadioButton_Checked_rezh(object sender, RoutedEventArgs e)
         {
             var radio = sender as RadioButton;

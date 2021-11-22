@@ -72,13 +72,13 @@
                     <ListViewItem x:Name="item3" Height="70" IsEnabled="False" Selected="item3_Selected" >
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="Numeric3Circle" Height="32" Width="32" VerticalAlignment="Center"/>
-                            <TextBlock Text="??" VerticalAlignment="Center" Margin="15,0,0,0" TextWrapping="Wrap" Width="175"/>
+                            <TextBlock Text="Выбор режима моделирования" VerticalAlignment="Center" Margin="15,0,0,0" TextWrapping="Wrap" Width="175"/>
                         </StackPanel>
                     </ListViewItem>
-                    <ListViewItem x:Name="item4" Height="70" IsEnabled="False" >
+                    <ListViewItem x:Name="item4" Height="70" IsEnabled="False" Selected="item4_Selected">
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="Numeric4Circle" Height="32" Width="32" VerticalAlignment="Center"/>
-                            <TextBlock Text="Формирование таблицы результатов эксперимента " VerticalAlignment="Center" Margin="15,0,0,0" TextWrapping="Wrap" Width="175"/>
+                            <TextBlock Text="Задание настроек моделирования " VerticalAlignment="Center" Margin="15,0,0,0" TextWrapping="Wrap" Width="175"/>
                         </StackPanel>
                     </ListViewItem>
                     <ListViewItem x:Name="item5" Height="70" IsEnabled="False" >

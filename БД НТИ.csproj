@@ -209,6 +209,9 @@
     <Compile Include="Model_rezh.xaml.cs">
       <DependentUpon>Model_rezh.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Model_settings.xaml.cs">
+      <DependentUpon>Model_settings.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Vvod_func.xaml.cs">
       <DependentUpon>Vvod_func.xaml</DependentUpon>
     </Compile>
@@ -267,6 +270,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Model_rezh.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Model_settings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -2054,14 +2054,20 @@ namespace БД_НТИ
     }
     class parametrs
     {
-        public ObservableCollection<row> table { get; set; }            // таблица параметров (список строк таблицы)
-        public ObservableCollection<string> column_headers { get; set; }// список заголовков таблицы (названий параметров)
+        // таблица параметров (список строк таблицы)
+        public ObservableCollection<row> table { get; set; }
 
+        // список заголовков таблицы (названий параметров)
+        public ObservableCollection<string> column_headers { get; set; }
 
-        public parametrs()
+        // список выпадающих списков для столбцов
+        public ObservableCollection<ObservableCollection<string>> column_drop_lists { get; set; } 
+
+    public parametrs()
         {
             this.table = new ObservableCollection<row>();
             this.column_headers = new ObservableCollection<string>();
+            this.column_drop_lists = new ObservableCollection<ObservableCollection<string>>();
         }
 
         // добавление строки в таблицу значений параметров
@@ -2092,6 +2098,36 @@ namespace БД_НТИ
                 p.mode = "new";
                 r.cols.Add(p);
             }
+        }
+
+        public void add_parametr(string name, string[] pars)
+        {
+            this.column_headers.Add(name);
+            if (table.Count != 0)
+            {
+                for (int i = 0; i < table.Count; i++)
+                {
+                    parametr p = new parametr();
+                    p.mode = "old";
+                    p.value = pars[i];
+                    table[i].cols.Add(p);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < pars.Length; i++)
+                {
+                    parametr p = new parametr();
+                    p.mode = "old";
+                    p.value = pars[i];
+
+                    row r = new row();
+                    r.cols.Add(p);
+                    r.age = "old";
+                    table.Add(r);
+                }
+            }
+            
         }
 
         // удаление параметра
