@@ -207,9 +207,9 @@
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal" Height="{Binding RowHeight, ElementName=datagrid2}">
-                                                <Label Content="{Binding header}"/>
+                                                <Label Content="{Binding number}"/>
                                                 <Button Width="150" Height="50" Click="Button_Click" Tag ="{Binding header}">
-                                                    <TextBlock x:Name="butt_add_results" Text="{Binding button_name}" TextWrapping="Wrap" FontSize="10"/>
+                                                    <TextBlock x:Name="butt_add_results" Text="Добавить результаты моделирования" TextWrapping="Wrap" FontSize="10"/>
                                                 </Button>
                                                 <CheckBox x:Name="check_del" />
                                             </StackPanel>
@@ -224,6 +224,7 @@
                                 </Style>
                             </DataGrid.Resources>
                         </DataGrid>
+                        
                         <Border Grid.Row="0" Grid.Column="1" BorderBrush="Black" BorderThickness="1">
                             <Grid >
                             <Grid.ColumnDefinitions>
@@ -245,7 +246,7 @@
                         </Border>
                         
                         <DataGrid x:Name="reshatel" AutoGenerateColumns="False" Grid.Row="1" Grid.Column="1" BorderThickness="1,1,1,1" 
-                                          ScrollViewer.CanContentScroll="False" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserReorderColumns="False" 
+                                          ScrollViewer.CanContentScroll="False" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserReorderColumns="False" CanUserAddRows="False"
                                           RowHeight="67" ColumnHeaderHeight="40" Foreground="#FF000E99" BorderBrush="#FF000E99">
                             
                         </DataGrid>
@@ -271,7 +272,7 @@
                         </Border>
 
                         <DataGrid x:Name="setka" AutoGenerateColumns="False" Grid.Row="1" Grid.Column="2" BorderThickness="1,1,1,1" 
-                                          ScrollViewer.CanContentScroll="False" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserReorderColumns="False" 
+                                          ScrollViewer.CanContentScroll="False" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserReorderColumns="False" CanUserAddRows="False"
                                           RowHeight="67" ColumnHeaderHeight="40" Foreground="#FF000E99" BorderBrush="#FF000E99">
 
                         </DataGrid>

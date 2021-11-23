@@ -22,15 +22,32 @@ namespace БД_НТИ
     /// </summary>
     public partial class Model_settings : Page
     {
+        public class setting_number // заголовок строк таблиц
+        {
+            public string number { get; set; }      //отображаемый номер режима
+            public int db_number { get; set; }    // номер режима в базе данных
+
+            // конструктор заголовка
+            public setting_number(string number, int db_number)
+            {
+                this.number = number;
+                this.db_number = db_number;
+            }
+        }
+
         public static MaterialDesignThemes.Wpf.DialogHost dialog = new MaterialDesignThemes.Wpf.DialogHost();
 
         String conn_str = User.Connection_string;       //строка подключения
 
+        ObservableCollection<setting_number> setting_Numbers = new ObservableCollection<setting_number>();
         ObservableCollection<string> cmb_reshatel_parametrs = new ObservableCollection<string>();   // все параметры решателя в комбобоксе
         ObservableCollection<string> cmb_setka_parametrs = new ObservableCollection<string>();      // все параметры сетки в комбобоксе
 
+
         parametrs reshatel_pars = new parametrs();
         parametrs setka_pars = new parametrs();
+
+        
 
 
 
@@ -77,85 +94,56 @@ namespace БД_НТИ
             //string Id_r_c = comm_id.ExecuteScalar().ToString();
             //string Id_r_c = "1";
 
+            List<string> setting_numbers = new List<string>();
             NpgsqlCommand comm_main = new NpgsqlCommand($"select* from main_block.select_settings_values(1); ", sqlconn);
             NpgsqlDataReader reader_main = comm_main.ExecuteReader();
             while (reader_main.Read())
             {
-                string par_name = reader_main[0].ToString();
-                string[] par_values_string = reader_main[1].ToString().Split(',');
-                string[] par_values_number = reader_main[2].ToString().Split(',');
-                int id_type = Convert.ToInt32(reader_main[3]);
+                setting_numbers = reader_main[0].ToString().Split(',').ToList();
+                int id_type = Convert.ToInt32(reader_main[1]); 
+                string par_name = reader_main[2].ToString();
+                string[] par_values_number = reader_main[3].ToString().Split(',');
+                string[] par_values_string = reader_main[4].ToString().Split(',');
+                List<string> drop_list = reader_main[5].ToString().Split(',').ToList();
 
+                parametrs pars = new parametrs();
                 switch (id_type)
                 {
                     //настройки решателя
                     case 5:
-                        if(reader_main[1].ToString()!="")
-                        reshatel_pars.add_parametr(par_name, par_values_string);
-                        else
-                        reshatel_pars.add_parametr(par_name, par_values_number);
+                        pars = reshatel_pars;
                         break;
-                    
                     //настройки сетки
                     case 4:
-                        if (reader_main[1].ToString() != "")
-                            setka_pars.add_parametr(par_name, par_values_string);
-                        else
-                            setka_pars.add_parametr(par_name, par_values_number);
+                        pars = setka_pars;
                         break;
                 }
+
+                // если значения параметра - не числа, то заполнить выпадающий список возможных строковых значений
+                if (reader_main[4].ToString() != "") 
+                {
+                    pars.add_parametr(par_name, par_values_string);
+                    pars.column_drop_lists.Add(drop_list);
+                }
+                else // иначе создать пустой список
+                {
+                    pars.add_parametr(par_name, par_values_number);
+                    pars.column_drop_lists.Add(new List<string>());
+                }
             }
-
-
-
             sqlconn.Close();
 
-
-            
-           
-            //reshatel.ItemsSource = rows;
-
-
-            //DataGridComboBoxColumn col = new DataGridComboBoxColumn();
-
-            
-            
-
-
-
-
-        }
-
-
-        void parametrs_table_build(DataGrid gr, parametrs par)
-        {
-            gr.ItemsSource = par.table;
-            //gr.CellEditEnding += datagrid2_CellEditEnding;
-            //gr.KeyDown += TxtBox_chan_KeyDown;
-            foreach (string name in par.column_headers)
+            for(int i = 0; i< setting_numbers.Count; i++)
             {
-                int i = par.column_headers.IndexOf(name); // номер текущего столбца
-                var style = new Style();
-                style.Setters.Add(new Setter(TextBlock.HorizontalAlignmentProperty, HorizontalAlignment.Center));
-                style.Setters.Add(new Setter(TextBlock.VerticalAlignmentProperty, VerticalAlignment.Center));
-                gr.Columns.Add(new DataGridTextColumn
-                {
-                    Header = $"{name}, {Parametrs.get_param(name).unit}",
-                    Binding = new Binding($"cols[{i}].value") { Mode = BindingMode.TwoWay },
-                    ElementStyle = style
-
-                });
-
-                //col.Header = "test";
-                //col.TextBinding = new Binding("Str") { Mode = BindingMode.TwoWay };
-                //col.ItemsSource = test.lst;
-                //var style = new Style();
-                //style.Setters.Add(new Setter(ComboBox.IsEditableProperty, true));
-                //col.EditingElementStyle = style;
-                //reshatel.Columns.Add(col);
+                setting_Numbers.Add(new setting_number((i+1).ToString(),Convert.ToInt32(setting_numbers[i])));
             }
-        }
 
+            datagrid0.ItemsSource = setting_Numbers;
+
+
+            parametrs.parametrs_table_build(reshatel, reshatel_pars);
+            parametrs.parametrs_table_build(setka, setka_pars);
+        }
 
 
 

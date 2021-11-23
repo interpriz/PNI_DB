@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace БД_НТИ
 {
@@ -1096,6 +1098,8 @@ namespace БД_НТИ
             sqlconn.Close();
         }
 
+
+
     }
 
     class Obrabotka_of_fiz_exp : DB_proc_func
@@ -2061,13 +2065,13 @@ namespace БД_НТИ
         public ObservableCollection<string> column_headers { get; set; }
 
         // список выпадающих списков для столбцов
-        public ObservableCollection<ObservableCollection<string>> column_drop_lists { get; set; } 
+        public ObservableCollection<List<string>> column_drop_lists { get; set; } 
 
     public parametrs()
         {
             this.table = new ObservableCollection<row>();
             this.column_headers = new ObservableCollection<string>();
-            this.column_drop_lists = new ObservableCollection<ObservableCollection<string>>();
+            this.column_drop_lists = new ObservableCollection<List<string>>();
         }
 
         // добавление строки в таблицу значений параметров
@@ -2165,6 +2169,41 @@ namespace БД_НТИ
             return this.table[id_row].cols[this.column_headers.IndexOf(name)];
         }
 
+        // заполнение датагрида
+        public static void parametrs_table_build(DataGrid gr, parametrs par)
+        {
+            gr.ItemsSource = par.table;
+            //gr.CellEditEnding += datagrid2_CellEditEnding;
+            //gr.KeyDown += TxtBox_chan_KeyDown;
+            for (int i = 0; i < par.column_headers.Count; i++)
+            {
+                var style = new Style();
+                style.Setters.Add(new Setter(TextBlock.HorizontalAlignmentProperty, HorizontalAlignment.Center));
+                style.Setters.Add(new Setter(TextBlock.VerticalAlignmentProperty, VerticalAlignment.Center));
+
+                if (par.column_drop_lists[i].Count == 0) // если без выпадающего списка
+                {
+                    gr.Columns.Add(new DataGridTextColumn
+                    {
+                        Header = $"{par.column_headers[i]}, {Parametrs.get_param(par.column_headers[i]).unit}",
+                        Binding = new Binding($"cols[{i}].value") { Mode = BindingMode.TwoWay },
+                        ElementStyle = style
+                    });
+                }
+                else // если с выпадающим списком
+                {
+                    DataGridComboBoxColumn col = new DataGridComboBoxColumn();
+                    col.Header = $"{par.column_headers[i]}, {Parametrs.get_param(par.column_headers[i]).unit}";
+                    col.TextBinding = new Binding($"cols[{i}].value") { Mode = BindingMode.TwoWay };
+                    col.ItemsSource = par.column_drop_lists[i];
+                    var edit_style = new Style();
+                    edit_style.Setters.Add(new Setter(ComboBox.IsEditableProperty, true));
+                    col.EditingElementStyle = edit_style;
+                    col.ElementStyle = style;
+                    gr.Columns.Add(col);
+                }
+            }
+        }
     }
 
     class row // строка таблицы
