@@ -130,7 +130,7 @@ namespace БД_НТИ
 
             exp_rezh_params.Columns.Clear();
             column_rezh_numbers.ItemsSource = exp_rezh_numbers;
-            parametrs_table_build(exp_rezh_params, rezh_pars);
+            parametrs.parametrs_table_build(exp_rezh_params, rezh_pars);
 
             //перенос элементов из правой таблицы в левую
             if (rezh_izm.Count != 0)
@@ -164,28 +164,6 @@ namespace БД_НТИ
 
             sqlconn.Close();
         }
-
-        void parametrs_table_build(DataGrid gr, parametrs par)
-        {
-            gr.ItemsSource = par.table;
-            //gr.CellEditEnding += datagrid2_CellEditEnding;
-            //gr.KeyDown += TxtBox_chan_KeyDown;
-            foreach (string name in par.column_headers)
-            {
-                int i = par.column_headers.IndexOf(name); // номер текущего столбца
-                var style = new Style();
-                style.Setters.Add(new Setter(TextBlock.HorizontalAlignmentProperty, HorizontalAlignment.Center));
-                style.Setters.Add(new Setter(TextBlock.VerticalAlignmentProperty, VerticalAlignment.Center));
-                gr.Columns.Add(new DataGridTextColumn
-                {
-                    Header = $"{name}, {Parametrs.get_param(name).unit}",
-                    Binding = new Binding($"cols[{i}].value") { Mode = BindingMode.TwoWay },
-                    ElementStyle = style
-
-                });
-            }
-        }
-
 
         private void RadioButton_Checked_rezh(object sender, RoutedEventArgs e)
         {
