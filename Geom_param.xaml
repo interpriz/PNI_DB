@@ -147,29 +147,6 @@
                                 Width="150" Margin="5,0,0,0" 
                                 Foreground="#FF000E99" BorderBrush="#FF000E99" BorderThickness="1"/>
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="5">
-                            <Grid Width="315">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-                                <RadioButton Content="Значение" Grid.Column="0"
-                                 Style="{StaticResource MaterialDesignTabRadioButton}" Foreground="#FF000E99" BorderBrush="#FF000E99" FontSize="11" Margin="35,0,0,0" HorizontalAlignment="Left" Width="85"/>
-                                <RadioButton Content="Строка" Grid.Column="1" x:Name="radiobut_string"
-                                 Style="{StaticResource MaterialDesignTabRadioButton}" Foreground="#FF000E99" BorderBrush="#FF000E99" FontSize="11" HorizontalAlignment="Right" Width="85" Margin="0,0,40,0"/>
-                            </Grid>
-
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="5" IsEnabled="{Binding Path=IsChecked, ElementName=radiobut_string}">
-                            <StackPanel Margin="5,5,0,5" Width="150">
-                                <TextBox Foreground="#FF000E99" BorderBrush="#FF000E99" BorderThickness="1" Margin="5,5,10,5" />
-                                <Button Content="Добавить значение"
-                        materialDesign:RippleAssist.Feedback="#FF86E2FD"
-                            Background="LightCyan" Foreground="#FF000E99" BorderBrush="#FF000E99" BorderThickness="1"
-                            Style="{DynamicResource MaterialDesignRaisedButton}" FontSize="10" Height="24" Margin="5,5,10,5"/>
-                            </StackPanel>
-                            <Label BorderBrush="#FF000E99" BorderThickness="1" Margin="0,5,5,5" Width="150" Foreground="#FF000E99" ScrollViewer.VerticalScrollBarVisibility="Hidden"/>
-                        </StackPanel>
                         <StackPanel
                         Orientation="Horizontal"
                         HorizontalAlignment="Center" Margin="0,5,0,0">
