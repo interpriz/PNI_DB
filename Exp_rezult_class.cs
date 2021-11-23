@@ -2096,6 +2096,7 @@ namespace БД_НТИ
         public void add_parametr(string name)
         {
             this.column_headers.Add(name);
+            this.column_drop_lists.Add(new List<string>());
             foreach (row r in table)
             {
                 parametr p = new parametr();
