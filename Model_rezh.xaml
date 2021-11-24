@@ -12,7 +12,10 @@
     <Page.Resources>
         <ResourceDictionary>
             <Style TargetType="{x:Type RadioButton}" BasedOn="{StaticResource MaterialDesignTabRadioButton}"/>
+            <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="#FFB8ECFD" po:Freeze="True" />
+            <SolidColorBrush x:Key="PrimaryHueMidForegroundBrush" Color="#FF000E99" po:Freeze="True" />
             <SolidColorBrush x:Key="SecondaryAccentBrush" Color="#FF000E99" po:Freeze="True"/>
+            <SolidColorBrush x:Key="MaterialDesignSelection" Color="#FFB8ECFD" po:Freeze="True" />
         </ResourceDictionary>
     </Page.Resources>
 
@@ -80,7 +83,7 @@
                                 </DataGridTextColumn>
                             </DataGrid.Columns>
                         </DataGrid>
-                        <Button Margin="55,10,55,0" HorizontalAlignment="Center" Height="45" Width="100" >
+                        <Button Margin="55,10,55,0" HorizontalAlignment="Center" Height="45" Width="100" Click="Button_Click" >
                             <TextBlock Text="Добавить параметр" Width="60" TextWrapping="Wrap" TextAlignment="Center" FontSize="12" Height="40" Margin="0" />
                         </Button>
                     </StackPanel>

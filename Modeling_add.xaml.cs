@@ -65,7 +65,7 @@ namespace БД_НТИ
                     switch (task)
                     {
                         case "ModelOldTask":
-                            item1.IsSelected = false;
+                            //item1.IsSelected = false;
                             item2.IsEnabled = true;
                             item2.IsSelected = true;
                             break;
@@ -231,6 +231,9 @@ namespace БД_НТИ
 
                     break;
                 case "step2":
+                    //item2.IsSelected = false;
+                    item3.IsEnabled = true;
+                    item3.IsSelected = true;
                     break;
                 
             }
@@ -246,11 +249,11 @@ namespace БД_НТИ
                     this.Close();
                     break;
                 case "step2":
-                    item2.IsSelected = false;
+                    //item2.IsSelected = false;
                     item1.IsSelected = true;
                     break;
                 case "step3":
-                    item3.IsSelected = false;
+                   //item3.IsSelected = false;
                     item2.IsSelected = true;
                     break;
 
@@ -289,6 +292,12 @@ namespace БД_НТИ
             Butt_next.Visibility = Visibility.Visible;
             condition = "step1";
             frame.Navigate(new_Task_class);
+            item2.IsSelected = false;
+            item3.IsSelected = false;
+            item4.IsSelected = false;
+            item5.IsSelected = false;
+            item6.IsSelected = false;
+            item7.IsSelected = false;
         }
 
         private void item2_Selected(object sender, RoutedEventArgs e)
@@ -303,6 +312,13 @@ namespace БД_НТИ
             frame.Navigate(new_Geom_param);
             condition = "step2";
             Butt_next.Visibility = Visibility.Hidden;
+            
+            item1.IsSelected = false;
+            item3.IsSelected = false;
+            item4.IsSelected = false;
+            item5.IsSelected = false;
+            item6.IsSelected = false;
+            item7.IsSelected = false;
         }
 
         private void item3_Selected(object sender, RoutedEventArgs e)
@@ -310,6 +326,13 @@ namespace БД_НТИ
             Butt_next.Visibility = Visibility.Visible;
             frame.Navigate(new_Model_rezh);
             condition = "step3";
+            
+            item1.IsSelected = false;
+            item2.IsSelected = false;
+            item4.IsSelected = false;
+            item5.IsSelected = false;
+            item6.IsSelected = false;
+            item7.IsSelected = false;
         }
 
         private void item4_Selected(object sender, RoutedEventArgs e)
@@ -318,6 +341,14 @@ namespace БД_НТИ
             frame.Navigate(new_Model_settings);
             Butt_next.IsEnabled = false;
             Butt_back.IsEnabled = false;
+            condition = "step4";
+
+            item1.IsSelected = false;
+            item2.IsSelected = false;
+            item3.IsSelected = false;
+            item5.IsSelected = false;
+            item6.IsSelected = false;
+            item7.IsSelected = false;
         }
     }
     public class bool_model
