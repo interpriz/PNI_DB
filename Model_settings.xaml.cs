@@ -22,6 +22,9 @@ namespace БД_НТИ
     /// </summary>
     public partial class Model_settings : Page
     {
+        Modeling_add model_wind = (Modeling_add)Application.Current.Windows.OfType<Window>().Where(x => x.Name == "Modeling_wind").FirstOrDefault();
+
+
         public class setting_number // заголовок строк таблиц
         {
             public string number { get; set; }      //отображаемый номер режима
@@ -46,9 +49,6 @@ namespace БД_НТИ
 
         parametrs reshatel_pars = new parametrs();
         parametrs setka_pars = new parametrs();
-
-        
-
 
 
         public Model_settings() 
@@ -147,6 +147,237 @@ namespace БД_НТИ
 
 
 
+
+        #region Add_column
+
+        // параметры для Dialog_add_param
+
+        public string type_of_param { get; set; }
+        public string name_param { get; set; }
+        public bool new_par { get; set; }
+        public List<string> values_list { get; set; }
+
+        //---------------------------------
+
+        private void tog_reshatel_Checked(object sender, RoutedEventArgs e) // выбор удаления столбца
+        {
+            System.Windows.Controls.Primitives.ToggleButton tog = sender as System.Windows.Controls.Primitives.ToggleButton;
+            if(tog == tog_reshatel)
+                cmb_reshatel_params.ItemsSource = reshatel_pars.column_headers;
+            else
+                cmb_setka_params.ItemsSource = setka_pars.column_headers;
+        }
+
+        private void tog_reshatel_Unchecked(object sender, RoutedEventArgs e)// выбор добавления столбца
+        {
+            System.Windows.Controls.Primitives.ToggleButton tog = sender as System.Windows.Controls.Primitives.ToggleButton;
+            if (tog == tog_reshatel)
+                cmb_reshatel_params.ItemsSource = cmb_reshatel_parametrs;
+            else
+                cmb_setka_params.ItemsSource = cmb_setka_parametrs;
+            tog.Background = new SolidColorBrush(Colors.White);
+        }
+
+
+        // выбор параметра для добавления столбца
+        private void cmb_reshatel_params_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox cmb = sender as ComboBox;
+            if (cmb == cmb_reshatel_params)
+                type_of_param = "Настройки решателя";
+            else
+                type_of_param = "Параметры сетки";
+
+            if (cmb.SelectedItem != null)
+            {
+                string select = cmb.SelectedItem.ToString();
+                cmb.SelectedItem = null;
+                if (tog_reshatel.IsChecked == false)//добавить столбец
+                {
+                    values_list = new List<string>();
+                    if (select == "Новый параметр")
+                    {
+                        new_par = true;
+                        info_parametr.IsEnabled = true;
+                        name_param = "";
+                        listbox_values.ItemsSource = values_list;
+                        dialog.IsOpen = true;
+                        Modeling_add model_wind = (Modeling_add)Application.Current.Windows.OfType<Window>().Where(x => x.Name == "Modeling_wind").FirstOrDefault();
+                        model_wind.Butt_back.IsEnabled = false;
+                        model_wind.listview_items.IsEnabled = false;
+
+                    }
+                    else
+                    {
+                        // если параметра еще нет в базе
+                        if (reshatel_pars.column_headers.IndexOf(select) == -1)
+                        {
+                            new_par = false;
+                            info_parametr.IsEnabled = false;
+                            name_param = select;
+                            Param p = Parametrs.get_param(name_param);
+                            txt_par_name.Text = name_param;
+                            txt_par_symb.Text = p.short_name;
+                            txt_par_unit.Text = p.unit;
+
+                            NpgsqlConnection sqlconn = new NpgsqlConnection(conn_str);
+                            sqlconn.Open();
+
+                            NpgsqlCommand com_params = new NpgsqlCommand($"select * from main_block.select_string_values('{name_param}');", sqlconn);
+                            NpgsqlDataReader reader_par = com_params.ExecuteReader();
+                            while (reader_par.Read())
+                            {
+                                values_list.Add(reader_par[0].ToString());
+                            }
+                            sqlconn.Close();
+
+                            listbox_values.ItemsSource = values_list;
+
+                            dialog.IsOpen = true;
+                        }
+                    }
+                }
+                else//удалить столбец
+                {
+                    int i = reshatel_pars.column_headers.IndexOf(select);
+                    reshatel_pars.column_headers.RemoveAt(i);
+                    reshatel_pars.column_drop_lists.RemoveAt(i);
+                    //cmb.ItemsSource = null;
+                    //cmb.ItemsSource = headers;
+                    foreach (row r in reshatel_pars.table)
+                    {
+                        r.cols.RemoveAt(i);
+                    }
+                    reshatel.Columns.RemoveAt(i);
+                }
+            }
+        }
+
+        private void Butt_add_value_Click(object sender, RoutedEventArgs e) //добавление новых значений в выподающий список добавляемого столбца 
+        {
+            if (values_list.IndexOf(new_value.Text) == -1)
+            {
+                values_list.Add(new_value.Text);
+                listbox_values.ItemsSource = null;
+                listbox_values.ItemsSource = values_list;
+            }
+        }
+
+        private void Butt_OK_Click(object sender, RoutedEventArgs e)// занесение нового параметра в таблицу параметров в базе
+        {
+            if (new_par)
+            {
+                if (txt_par_name.Text == "" || txt_par_symb.Text == "" || txt_par_unit.Text == "")
+                {
+                    messtxt.Text = "Не все поля заполнены!";
+                    messbar.IsActive = true;
+                    txt_par_name.IsEnabled = false;
+                    txt_par_symb.IsEnabled = false;
+                    txt_par_unit.IsEnabled = false;
+                }
+                else
+                {
+                    string name = txt_par_name.Text;
+                    string short_name = txt_par_symb.Text;
+                    string unit = txt_par_unit.Text;
+                    Parametrs.update_parametrs();
+                    string check = Parametrs.check_new_param(name, short_name);
+                    if (check == "")
+                    {
+                        Parametrs.insert_parametr($"{type_of_param}", name, short_name, unit);
+                        switch (type_of_param)
+                        {
+                            case "Настройки решателя":
+                                cmb_reshatel_parametrs.Add(txt_par_name.Text);
+                                break;
+
+                            case "Параметры сетки":
+                                cmb_setka_parametrs.Add(txt_par_name.Text);
+                                break;
+                        }
+                        
+                    }
+                    else
+                    {
+                        if (check == name)
+                        {
+                            messtxt.Text = $"Параметр \"{name}\" уже есть в базе!";
+                            messbar.IsActive = true;
+                        }
+                        else
+                        {
+                            messtxt.Text = $"Обозначение \"{short_name}\" уже есть в базе!";
+                            messbar.IsActive = true;
+                        }
+                        txt_par_name.IsEnabled = false;
+                        txt_par_symb.IsEnabled = false;
+                        txt_par_unit.IsEnabled = false;
+                    }
+
+                }
+            }
+
+           
+            if (radio_value_number.IsChecked == true)
+            {
+                reshatel_pars.add_parametr(name_param);
+            }
+            else 
+            {
+                reshatel_pars.add_parametr(name_param);
+                reshatel_pars.column_drop_lists[reshatel_pars.column_headers.Count-1] = values_list;
+            }
+            reshatel.Columns.Clear();
+            reshatel.ItemsSource = null;
+            parametrs.parametrs_table_build(reshatel, reshatel_pars);
+
+            dialog.IsOpen = false;
+            //model_wind.Butt_back.IsEnabled = true;
+            //model_wind.listview_items.IsEnabled = true;
+
+
+
+
+        }
+
+        private void Dialog_add_param_DialogClosing(object sender, MaterialDesignThemes.Wpf.DialogClosingEventArgs eventArgs)
+        {
+            //switch (page_mode)
+            //{
+            //    case "Experiment":
+            //        exp_wind.Butt_back.IsEnabled = true;
+            //        exp_wind.listview_items.IsEnabled = true;
+            //        break;
+
+            //    case "Modeling":
+            //        model_wind.Butt_back.IsEnabled = true;
+            //        model_wind.listview_items.IsEnabled = true;
+            //        break;
+            //}
+
+        }
+
+        #endregion      
+
+
+        private void Button_Click(object sender, RoutedEventArgs e)// добавление результатов экспериментов/моделирования
+        {
+            
+        }
+
+        private void batt_save_Click(object sender, RoutedEventArgs e)//сохранить изменения
+        {
+
+        }
+
+        private void messbut2_Click(object sender, RoutedEventArgs e)
+        {
+            messbar2.IsActive = false;
+        }
+
+        
+
+        
         private void TxtBox_chan_KeyDown(object sender, KeyEventArgs e)
         {
             if (
@@ -168,65 +399,9 @@ namespace БД_НТИ
             else
                 e.Handled = true;
         }
+
         private void Btn_AddRow_Click(object sender, RoutedEventArgs e)
         {
-           
-        }
-
-        private void Butt_OK_Click(object sender, RoutedEventArgs e)// занесение нового параметра в таблицу параметров в базе
-        {
-            //if (txt_par_name.Text == "" || txt_par_symb.Text == "" || txt_par_unit.Text == "")
-            //{
-            //    messtxt.Text = "Не все поля заполнены!";
-            //    messbar.IsActive = true;
-            //    txt_par_name.IsEnabled = false;
-            //    txt_par_symb.IsEnabled = false;
-            //    txt_par_unit.IsEnabled = false;
-            //}
-            //else
-            //{
-            //    string name = txt_par_name.Text;
-            //    string short_name = txt_par_symb.Text;
-            //    string unit = txt_par_unit.Text;
-            //    Parametrs.update_parametrs();
-            //    string check = Parametrs.check_new_param(name, short_name);
-            //    if (check == "")
-            //    {
-            //        Parametrs.insert_parametr("Геометрические параметры", name, short_name, unit);
-            //        dialog.IsOpen = false;
-            //        switch (page_mode)
-            //        {
-            //            case "Experiment":
-            //                exp_wind.Butt_back.IsEnabled = true;
-            //                exp_wind.listview_items.IsEnabled = true;
-            //                break;
-
-            //            case "Modeling":
-            //                model_wind.Butt_back.IsEnabled = true;
-            //                model_wind.listview_items.IsEnabled = true;
-            //                break;
-            //        }
-            //        cmb_parametrs.Add(txt_par_name.Text);
-            //    }
-            //    else
-            //    {
-            //        if (check == name)
-            //        {
-            //            messtxt.Text = $"Параметр \"{name}\" уже есть в базе!";
-            //            messbar.IsActive = true;
-            //        }
-            //        else
-            //        {
-            //            messtxt.Text = $"Обозначение \"{short_name}\" уже есть в базе!";
-            //            messbar.IsActive = true;
-            //        }
-            //        txt_par_name.IsEnabled = false;
-            //        txt_par_symb.IsEnabled = false;
-            //        txt_par_unit.IsEnabled = false;
-            //    }
-
-            //}
-
 
         }
 
@@ -238,90 +413,6 @@ namespace БД_НТИ
             txt_par_unit.IsEnabled = true;
         }
 
-        private void batt_save_Click(object sender, RoutedEventArgs e)//сохранить изменения
-        {
-            
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)// добавление результатов экспериментов/моделирования
-        {
-            
-        }
-
-        private void Dialog_add_param_DialogClosing(object sender, MaterialDesignThemes.Wpf.DialogClosingEventArgs eventArgs)
-        {
-            //switch (page_mode)
-            //{
-            //    case "Experiment":
-            //        exp_wind.Butt_back.IsEnabled = true;
-            //        exp_wind.listview_items.IsEnabled = true;
-            //        break;
-
-            //    case "Modeling":
-            //        model_wind.Butt_back.IsEnabled = true;
-            //        model_wind.listview_items.IsEnabled = true;
-            //        break;
-            //}
-
-        }
-
-        private void messbut2_Click(object sender, RoutedEventArgs e)
-        {
-            messbar2.IsActive = false;
-        }
-
-        private void cmb_reshatel_params_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            
-            if (cmb_reshatel_params.SelectedItem != null)
-            {
-                string select = cmb_reshatel_params.SelectedItem.ToString();
-                cmb_reshatel_params.SelectedItem = null;
-                if (tog_reshatel.IsChecked == false)//добавить столбец
-                {
-                    if (select == "Новый параметр")
-                    {
-                        dialog.IsOpen = true;
-                        Modeling_add model_wind = (Modeling_add)Application.Current.Windows.OfType<Window>().Where(x => x.Name == "Modeling_wind").FirstOrDefault();
-                        model_wind.Butt_back.IsEnabled = false;
-                        model_wind.listview_items.IsEnabled = false;
-
-                    }
-                    else
-                    {
-
-                        //if (table.Count != 0)
-                        //{
-                        //    if (headers.Count != 0)
-                        //    {
-                        //        foreach (str s in table)
-                        //        {
-                        //            s.cols.Add(new List<string> { "", "new" });//изменено для возможности удаления и добавления
-                        //        }
-                        //    }
-                        //}
-                        //if (headers.IndexOf(select) == -1)
-                        //{
-                        //    headers.Add(select);
-                        //    DataTableExpGeom.AddHeader(gr, select);
-                        //}
-                    }
-                }
-                else//удалить столбец
-                {
-                    ////gr.ItemsSource = null;
-                    //int i = headers.IndexOf(select);
-                    //headers.RemoveAt(i);
-                    ////cmb.ItemsSource = null;
-                    ////cmb.ItemsSource = headers;
-                    //foreach (str s in table)
-                    //{
-                    //    s.cols.RemoveAt(i);
-                    //}
-                    //gr.Columns.RemoveAt(i);
-                    ////gr.ItemsSource = table;
-                }
-            }
-        }
+        
     }
 }

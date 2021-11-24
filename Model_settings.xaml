@@ -129,23 +129,25 @@
             <materialDesign:DialogHost.DialogContent >
                 <Grid Background="LightCyan">
                     <StackPanel Orientation="Vertical" Margin="20">
-                        <StackPanel Orientation="Horizontal" Margin="5">
-                            <TextBlock Text="Название параметра" Width="150" Foreground="#FF000E99"/>
-                            <TextBox x:Name="txt_par_name"
+                        <StackPanel x:Name="info_parametr">
+                            <StackPanel Orientation="Horizontal" Margin="5">
+                                <TextBlock Text="Название параметра" Width="150" Foreground="#FF000E99" VerticalAlignment="Center"/>
+                                <TextBox x:Name="txt_par_name"
                                 Width="150" Margin="5,0,0,0" 
                                 Foreground="#FF000E99" BorderBrush="#FF000E99" BorderThickness="1"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="5">
-                            <TextBlock Text="Обозначение параметра" Width="150" Foreground="#FF000E99"/>
-                            <TextBox x:Name="txt_par_symb"
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="5">
+                                <TextBlock Text="Обозначение параметра" Width="150" Foreground="#FF000E99" VerticalAlignment="Center"/>
+                                <TextBox x:Name="txt_par_symb"
                                 Width="150" Margin="5,0,0,0" 
                                 Foreground="#FF000E99" BorderBrush="#FF000E99" BorderThickness="1"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="5">
-                            <TextBlock Text="Единицы измерения" Width="150" Foreground="#FF000E99"/>
-                            <TextBox x:Name="txt_par_unit"
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="5">
+                                <TextBlock Text="Единицы измерения" Width="150" Foreground="#FF000E99" VerticalAlignment="Center"/>
+                                <TextBox x:Name="txt_par_unit"
                                 Width="150" Margin="5,0,0,0" 
                                 Foreground="#FF000E99" BorderBrush="#FF000E99" BorderThickness="1"/>
+                            </StackPanel>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="5">
                             <Grid Width="315">
@@ -153,22 +155,22 @@
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
-                                <RadioButton Content="Значение" Grid.Column="0"
+                                <RadioButton x:Name="radio_value_number" Content="Значение" Grid.Column="0"
                                  Style="{StaticResource MaterialDesignTabRadioButton}" Foreground="#FF000E99" BorderBrush="#FF000E99" FontSize="11" Margin="35,0,0,0" HorizontalAlignment="Left" Width="85"/>
-                                <RadioButton Content="Строка" Grid.Column="1" x:Name="radiobut_string"
+                                <RadioButton Content="Строка" Grid.Column="1" x:Name="radiobut_string" IsChecked="True"
                                  Style="{StaticResource MaterialDesignTabRadioButton}" Foreground="#FF000E99" BorderBrush="#FF000E99" FontSize="11" HorizontalAlignment="Right" Width="85" Margin="0,0,40,0"/>
                             </Grid>
 
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="5" IsEnabled="{Binding Path=IsChecked, ElementName=radiobut_string}">
                             <StackPanel Margin="5,5,0,5" Width="150">
-                                <TextBox Foreground="#FF000E99" BorderBrush="#FF000E99" BorderThickness="1" Margin="5,5,10,5" />
+                                <TextBox x:Name="new_value" Foreground="#FF000E99" BorderBrush="#FF000E99" BorderThickness="1" Margin="5,5,10,5" />
                                 <Button Content="Добавить значение"
                         materialDesign:RippleAssist.Feedback="#FF86E2FD"
                             Background="LightCyan" Foreground="#FF000E99" BorderBrush="#FF000E99" BorderThickness="1"
-                            Style="{DynamicResource MaterialDesignRaisedButton}" FontSize="10" Height="24" Margin="5,5,10,5"/>
+                            Style="{DynamicResource MaterialDesignRaisedButton}" FontSize="10" Height="24" Margin="5,5,10,5" Click="Butt_add_value_Click"/>
                             </StackPanel>
-                            <Label BorderBrush="#FF000E99" BorderThickness="1" Margin="0,5,5,5" Width="150" Foreground="#FF000E99" ScrollViewer.VerticalScrollBarVisibility="Hidden"/>
+                            <ListBox x:Name="listbox_values" Background="LightCyan" BorderBrush="#FF000E99" BorderThickness="1" Margin="0,5,5,5" Width="150" Foreground="#FF000E99" ScrollViewer.VerticalScrollBarVisibility="Visible" Height="70"/>
                         </StackPanel>
                         <StackPanel
                         Orientation="Horizontal"
@@ -262,7 +264,7 @@
                                 <ComboBox x:Name="cmb_reshatel_params" Grid.Row="1" Grid.Column="1" Width="150" materialDesign:HintAssist.Hint="Выберите параметр" materialDesign:HintAssist.HintOpacity="0.4" SelectionChanged="cmb_reshatel_params_SelectionChanged" />
                             <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" >
                                 <TextBlock Text="Добавить" VerticalAlignment="Center" Margin="0,0,5,0"/>
-                                <ToggleButton x:Name="tog_reshatel" materialDesign:ToggleButtonAssist.SwitchTrackOnBackground="Red" materialDesign:ToggleButtonAssist.SwitchTrackOffBackground="DarkGreen"/>
+                                <ToggleButton x:Name="tog_reshatel" materialDesign:ToggleButtonAssist.SwitchTrackOnBackground="Red" materialDesign:ToggleButtonAssist.SwitchTrackOffBackground="DarkGreen" Checked="tog_reshatel_Checked" Unchecked="tog_reshatel_Unchecked"/>
                                 <TextBlock Text="Удалить" VerticalAlignment="Center" Margin="5,0,0,0"/>
                             </StackPanel>
                         </Grid>
@@ -288,7 +290,7 @@
                                 <ComboBox x:Name="cmb_setka_params" Grid.Row="1" Grid.Column="1" Width="150" materialDesign:HintAssist.Hint="Выберите параметр" materialDesign:HintAssist.HintOpacity="0.4"/>
                                 <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" >
                                     <TextBlock Text="Добавить" VerticalAlignment="Center" Margin="0,0,5,0"/>
-                                    <ToggleButton materialDesign:ToggleButtonAssist.SwitchTrackOnBackground="Red" materialDesign:ToggleButtonAssist.SwitchTrackOffBackground="DarkGreen"/>
+                                    <ToggleButton materialDesign:ToggleButtonAssist.SwitchTrackOnBackground="Red" materialDesign:ToggleButtonAssist.SwitchTrackOffBackground="DarkGreen" Checked="tog_reshatel_Checked" Unchecked="tog_reshatel_Unchecked"/>
                                     <TextBlock Text="Удалить" VerticalAlignment="Center" Margin="5,0,0,0"/>
                                 </StackPanel>
                             </Grid>
