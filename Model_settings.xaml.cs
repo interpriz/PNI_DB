@@ -152,10 +152,10 @@ namespace БД_НТИ
 
         // параметры для Dialog_add_param
 
-        public string type_of_param { get; set; }
-        public string name_param { get; set; }
-        public bool new_par { get; set; }
-        public List<string> values_list { get; set; }
+        public string type_of_param { get; set; } // тип параметра ("Настройки решателя" или "Параметры сетки") 
+        public string name_param { get; set; } // название параметра
+        public bool new_par { get; set; } // добавлять новый параметр в базу?
+        public List<string> values_list { get; set; } // список возможных значений строк для параметра
 
         //---------------------------------
 
@@ -183,10 +183,28 @@ namespace БД_НТИ
         private void cmb_reshatel_params_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ComboBox cmb = sender as ComboBox;
+            parametrs pars = new parametrs();
+            DataGrid gr = new DataGrid();
+
             if (cmb == cmb_reshatel_params)
                 type_of_param = "Настройки решателя";
             else
                 type_of_param = "Параметры сетки";
+
+            switch (type_of_param)
+            {
+                case "Настройки решателя":
+                    pars = reshatel_pars;
+                    gr = reshatel;
+                    break;
+
+                case "Параметры сетки":
+                    pars = setka_pars;
+                    gr = setka;
+                    break;
+            }
+
+           
 
             if (cmb.SelectedItem != null)
             {
@@ -210,7 +228,7 @@ namespace БД_НТИ
                     else
                     {
                         // если параметра еще нет в базе
-                        if (reshatel_pars.column_headers.IndexOf(select) == -1)
+                        if (pars.column_headers.IndexOf(select) == -1)
                         {
                             new_par = false;
                             info_parametr.IsEnabled = false;
@@ -239,20 +257,21 @@ namespace БД_НТИ
                 }
                 else//удалить столбец
                 {
-                    int i = reshatel_pars.column_headers.IndexOf(select);
-                    reshatel_pars.column_headers.RemoveAt(i);
-                    reshatel_pars.column_drop_lists.RemoveAt(i);
+                    int i = pars.column_headers.IndexOf(select);
+                    pars.column_headers.RemoveAt(i);
+                    pars.column_drop_lists.RemoveAt(i);
                     //cmb.ItemsSource = null;
                     //cmb.ItemsSource = headers;
-                    foreach (row r in reshatel_pars.table)
+                    foreach (row r in pars.table)
                     {
                         r.cols.RemoveAt(i);
                     }
-                    reshatel.Columns.RemoveAt(i);
+                    gr.Columns.RemoveAt(i);
                 }
             }
         }
 
+        //!! добавить сохранение данных в базу
         private void Butt_add_value_Click(object sender, RoutedEventArgs e) //добавление новых значений в выподающий список добавляемого столбца 
         {
             if (values_list.IndexOf(new_value.Text) == -1)
@@ -263,8 +282,10 @@ namespace БД_НТИ
             }
         }
 
-        private void Butt_OK_Click(object sender, RoutedEventArgs e)// занесение нового параметра в таблицу параметров в базе
+        // занесение нового параметра в таблицу параметров в базе и добавление нового столбца
+        private void Butt_OK_Click(object sender, RoutedEventArgs e)
         {
+            bool flag = true;//показывает, что новый параметр успешно добавлен в базу
             if (new_par)
             {
                 if (txt_par_name.Text == "" || txt_par_symb.Text == "" || txt_par_unit.Text == "")
@@ -274,6 +295,8 @@ namespace БД_НТИ
                     txt_par_name.IsEnabled = false;
                     txt_par_symb.IsEnabled = false;
                     txt_par_unit.IsEnabled = false;
+
+                    flag = false;
                 }
                 else
                 {
@@ -295,7 +318,6 @@ namespace БД_НТИ
                                 cmb_setka_parametrs.Add(txt_par_name.Text);
                                 break;
                         }
-                        
                     }
                     else
                     {
@@ -312,32 +334,60 @@ namespace БД_НТИ
                         txt_par_name.IsEnabled = false;
                         txt_par_symb.IsEnabled = false;
                         txt_par_unit.IsEnabled = false;
+
+                        flag = false;
                     }
 
                 }
             }
 
-           
-            if (radio_value_number.IsChecked == true)
+            if (flag)//если параметр новый и он добавился в базу без проблем или параметр старый
             {
-                reshatel_pars.add_parametr(name_param);
+                parametrs pars = new parametrs();
+                parametrs pars1 = new parametrs();
+                DataGrid gr = new DataGrid();
+                switch (type_of_param)
+                {
+                    case "Настройки решателя":
+                        pars = reshatel_pars;
+                        pars1 = setka_pars;
+                        gr = reshatel;
+                        break;
+
+                    case "Параметры сетки":
+                        pars = setka_pars;
+                        pars1 = reshatel_pars;
+                        gr = setka;
+                        break;
+                }
+
+                //если строк в таблице нет, то добавить столько же сколько и в соседней
+                if (pars.table.Count == 0)
+                {
+                    for(int i =0; i< pars1.table.Count; i++)
+                    {
+                        pars.add_row();
+                    }
+                }
+                //-------------------------------------------------
+
+                if (radio_value_number.IsChecked == true)
+                {
+                    pars.add_parametr(name_param);
+                }
+                else
+                {
+                    pars.add_parametr(name_param);
+                    pars.column_drop_lists[pars.column_headers.Count - 1] = values_list;
+                }
+                gr.Columns.Clear();
+                gr.ItemsSource = null;
+                parametrs.parametrs_table_build(gr, pars);
+
+                dialog.IsOpen = false;
+                //model_wind.Butt_back.IsEnabled = true;
+                //model_wind.listview_items.IsEnabled = true;
             }
-            else 
-            {
-                reshatel_pars.add_parametr(name_param);
-                reshatel_pars.column_drop_lists[reshatel_pars.column_headers.Count-1] = values_list;
-            }
-            reshatel.Columns.Clear();
-            reshatel.ItemsSource = null;
-            parametrs.parametrs_table_build(reshatel, reshatel_pars);
-
-            dialog.IsOpen = false;
-            //model_wind.Butt_back.IsEnabled = true;
-            //model_wind.listview_items.IsEnabled = true;
-
-
-
-
         }
 
         private void Dialog_add_param_DialogClosing(object sender, MaterialDesignThemes.Wpf.DialogClosingEventArgs eventArgs)
@@ -359,6 +409,13 @@ namespace БД_НТИ
 
         #endregion      
 
+        //Добавление строки
+        private void Btn_AddRow_Click(object sender, RoutedEventArgs e)
+        {
+            reshatel_pars.add_row();
+            setka_pars.add_row();
+            setting_Numbers.Add(new setting_number((setting_Numbers.Count+1).ToString(), setting_Numbers[setting_Numbers.Count-1].db_number+1));
+        }
 
         private void Button_Click(object sender, RoutedEventArgs e)// добавление результатов экспериментов/моделирования
         {
@@ -400,10 +457,7 @@ namespace БД_НТИ
                 e.Handled = true;
         }
 
-        private void Btn_AddRow_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
+        
 
         private void messbut_Click(object sender, RoutedEventArgs e)
         {
