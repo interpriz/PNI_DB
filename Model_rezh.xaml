@@ -12,7 +12,7 @@
     <Page.Resources>
         <ResourceDictionary>
             <Style TargetType="{x:Type RadioButton}" BasedOn="{StaticResource MaterialDesignTabRadioButton}"/>
-            <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="#FFB8ECFD" po:Freeze="True" />
+            <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="#FF000E99" po:Freeze="True" />
             <SolidColorBrush x:Key="PrimaryHueMidForegroundBrush" Color="#FF000E99" po:Freeze="True" />
             <SolidColorBrush x:Key="SecondaryAccentBrush" Color="#FF000E99" po:Freeze="True"/>
             <SolidColorBrush x:Key="MaterialDesignSelection" Color="#FFB8ECFD" po:Freeze="True" />
@@ -52,95 +52,155 @@
                 </StackPanel>
             </materialDesign:Card>
 
-            <Grid Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="35*"/>
-                    <ColumnDefinition Width="23*"/>
-                </Grid.ColumnDefinitions>
-
-                <Grid Grid.Column="0" Margin="0,0,10,0">
+            <materialDesign:DialogHost Grid.Row="1" x:Name="dialog_add_param" OverlayBackground="#b8eeff" DialogClosing="dialog_add_param_DialogClosing">
+                <materialDesign:DialogHost.DialogContent >
+                    <Grid Background="LightCyan">
+                        <StackPanel Orientation="Vertical" Margin="20">
+                            <StackPanel Orientation="Horizontal" Margin="5">
+                                <TextBlock Text="Название параметра" Width="150" Foreground="#FF000E99" VerticalAlignment="Center"/>
+                                <TextBox x:Name="txt_par_name"
+                                Width="150" Margin="5,0,0,0" 
+                                Foreground="#FF000E99" BorderBrush="#FF000E99" BorderThickness="1"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="5">
+                                <TextBlock Text="Обозначение параметра" Width="150" Foreground="#FF000E99" VerticalAlignment="Center"/>
+                                <TextBox x:Name="txt_par_symb"
+                                Width="150" Margin="5,0,0,0" 
+                                Foreground="#FF000E99" BorderBrush="#FF000E99" BorderThickness="1"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="5">
+                                <TextBlock Text="Единицы измерения" Width="150" Foreground="#FF000E99" VerticalAlignment="Center"/>
+                                <TextBox x:Name="txt_par_unit"
+                                Width="150" Margin="5,0,0,0" 
+                                Foreground="#FF000E99" BorderBrush="#FF000E99" BorderThickness="1"/>
+                            </StackPanel>
+                            <StackPanel
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Center" Margin="0,5,0,0">
+                                <Button
+                            x:Name="Butt_OK"
+                            Style="{StaticResource MaterialDesignRaisedButton}"
+                            materialDesign:RippleAssist.Feedback="#FF86E2FD"
+                            Background="LightCyan" Foreground="#FF000E99" BorderBrush="#FF000E99" BorderThickness="1"
+                            IsDefault="True" Margin="0,8,25,0" Content="Добавить"
+                            HorizontalAlignment="Left" VerticalAlignment="Center" Click="Butt_OK_Click" >
+                                </Button>
+                                <Button
+                            Style="{StaticResource MaterialDesignRaisedButton}"
+                            materialDesign:RippleAssist.Feedback="#FF86E2FD"
+                            Background="LightCyan" Foreground="#FF000E99" BorderBrush="#FF000E99" BorderThickness="1"
+                            IsCancel="True" Margin="25,8,8,0" Content="Отменить"
+                            Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                </Button>
+                            </StackPanel>
+                        </StackPanel>
+                        <materialDesign:Snackbar x:Name="messbar" IsActive="False" Foreground="LightCyan" Width="320"  Background="#FF000E99">
+                            <materialDesign:SnackbarMessage Margin="15,15,15,15" >
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,-5" >
+                                    <ScrollViewer Background="#FF000E99" BorderBrush="LightCyan" Foreground="LightCyan" Margin="0" VerticalScrollBarVisibility="Hidden" >
+                                        <TextBlock x:Name="messtxt" Width="210" TextWrapping="Wrap" />
+                                    </ScrollViewer>
+                                    <Button Content="OK" x:Name="messbut" Margin="5,0,0,0" Width="55" 
+                                        Style="{DynamicResource MaterialDesignRaisedButton}" 
+                                        materialDesign:ShadowAssist.ShadowDepth="Depth3" 
+                                        Foreground="LightCyan" BorderBrush="LightCyan" Background="#FF000E99" VerticalAlignment="Top" Click="messbut_Click"/>
+                                </StackPanel>
+                            </materialDesign:SnackbarMessage>
+                        </materialDesign:Snackbar>
+                    </Grid>
+                </materialDesign:DialogHost.DialogContent>
+                <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="44*" />
-                        <ColumnDefinition Width="20*"/>
-                        <ColumnDefinition Width="67*" />
+                        <ColumnDefinition Width="35*"/>
+                        <ColumnDefinition Width="23*"/>
                     </Grid.ColumnDefinitions>
-                    <Grid.Resources>
-                        <ResourceDictionary>
-                            <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="#FFB8ECFD" po:Freeze="True" />
-                            <SolidColorBrush x:Key="PrimaryHueMidForegroundBrush" Color="#FF000E99" po:Freeze="True" />
-                            <SolidColorBrush x:Key="SecondaryAccentBrush" Color="#FF000E99" po:Freeze="True"/>
-                        </ResourceDictionary>
-                    </Grid.Resources>
-                    <StackPanel Grid.Column="0" Margin="10,0,0,0">
-                        <DataGrid x:Name="datagrid_rezh_all" HorizontalScrollBarVisibility="Auto" FontSize="10" Height="300" Margin="7,20,0,0" BorderThickness="1"
+
+                    <Grid Grid.Column="0" Margin="0,0,10,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="44*" />
+                            <ColumnDefinition Width="20*"/>
+                            <ColumnDefinition Width="67*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.Resources>
+                            <ResourceDictionary>
+                                <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="#FFB8ECFD" po:Freeze="True" />
+                                <SolidColorBrush x:Key="PrimaryHueMidForegroundBrush" Color="#FF000E99" po:Freeze="True" />
+                                <SolidColorBrush x:Key="SecondaryAccentBrush" Color="#FF000E99" po:Freeze="True"/>
+                            </ResourceDictionary>
+                        </Grid.Resources>
+                        <StackPanel Grid.Column="0" Margin="10,0,0,0">
+                            <DataGrid x:Name="datagrid_rezh_all" HorizontalScrollBarVisibility="Auto" FontSize="10" Height="300" Margin="7,20,0,0" BorderThickness="1"
                                               CanUserDeleteRows="False" CanUserAddRows="False" CanUserResizeColumns="False" 
                                                   CanUserReorderColumns="False" CanUserResizeRows="False" CanUserSortColumns="False" AutoGenerateColumns="False">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn IsReadOnly="True" Binding="{Binding rezh, Mode=TwoWay}">
-                                    <DataGridTextColumn.Header>
-                                        <TextBlock Text="Режимные параметры" TextWrapping="Wrap" Width="148" TextAlignment="Center" Margin="10,0,0,0" FontSize="12"/>
-                                    </DataGridTextColumn.Header>
-                                </DataGridTextColumn>
-                            </DataGrid.Columns>
-                        </DataGrid>
-                        <Button Margin="55,10,55,0" HorizontalAlignment="Center" Height="45" Width="100" Click="Button_Click" >
-                            <TextBlock Text="Добавить параметр" Width="60" TextWrapping="Wrap" TextAlignment="Center" FontSize="12" Height="40" Margin="0" />
-                        </Button>
-                    </StackPanel>
-                    <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="46,143,34,193" Height="74" Width="20">
-                        <Button x:Name="add" Content=">>" Margin="0,0,0,5" Padding="4" FontSize="15" Click="butt_rezh_add_Click" />
-                        <Button x:Name="del" Content="&lt;&lt;" Margin="0,5,0,0" Padding="4" FontSize="15" Click="butt_rezh_del_Click" />
-                    </StackPanel>
-                    <StackPanel Grid.Column="2" Margin="0,0,115,0">
-                        <DataGrid x:Name="datagrid_rezh_izm" HorizontalScrollBarVisibility="Auto" Height="300" Margin="0,20,-155,0" BorderThickness="1" 
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn IsReadOnly="True" Binding="{Binding rezh, Mode=TwoWay}">
+                                        <DataGridTextColumn.Header>
+                                            <TextBlock Text="Режимные параметры" TextWrapping="Wrap" Width="148" TextAlignment="Center" Margin="10,0,0,0" FontSize="12"/>
+                                        </DataGridTextColumn.Header>
+                                    </DataGridTextColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            <Button Margin="55,10,55,0" HorizontalAlignment="Center" Height="45" Width="100" Click="Button_Click" >
+                                <TextBlock Text="Добавить параметр" Width="60" TextWrapping="Wrap" TextAlignment="Center" FontSize="12" Height="40" Margin="0" />
+                            </Button>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="46,143,34,193" Height="74" Width="20">
+                            <Button x:Name="add" Content=">>" Margin="0,0,0,5" Padding="4" FontSize="15" Click="butt_rezh_add_Click" />
+                            <Button x:Name="del" Content="&lt;&lt;" Margin="0,5,0,0" Padding="4" FontSize="15" Click="butt_rezh_del_Click" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="2" Margin="0,0,115,0">
+                            <DataGrid x:Name="datagrid_rezh_izm" HorizontalScrollBarVisibility="Auto" Height="300" Margin="0,20,-155,0" BorderThickness="1" 
                                               FontSize="10"
                                               CanUserDeleteRows="False" CanUserAddRows="False" CanUserResizeColumns="False" 
                                                   CanUserReorderColumns="False" CanUserResizeRows="False" CanUserSortColumns="False" AutoGenerateColumns="False">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn IsReadOnly="True" Binding="{Binding rezh, Mode=TwoWay}">
-                                    <DataGridTextColumn.Header>
-                                        <TextBlock Text="Измеряемые параметры" TextWrapping="Wrap" Width="150" TextAlignment="Center" FontSize="12" />
-                                    </DataGridTextColumn.Header>
-                                </DataGridTextColumn>
-                                <DataGridTextColumn IsReadOnly="True" Binding="{Binding value, Mode=TwoWay}">
-                                    <DataGridTextColumn.Header>
-                                        <TextBlock Text="Значения" TextWrapping="Wrap" Width="90" TextAlignment="Center" FontSize="12" />
-                                    </DataGridTextColumn.Header>
-                                </DataGridTextColumn>
-                            </DataGrid.Columns>
-                        </DataGrid>
-                    </StackPanel>
-                </Grid>
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn IsReadOnly="True" Binding="{Binding rezh, Mode=TwoWay}">
+                                        <DataGridTextColumn.Header>
+                                            <TextBlock Text="Измеряемые параметры" TextWrapping="Wrap" Width="150" TextAlignment="Center" FontSize="12" />
+                                        </DataGridTextColumn.Header>
+                                    </DataGridTextColumn>
+                                    <DataGridTextColumn IsReadOnly="True" Binding="{Binding value, Mode=TwoWay}">
+                                        <DataGridTextColumn.Header>
+                                            <TextBlock Text="Значения" TextWrapping="Wrap" Width="90" TextAlignment="Center" FontSize="12" />
+                                        </DataGridTextColumn.Header>
+                                    </DataGridTextColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </StackPanel>
+                    </Grid>
 
-                <Grid Grid.Column="1" >
-                    <Grid Margin="55,55,22.333,95">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="30*"/>
-                            <ColumnDefinition Width="70*"/>
-                        </Grid.ColumnDefinitions>
-                        <DataGrid Grid.Column="0" x:Name="column_rezh_numbers" AutoGenerateColumns="False" Grid.ColumnSpan="2" RowHeight="67">
-                            <DataGrid.Columns>
-                                <DataGridTemplateColumn x:Name="userControlColumn" Header="№ Режима">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Orientation="Horizontal">
-                                                <RadioButton Content="{Binding number}" GroupName="rezhims" 
+                    <Grid Grid.Column="1" >
+                        <Grid Margin="55,55,22.333,95">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="30*"/>
+                                <ColumnDefinition Width="70*"/>
+                            </Grid.ColumnDefinitions>
+                            <DataGrid Grid.Column="0" x:Name="column_rezh_numbers" AutoGenerateColumns="False" Grid.ColumnSpan="2" RowHeight="67">
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn x:Name="userControlColumn" Header="№ Режима">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <RadioButton Content="{Binding number}" GroupName="rezhims" 
                                                              BorderBrush="#FF000E99"
                                                              VerticalAlignment="Center" HorizontalAlignment="Center" Checked="RadioButton_Checked_rezh" />
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-                            </DataGrid.Columns>
-                        </DataGrid>
-                        <DataGrid Grid.Column="1" x:Name="exp_rezh_params" IsReadOnly="True" AutoGenerateColumns="False" CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False" RowHeight="67"> 
-                            
-                        </DataGrid>
-                    </Grid>
-                    
-                </Grid>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            <DataGrid Grid.Column="1" x:Name="exp_rezh_params" IsReadOnly="True" AutoGenerateColumns="False" CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False" RowHeight="67">
 
-            </Grid>
+                            </DataGrid>
+                        </Grid>
+
+                    </Grid>
+
+                </Grid>
+            </materialDesign:DialogHost>
+
+                
 
         </Grid>
 

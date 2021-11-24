@@ -30,6 +30,7 @@ namespace БД_НТИ
 
         String conn_str = User.Connection_string;       //строка подключения
 
+        Modeling_add model_wind = (Modeling_add)Application.Current.Windows.OfType<Window>().Where(x => x.Name == "Modeling_wind").FirstOrDefault();
         class Rezh_value
         {
             public string rezh { get; set; }
@@ -219,9 +220,75 @@ namespace БД_НТИ
             }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e) //кнопка "добавить параметр"
         {
+            model_wind.Butt_back.IsEnabled = false;
+            model_wind.Butt_next.IsEnabled = false;
+            model_wind.listview_items.IsEnabled = false;
+            dialog_add_param.IsOpen = true;
+        }
 
+        private void Butt_OK_Click(object sender, RoutedEventArgs e)
+        {
+            if (txt_par_name.Text == "" || txt_par_symb.Text == "" || txt_par_unit.Text == "")
+            {
+                messtxt.Text = "Не все поля заполнены!";
+                messbar.IsActive = true;
+                txt_par_name.IsEnabled = false;
+                txt_par_symb.IsEnabled = false;
+                txt_par_unit.IsEnabled = false;
+            }
+            else
+            {
+                string name = txt_par_name.Text;
+                string short_name = txt_par_symb.Text;
+                string unit = txt_par_unit.Text;
+                Parametrs.update_parametrs();
+                string check = Parametrs.check_new_param(name, short_name);
+                if (check == "")
+                {
+
+                    Parametrs.insert_parametr("Режимные параметры", name, short_name, unit);
+                    Rezh_value newparrezh = new Rezh_value();
+                    newparrezh.rezh = txt_par_name.Text;
+                    rezh_all.Add(newparrezh);
+
+                    dialog_add_param.IsOpen = false;
+                    model_wind.Butt_back.IsEnabled = true;
+                    model_wind.Butt_next.IsEnabled = true;
+                    model_wind.listview_items.IsEnabled = true;
+                }
+                else
+                {
+                    if (check == name)
+                    {
+                        messtxt.Text = $"Параметр \"{name}\" уже есть в базе!";
+                        messbar.IsActive = true;
+                    }
+                    else
+                    {
+                        messtxt.Text = $"Обозначение \"{short_name}\" уже есть в базе!";
+                        messbar.IsActive = true;
+                    }
+                    txt_par_name.IsEnabled = false;
+                    txt_par_symb.IsEnabled = false;
+                    txt_par_unit.IsEnabled = false;
+                }
+            }
+        }
+        private void messbut_Click(object sender, RoutedEventArgs e)
+        {
+            messbar.IsActive = false;
+            txt_par_name.IsEnabled = true;
+            txt_par_symb.IsEnabled = true;
+            txt_par_unit.IsEnabled = true;
+        }
+
+        private void dialog_add_param_DialogClosing(object sender, MaterialDesignThemes.Wpf.DialogClosingEventArgs eventArgs)
+        {
+            model_wind.Butt_back.IsEnabled = true;
+            model_wind.Butt_next.IsEnabled = true;
+            model_wind.listview_items.IsEnabled = true;
         }
     }
 }

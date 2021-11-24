@@ -100,6 +100,8 @@ namespace БД_НТИ
             Parametrs.phys_pars = new Dictionary<string, Param>();
             Parametrs.integral_pars = new Dictionary<string, Param>();
             Parametrs.coord_pars = new Dictionary<string, Param>();
+            Parametrs.reshatel_pars = new Dictionary<string, Param>();
+            Parametrs.setka_pars = new Dictionary<string, Param>();
             //заполнение комбобокса параметров для выбора при добавлении нового столбца
             foreach (string type in types_of_param)
             {

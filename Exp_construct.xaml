@@ -121,19 +121,19 @@
                 <Grid Background="LightCyan">
                     <StackPanel Orientation="Vertical" Margin="20">
                         <StackPanel Orientation="Horizontal" Margin="5">
-                            <TextBlock Text="Название параметра" Width="150" Foreground="#FF000E99"/>
+                            <TextBlock Text="Название параметра" Width="150" Foreground="#FF000E99" VerticalAlignment="Center" />
                             <TextBox x:Name="txt_par_name"
                                 Width="150" Margin="5,0,0,0" 
                                 Foreground="#FF000E99" BorderBrush="#FF000E99" BorderThickness="1"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="5">
-                            <TextBlock Text="Обозначение параметра" Width="150" Foreground="#FF000E99"/>
+                            <TextBlock Text="Обозначение параметра" Width="150" Foreground="#FF000E99" VerticalAlignment="Center"/>
                             <TextBox x:Name="txt_par_symb"
                                 Width="150" Margin="5,0,0,0" 
                                 Foreground="#FF000E99" BorderBrush="#FF000E99" BorderThickness="1"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="5">
-                            <TextBlock Text="Единицы измерения" Width="150" Foreground="#FF000E99"/>
+                            <TextBlock Text="Единицы измерения" Width="150" Foreground="#FF000E99" VerticalAlignment="Center"/>
                             <TextBox x:Name="txt_par_unit"
                                 Width="150" Margin="5,0,0,0" 
                                 Foreground="#FF000E99" BorderBrush="#FF000E99" BorderThickness="1"/>
@@ -145,29 +145,29 @@
                             x:Name="Butt_OK"
                             Style="{StaticResource MaterialDesignRaisedButton}"
                             materialDesign:RippleAssist.Feedback="#FF86E2FD"
-                            Background="LightCyan" Foreground="#FF0017FF" BorderBrush="#FF0017FF" BorderThickness="1"
+                            Background="LightCyan" Foreground="#FF000E99" BorderBrush="#FF000E99" BorderThickness="1"
                             IsDefault="True" Margin="0,8,25,0" Content="Добавить"
                             HorizontalAlignment="Left" VerticalAlignment="Center" Click="Butt_OK_Click" >
                             </Button>
                             <Button
                             Style="{StaticResource MaterialDesignRaisedButton}"
                             materialDesign:RippleAssist.Feedback="#FF86E2FD"
-                            Background="LightCyan" Foreground="#FF0017FF" BorderBrush="#FF0017FF" BorderThickness="1"
+                            Background="LightCyan" Foreground="#FF000E99" BorderBrush="#FF000E99" BorderThickness="1"
                             IsCancel="True" Margin="25,8,8,0" Content="Отменить"
                             Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" HorizontalAlignment="Right" VerticalAlignment="Center">
                             </Button>
                         </StackPanel>
                     </StackPanel>
-                    <materialDesign:Snackbar x:Name="messbar" IsActive="False" Foreground="LightCyan" Width="320"  Background="#000175">
+                    <materialDesign:Snackbar x:Name="messbar" IsActive="False" Foreground="LightCyan" Width="320"  Background="#FF000E99">
                         <materialDesign:SnackbarMessage Margin="15,15,15,15" >
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,-5" >
-                                <ScrollViewer Background="#000175" BorderBrush="LightCyan" Foreground="LightCyan" Margin="0" CanContentScroll="True">
+                                <ScrollViewer Background="#FF000E99" BorderBrush="LightCyan" Foreground="LightCyan" Margin="0" CanContentScroll="True">
                                     <TextBlock x:Name="messtxt" Width="210" TextWrapping="Wrap" ScrollViewer.CanContentScroll="True"/>
                                 </ScrollViewer>
                                 <Button Content="OK" x:Name="messbut" Margin="5,0,0,0" Width="55" 
                                         Style="{DynamicResource MaterialDesignRaisedButton}" 
                                         materialDesign:ShadowAssist.ShadowDepth="Depth3" 
-                                        Foreground="LightCyan" BorderBrush="LightCyan" Background="#000175" VerticalAlignment="Top" Click="messbut_Click"/>
+                                        Foreground="LightCyan" BorderBrush="LightCyan" Background="#FF000E99" VerticalAlignment="Top" Click="messbut_Click"/>
                             </StackPanel>
                         </materialDesign:SnackbarMessage>
                     </materialDesign:Snackbar>
