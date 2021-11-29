@@ -26,8 +26,6 @@ namespace БД_НТИ
 
         public static int id_channel { get; set; }      //номер канала (в приложении) 
 
-
-
         public static ObservableCollection<Construct> constr = new ObservableCollection<Construct>(); //см. страница Exp_construct - список каналов с настройками конструктора
 
         public static List<Results_of_fiz_exp> chans_results { get; set; }
