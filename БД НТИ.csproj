@@ -276,6 +276,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Model_construct.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Model_rezh.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
