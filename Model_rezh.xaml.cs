@@ -31,17 +31,24 @@ namespace БД_НТИ
         String conn_str = User.Connection_string;       //строка подключения
 
         Modeling_add model_wind = (Modeling_add)Application.Current.Windows.OfType<Window>().Where(x => x.Name == "Modeling_wind").FirstOrDefault();
+        
         class Rezh_value
         {
             public string rezh { get; set; }
             public string value { get; set; }
         }
+        
+        class Rezh_list
+        {
+            public ObservableCollection<Rezh_value> rezh_all = new ObservableCollection<Rezh_value>();
+            public ObservableCollection<Rezh_value> rezh_izm = new ObservableCollection<Rezh_value>();
+        }
+        ObservableCollection<Rezh_list> rezh_list = new ObservableCollection<Rezh_list>();  //список по каналам
 
-        ObservableCollection<Rezh_value>  rezh_all = new ObservableCollection<Rezh_value>();
-        ObservableCollection<Rezh_value>  rezh_izm = new ObservableCollection<Rezh_value>();
-
-        ObservableCollection<exp_rezh_number> exp_rezh_numbers = new ObservableCollection<exp_rezh_number>();
-        parametrs rezh_pars = new parametrs();
+        //ObservableCollection<exp_rezh_number> exp_rezh_numbers = new ObservableCollection<exp_rezh_number>();
+        ObservableCollection<ObservableCollection<exp_rezh_number>> exp_rezh_numbers_list = new ObservableCollection<ObservableCollection<exp_rezh_number>>();
+        //parametrs rezh_pars = new parametrs();
+        ObservableCollection<parametrs> rezh_pars_list = new ObservableCollection<parametrs>();
 
         public class exp_rezh_number // заголовок строк таблиц
         {
@@ -69,113 +76,123 @@ namespace БД_НТИ
             NpgsqlConnection sqlconn = new NpgsqlConnection(conn_str);
             sqlconn.Open();
 
-            NpgsqlCommand com_rezh_params = new NpgsqlCommand($"select * from main_block.select_parametrs('Режимные параметры') order by name_param;", sqlconn);
-            NpgsqlDataReader reader_par1 = com_rezh_params.ExecuteReader();
-            Parametrs.geom_pars = new Dictionary<string, Param>();
-            while (reader_par1.Read())
+            for (int ind_chan = 0; ind_chan < Data.channels.Count; ind_chan++)
             {
-                Rezh_value str = new Rezh_value();
-                str.rezh = reader_par1[0].ToString();
-                rezh_all.Add(str);
+                Rezh_list rezh_list_exmp = new Rezh_list();
+                
 
-                Param p = new Param() { short_name = reader_par1[1].ToString(), unit = reader_par1[2].ToString() };
-                Parametrs.geom_pars.Add(reader_par1[0].ToString(), p);
+                #region заполнение третьей таблицы (режимы из экспериментов)
+                NpgsqlCommand comm_id = new NpgsqlCommand($"select \"Id_R_C\" from main_block.\"Realization_channel\" where \"Id$\" = {Data.id_obj} and \"Realization\" = {Data.current_realization} and \"Channel\" = {ind_chan + 1}", sqlconn);
+                string Id_r_c = comm_id.ExecuteScalar().ToString();
+
+                NpgsqlCommand com_params = new NpgsqlCommand($"select* from main_block.select_exp_rezh_params({Id_r_c})", sqlconn);
+                NpgsqlDataReader reader_par = com_params.ExecuteReader();
+                
+                parametrs rezh_pars = new parametrs();
+                ObservableCollection<exp_rezh_number> exp_rezh_numbers = new ObservableCollection<exp_rezh_number>();
+
+
+                while (reader_par.Read())
+                {
+                    int id_mode = (int)reader_par[0];
+                    string name_par = reader_par[1].ToString();
+                    string value_par = Convert.ToDouble(reader_par[2].ToString().Replace('.', ',')).ToString();
+
+                    parametr par = new parametr();
+                    par.value = value_par;
+
+                    if (id_mode > exp_rezh_numbers.Count)
+                    {
+                        exp_rezh_numbers.Add(new exp_rezh_number((exp_rezh_numbers.Count + 1).ToString(), id_mode));
+                        rezh_pars.add_row();
+                    }
+                    if (!rezh_pars.column_headers.Contains(name_par))
+                    {
+                        rezh_pars.add_parametr(name_par);
+                    }
+                    rezh_pars.table[exp_rezh_numbers.Count - 1].cols[rezh_pars.column_headers.IndexOf(name_par)] = par;
+                }
+                reader_par.Close();
+
+
+                #endregion
+
+
+                for (int i = 0; i < rezh_pars.column_headers.Count; i++)
+                {
+                    Rezh_value rez = new Rezh_value();
+                    rez.rezh = rezh_pars.column_headers[i];
+                    rezh_list_exmp.rezh_izm.Add(rez);
+                }
+
+                #region заполнение всех режимных параметров
+
+                NpgsqlCommand com_rezh_params = new NpgsqlCommand($"select * from main_block.select_parametrs('Режимные параметры') order by name_param;", sqlconn);
+                NpgsqlDataReader reader_par1 = com_rezh_params.ExecuteReader();
+                Parametrs.geom_pars = new Dictionary<string, Param>();
+                while (reader_par1.Read())
+                {
+                    Rezh_value str = new Rezh_value();
+                    str.rezh = reader_par1[0].ToString();
+                    bool flag = true;
+                    for (int i = 0; i < rezh_list_exmp.rezh_izm.Count; i++)
+                    {
+                        if (rezh_list_exmp.rezh_izm[i].rezh == str.rezh)
+                        {
+                            flag = false;
+                        }
+                        if (!flag)
+                        {
+                            i = rezh_list_exmp.rezh_izm.Count;
+                        }
+                    }
+                    if (flag)
+                    {
+                        rezh_list_exmp.rezh_all.Add(str);
+                    }
+                        
+                    Param p = new Param() { short_name = reader_par1[1].ToString(), unit = reader_par1[2].ToString() };
+                    Parametrs.geom_pars.Add(reader_par1[0].ToString(), p);
+                }
+                reader_par1.Close();
+
+                #endregion
+
+
+                rezh_list.Add(rezh_list_exmp);
+                rezh_pars_list.Add(rezh_pars);
+                exp_rezh_numbers_list.Add(exp_rezh_numbers);
+
             }
-            reader_par1.Close();
-            datagrid_rezh_all.ItemsSource = rezh_all;
-            datagrid_rezh_izm.ItemsSource = rezh_izm;
             sqlconn.Close();
             radiobut_chan1.IsChecked = true;
         }
 
-        private void RadioButton_Checked(object sender, RoutedEventArgs e)
+        private void RadioButton_Checked(object sender, RoutedEventArgs e)  //переключение по каналам
         {
             var radio = sender as RadioButton;
             string[] names = radio.Content.ToString().Split(' ');
             chan = Convert.ToInt32(names[1]) - 1; //номер канала (начиная с 0 (т.е. №-1))
 
-
-            NpgsqlConnection sqlconn = new NpgsqlConnection(conn_str);
-            sqlconn.Open();
-
-            NpgsqlCommand comm_id = new NpgsqlCommand($"select \"Id_R_C\" from main_block.\"Realization_channel\" where \"Id$\" = {Data.id_obj} and \"Realization\" = {Data.current_realization} and \"Channel\" = {chan+1}", sqlconn);
-            string Id_r_c = comm_id.ExecuteScalar().ToString();
-
-            NpgsqlCommand com_params = new NpgsqlCommand($"select* from main_block.select_exp_rezh_params({Id_r_c})", sqlconn);
-            NpgsqlDataReader reader_par = com_params.ExecuteReader();
-            rezh_pars = new parametrs();
-            exp_rezh_numbers = new ObservableCollection<exp_rezh_number>();
-
-
-            while (reader_par.Read())
-            {
-                int id_mode = (int)reader_par[0];
-                string name_par = reader_par[1].ToString();
-                string value_par = Convert.ToDouble(reader_par[2].ToString().Replace('.', ',')).ToString();
-
-                parametr par = new parametr();
-                par.value = value_par;
-
-                if (id_mode > exp_rezh_numbers.Count)
-                {
-                    exp_rezh_numbers.Add(new exp_rezh_number((exp_rezh_numbers.Count + 1).ToString(), id_mode));
-                    rezh_pars.add_row();
-                }
-                if (!rezh_pars.column_headers.Contains(name_par))
-                {
-                    rezh_pars.add_parametr(name_par);
-                }
-                rezh_pars.table[exp_rezh_numbers.Count - 1].cols[rezh_pars.column_headers.IndexOf(name_par)] = par;
-            }
-            reader_par.Close();
+            datagrid_rezh_all.ItemsSource = rezh_list[chan].rezh_all;
+            datagrid_rezh_izm.ItemsSource = rezh_list[chan].rezh_izm;
 
             exp_rezh_params.Columns.Clear();
-            column_rezh_numbers.ItemsSource = exp_rezh_numbers;
-            parametrs.parametrs_table_build(exp_rezh_params, rezh_pars);
+            column_rezh_numbers.ItemsSource = exp_rezh_numbers_list[chan];
+            parametrs.parametrs_table_build(exp_rezh_params, rezh_pars_list[chan]);
 
-            //перенос элементов из правой таблицы в левую
-            if (rezh_izm.Count != 0)
-            {
-                for (int i = 0; i < rezh_pars.column_headers.Count; i++)
-                {
-                    foreach (Rezh_value par in rezh_izm)
-                    {
-                        if (par.rezh != rezh_pars.column_headers[i])
-                        {
-                            datagrid_rezh_izm.SelectedItem = datagrid_rezh_izm.Items[rezh_izm.IndexOf(par)];
-                            butt_rezh_del_Click(null, null);
-                            break;
-                        }
-                    }
-                }
-            }
-            // перенос элементов из левой в правую(тех, что есть в таблицу с режимами)
-            for (int i = 0; i < rezh_pars.column_headers.Count; i++)
-            {
-                foreach (Rezh_value par in datagrid_rezh_all.ItemsSource)
-                {
-                    if (par.rezh == rezh_pars.column_headers[i])
-                    {
-                        datagrid_rezh_all.SelectedItem = datagrid_rezh_all.Items[datagrid_rezh_all.Items.IndexOf(par)];
-                        butt_rezh_add_Click(null, null);
-                        break;
-                    }
-                }
-            }
-
-            sqlconn.Close();
         }
 
         private void RadioButton_Checked_rezh(object sender, RoutedEventArgs e)
         {
             var radio = sender as RadioButton;
-            int rezh = Convert.ToInt32(radio.Content.ToString())-1;
-            for(int i =0; i<rezh_izm.Count; i++)
+            int rezh = Convert.ToInt32(radio.Content.ToString()) - 1;
+            for (int i = 0; i < rezh_pars_list[chan].column_headers.Count; i++)
             {
-                rezh_izm[i].value = rezh_pars.par_value(rezh_izm[i].rezh, rezh).value;
+                rezh_list[chan].rezh_izm[i].value = rezh_pars_list[chan].par_value(rezh_list[chan].rezh_izm[i].rezh, rezh).value;
             }
             datagrid_rezh_izm.ItemsSource = null;
-            datagrid_rezh_izm.ItemsSource = rezh_izm;
+            datagrid_rezh_izm.ItemsSource = rezh_list[chan].rezh_izm;
 
 
         }
@@ -187,8 +204,8 @@ namespace БД_НТИ
                 for (int i = 0; i < datagrid_rezh_all.SelectedItems.Count; i++)
                 {
                     Rezh_value rezh = datagrid_rezh_all.SelectedItems[i] as Rezh_value;
-                    rezh_all.Remove(rezh);
-                    rezh_izm.Add(rezh);
+                    rezh_list[chan].rezh_all.Remove(rezh);
+                    rezh_list[chan].rezh_izm.Add(rezh);
                 }
             }
         }
@@ -200,21 +217,25 @@ namespace БД_НТИ
                 for (int i = 0; i < datagrid_rezh_izm.SelectedItems.Count; i++)
                 {
                     Rezh_value rezh = datagrid_rezh_izm.SelectedItems[i] as Rezh_value;
-                    //bool fl = true;
-                    //for (int j = 0; j < DB_constr.rezhs_6_db[chan].Count; j++)
-                    //{
-                    //    if (rezh.rezh == DB_constr.rezhs_6_db[chan][j].rezh)
-                    //    {
-                    //        fl = false;
-                    //        j = DB_constr.rezhs_6_db[chan].Count;
-                    //    }
-                    //}
-                    //if (fl)
-                    //{
-                        
-                    //}
-                    rezh_izm.Remove(rezh);
-                    rezh_all.Add(rezh);
+                    bool flag = false;
+
+                    for (int j = 0; j < rezh_pars_list[chan].column_headers.Count; j++)
+                    {
+                        if (rezh.rezh == rezh_pars_list[chan].column_headers[j])
+                        {
+                            flag = true;
+                        }
+                        if (flag)
+                        {
+                            j = rezh_pars_list[chan].column_headers.Count;
+                        }
+                    }
+                    if (!flag)
+                    {
+                        rezh_list[chan].rezh_izm.Remove(rezh);
+                        rezh_list[chan].rezh_all.Add(rezh);
+                    }
+                    
 
                 }
             }
@@ -251,7 +272,10 @@ namespace БД_НТИ
                     Parametrs.insert_parametr("Режимные параметры", name, short_name, unit);
                     Rezh_value newparrezh = new Rezh_value();
                     newparrezh.rezh = txt_par_name.Text;
-                    rezh_all.Add(newparrezh);
+                    for (int i = 0; i < Data.channels.Count; i++)
+                    {
+                        rezh_list[i].rezh_all.Add(newparrezh);
+                    }
 
                     dialog_add_param.IsOpen = false;
                     model_wind.Butt_back.IsEnabled = true;
