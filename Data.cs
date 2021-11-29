@@ -20,10 +20,14 @@ namespace БД_НТИ
 
         public static string current_realization { get; set; }   //текущее исполнение (номер из базы данных)
 
-        public static int current_channel { get; set; }
-
         public static int id_realization { get; set; } // номер строки в таблице геометрических параметров (номер реализации в приложении от 0)
-        
+
+        public static int current_channel { get; set; } //текущий канал (номер из базы данных)
+
+        public static int id_channel { get; set; }      //номер канала (в приложении) 
+
+
+
         public static ObservableCollection<Construct> constr = new ObservableCollection<Construct>(); //см. страница Exp_construct - список каналов с настройками конструктора
 
         public static List<Results_of_fiz_exp> chans_results { get; set; }
