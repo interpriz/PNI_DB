@@ -25,6 +25,8 @@ namespace БД_НТИ
 
         public int id_chan { get; set; }                            // номер канала
 
+        public Results_of_fiz_exp() { }
+
         public Results_of_fiz_exp(ObservableCollection<num_rezh> rezh_num,
             ObservableCollection<parametr> sreda,
             parametrs rezh_par,
@@ -347,7 +349,7 @@ namespace БД_НТИ
 
         }
 
-        public bool update(Construct constr) // обновление структуры классов по параметрам конструктора (если изменения произошли, то вернет true иначе false)
+        public virtual bool update(Construct constr) // обновление структуры классов по параметрам конструктора (если изменения произошли, то вернет true иначе false)
         {
             bool change = false;
 
@@ -723,7 +725,7 @@ namespace БД_НТИ
         }
 
         // сохранение данных структуры классов в базе данных
-        public bool save_in_DB(int chan)
+        public virtual bool save_in_DB(int chan)
         {
             bool f1 = this.rezh_par.check_empty_parametr();
             bool f2 = this.prochie_par.check_empty_parametr();
