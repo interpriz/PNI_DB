@@ -84,19 +84,19 @@
                     <ListViewItem x:Name="item5" Height="70" IsEnabled="False" >
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="Numeric5Circle" Height="32" Width="32" VerticalAlignment="Center"/>
-                            <TextBlock Text="Ввод результатов эксперимента " VerticalAlignment="Center" Margin="15,0,0,0" TextWrapping="Wrap" Width="175"/>
+                            <TextBlock Text="Формирование таблицы результатов моделирования " VerticalAlignment="Center" Margin="15,0,0,0" TextWrapping="Wrap" Width="175"/>
                         </StackPanel>
                     </ListViewItem>
                     <ListViewItem x:Name="item6" Height="70" IsEnabled="False" >
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="Numeric6Circle" Height="32" Width="32" VerticalAlignment="Center"/>
-                            <TextBlock Text="Обработка результатов эксперимента " VerticalAlignment="Center" Margin="15,0,0,0" TextWrapping="Wrap" Width="175"/>
+                            <TextBlock Text="Ввод результатов моделирования " VerticalAlignment="Center" Margin="15,0,0,0" TextWrapping="Wrap" Width="175"/>
                         </StackPanel>
                     </ListViewItem>
                     <ListViewItem x:Name="item7" Height="70" IsEnabled="False" >
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="Numeric7Circle" Height="32" Width="32" VerticalAlignment="Center"/>
-                            <TextBlock Text="Обработка результатов эксперимента " VerticalAlignment="Center" Margin="15,0,0,0" TextWrapping="Wrap" Width="175"/>
+                            <TextBlock Text="Обработка результатов моделирования " VerticalAlignment="Center" Margin="15,0,0,0" TextWrapping="Wrap" Width="175"/>
                         </StackPanel>
                     </ListViewItem>
                 </ListView>
