@@ -26,11 +26,16 @@ namespace БД_НТИ
 
         public static int id_channel { get; set; }      //номер канала (в приложении) 
 
+        public static int current_mode { get; set; } //номер текущего режима в моделировании
+
         public static ObservableCollection<Construct> constr = new ObservableCollection<Construct>(); //см. страница Exp_construct - список каналов с настройками конструктора
 
         public static List<Results_of_fiz_exp> chans_results { get; set; }
 
         public static List<Obrabotka_of_fiz_exp> chans_obr { get; set; }
+
+        public static Results_of_modelling modelling_results { get; set; }
+
         public static string php_name { get; set; }//тип физического процесса
         public static string tpe_name { get; set; }//тип энергетического оборудования
         public static string ar1_name { get; set; }//область расчетного случая/экспериментальный объект

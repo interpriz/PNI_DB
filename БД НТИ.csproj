@@ -213,6 +213,9 @@
     <Compile Include="Model_rezh.xaml.cs">
       <DependentUpon>Model_rezh.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Model_result.xaml.cs">
+      <DependentUpon>Model_result.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Model_settings.xaml.cs">
       <DependentUpon>Model_settings.xaml</DependentUpon>
     </Compile>
@@ -278,6 +281,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Model_rezh.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Model_result.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

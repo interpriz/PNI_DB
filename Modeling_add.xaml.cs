@@ -26,6 +26,7 @@ namespace БД_НТИ
         Page new_Task_class;
         Page new_Geom_param;
         Page new_Model_settings;
+        Page new_Model_result;
         public Page new_Model_rezh;
 
         public Modeling_add(string zadacha)
@@ -36,6 +37,7 @@ namespace БД_НТИ
             frame.Navigate(new_Task_class);
             condition = "step1";
             item4.IsEnabled = true;
+            item5.IsEnabled = true;
         }
         private void ButtonCloseMenu_Click(object sender, RoutedEventArgs e)
         {
@@ -349,6 +351,15 @@ namespace БД_НТИ
             item5.IsSelected = false;
             item6.IsSelected = false;
             item7.IsSelected = false;
+        }
+
+        private void item5_Selected(object sender, RoutedEventArgs e)
+        {
+            new_Model_result = new Model_result();
+            frame.Navigate(new_Model_result);
+            Butt_next.IsEnabled = false;
+            Butt_back.IsEnabled = false;
+            condition = "step5";
         }
     }
     public class bool_model

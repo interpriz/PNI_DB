@@ -81,10 +81,10 @@
                             <TextBlock Text="Задание настроек моделирования " VerticalAlignment="Center" Margin="15,0,0,0" TextWrapping="Wrap" Width="175"/>
                         </StackPanel>
                     </ListViewItem>
-                    <ListViewItem x:Name="item5" Height="70" IsEnabled="False" >
+                    <ListViewItem x:Name="item5" Height="70" IsEnabled="False" Selected="item5_Selected" >
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="Numeric5Circle" Height="32" Width="32" VerticalAlignment="Center"/>
-                            <TextBlock Text="Формирование таблицы результатов моделирования " VerticalAlignment="Center" Margin="15,0,0,0" TextWrapping="Wrap" Width="175"/>
+                            <TextBlock Text="Ввод результатов моделирования " VerticalAlignment="Center" Margin="15,0,0,0" TextWrapping="Wrap" Width="175"/>
                         </StackPanel>
                     </ListViewItem>
                     <ListViewItem x:Name="item6" Height="70" IsEnabled="False" >

@@ -36,205 +36,205 @@ namespace БД_НТИ
             this.max_travers_points = max;
         }
 
-        public Results_of_modelling(bool DB, int chan)// заполнение из БД
+        public Results_of_modelling(bool DB)// заполнение из БД
         {
-            //if (DB)
-            //{
+            if (DB)
+            {
 
-            //    this.id_chan = chan; ;
+                //this.id_chan = chan; ;
 
-            //    String conn_str = User.Connection_string;       //строка подключения
+                String conn_str = User.Connection_string;       //строка подключения
 
-            //    ObservableCollection<num_rezh> rezh_num = new ObservableCollection<num_rezh>();
+                ObservableCollection<num_rezh> setting_num = new ObservableCollection<num_rezh>();
 
-            //    ObservableCollection<parametr> sreda = new ObservableCollection<parametr>();
+                ObservableCollection<parametr> sreda = new ObservableCollection<parametr>();
 
-            //    parametrs rezh_par = new parametrs();
+                parametrs rezh_par = new parametrs();
 
-            //    parametrs prochie_par = new parametrs();
+                parametrs prochie_par = new parametrs();
 
-            //    ObservableCollection<section> sections = new ObservableCollection<section>();
+                ObservableCollection<section> sections = new ObservableCollection<section>();
 
-            //    //Results_of_fiz_exp exp_results;
+                //Results_of_fiz_exp exp_results;
 
-            //    NpgsqlConnection sqlconn = new NpgsqlConnection(conn_str);
-            //    sqlconn.Open();
+                NpgsqlConnection sqlconn = new NpgsqlConnection(conn_str);
+                sqlconn.Open();
 
-            //    //заполнение и создание таблиц каналов из базы данных
-            //    NpgsqlCommand comm_main = new NpgsqlCommand($"select * from main_block.\"select_chan_results\"({Data.id_obj},{Data.current_realization},{this.id_chan},1);", sqlconn);
-            //    NpgsqlDataReader reader_main = comm_main.ExecuteReader();
-            //    while (reader_main.Read())
-            //    {
-            //        int rezhim = (int)reader_main[0];               //номер режима
-            //        int id_section = (int)reader_main[1];           //номер сечения
-            //        int id_traversing = (int)reader_main[2];        //номер траверсирования
-            //        int id_type = (int)reader_main[3];              //тип параметра (2-режимные 3-теплофизические 7,8-координаты)
-            //        string par_name = reader_main[4].ToString();    //название параметра
-            //        int id_data = Convert.ToInt32(reader_main[9]);    //тип данных (1 - значение, 3 - строка, 4 -функция)
-            //        //string value_str = reader_main[5].ToString();//строковое значение параметра (среда)
-            //        //string value = Convert.ToDouble(reader_main[6]).ToString();//убираем лишние нули
+                //заполнение и создание таблиц каналов из базы данных
+                NpgsqlCommand comm_main = new NpgsqlCommand($"select * from main_block.\"select_chan_results_modelling\"({Data.id_obj},{Data.current_mode},{Data.current_realization},{Data.current_channel},1);", sqlconn);
+                NpgsqlDataReader reader_main = comm_main.ExecuteReader();
+                while (reader_main.Read())
+                {
+                    int setting = (int)reader_main[0];               //номер настройки
+                    int id_section = (int)reader_main[1];           //номер сечения
+                    int id_traversing = (int)reader_main[2];        //номер траверсирования
+                    int id_type = (int)reader_main[3];              //тип параметра (2-режимные 3-теплофизические 7,8-координаты)
+                    string par_name = reader_main[4].ToString();    //название параметра
+                    int id_data = Convert.ToInt32(reader_main[9]);    //тип данных (1 - значение, 3 - строка, 4 -функция)
+                    //string value_str = reader_main[5].ToString();//строковое значение параметра (среда)
+                    //string value = Convert.ToDouble(reader_main[6]).ToString();//убираем лишние нули
 
-            //        parametr par = new parametr();
-            //        par.mode = "old";
-            //        par.id_traversing = id_traversing;
-            //        switch (id_data)
-            //        {
-            //            //значение
-            //            case 1:
-            //                par.value = Convert.ToDouble(reader_main[8].ToString().Replace('.', ',')).ToString();
-            //                break;
-            //            //строка
-            //            case 3:
-            //                par.value = reader_main[7].ToString();  //строковое значение параметра (среда)
-            //                break;
-            //            //функция
-            //            case 4:
-            //                break;
-            //        }
+                    parametr par = new parametr();
+                    par.mode = "old";
+                    par.id_traversing = id_traversing;
+                    switch (id_data)
+                    {
+                        //значение
+                        case 1:
+                            par.value = Convert.ToDouble(reader_main[8].ToString().Replace('.', ',')).ToString();
+                            break;
+                        //строка
+                        case 3:
+                            par.value = reader_main[7].ToString();  //строковое значение параметра (среда)
+                            break;
+                        //функция
+                        case 4:
+                            break;
+                    }
 
-            //        if (rezh_num.Count < rezhim)
-            //        {
-            //            num_rezh rezh = new num_rezh() { BD_num = rezhim, visual_num = Convert.ToString(rezh_num.Count + 1), age = "old" };
-            //            rezh_num.Add(rezh);
-            //        }
-            //        if (rezh_num.Count == rezhim)
-            //        {
-            //            if (id_section == 0)
-            //            {
-            //                if (id_traversing == 0)
-            //                {
-            //                    parametrs parametrs = new parametrs();
-            //                    switch (id_type)
-            //                    {
-            //                        case 2:
-            //                            parametrs = rezh_par;
-            //                            break;
-            //                        case 3:
-            //                            if (par_name == "Среда") sreda.Add(par);
-            //                            else
-            //                                parametrs = prochie_par;
-            //                            break;
-            //                    }
-            //                    if (parametrs.column_headers.IndexOf(par_name) == -1) parametrs.column_headers.Add(par_name);
-            //                    if (parametrs.table.Count < rezh_num.Count)
-            //                    {
-            //                        ObservableCollection<parametr> cols = new ObservableCollection<parametr>() { par };
-            //                        row r = new row();
-            //                        r.cols = cols;
-            //                        r.rezh = rezhim;
-            //                        r.age = "old";
-            //                        parametrs.table.Add(r);
-            //                    }
-            //                    else
-            //                    {
-            //                        parametrs.table[rezh_num.Count - 1].cols.Add(par);
-            //                    }
-            //                }//нет траверсирования в 0ом сечении
-            //            }
-            //            else
-            //            {
+                    if (setting_num.Count < setting)
+                    {
+                        num_rezh rezh = new num_rezh() { BD_num = setting, visual_num = Convert.ToString(setting_num.Count + 1), age = "old" };
+                        setting_num.Add(rezh);
+                    }
+                    if (setting_num.Count == setting)
+                    {
+                        if (id_section == 0)
+                        {
+                            if (id_traversing == 0)
+                            {
+                                parametrs parametrs = new parametrs();
+                                switch (id_type)
+                                {
+                                    case 2:
+                                        parametrs = rezh_par;
+                                        break;
+                                    case 3:
+                                        if (par_name == "Среда") sreda.Add(par);
+                                        else
+                                            parametrs = prochie_par;
+                                        break;
+                                }
+                                if (parametrs.column_headers.IndexOf(par_name) == -1) parametrs.column_headers.Add(par_name);
+                                if (parametrs.table.Count < setting_num.Count)
+                                {
+                                    ObservableCollection<parametr> cols = new ObservableCollection<parametr>() { par };
+                                    row r = new row();
+                                    r.cols = cols;
+                                    r.rezh = setting;
+                                    r.age = "old";
+                                    parametrs.table.Add(r);
+                                }
+                                else
+                                {
+                                    parametrs.table[setting_num.Count - 1].cols.Add(par);
+                                }
+                            }//нет траверсирования в 0ом сечении
+                        }
+                        else
+                        {
 
-            //                if (id_traversing == 0)
-            //                {
-            //                    if (sections.Count < id_section)
-            //                    {
-            //                        section sec = new section(false, id_section, "old");
-            //                        sections.Add(sec);
-            //                    }
-            //                    if (sections[id_section - 1].pars.column_headers.IndexOf(par_name) == -1)
-            //                    {
-            //                        sections[id_section - 1].pars.column_headers.Add(par_name);
-            //                    }
-            //                    if (sections[id_section - 1].pars.table.Count < rezh_num.Count)
-            //                    {
-            //                        //ObservableCollection<parametr> cols = new ObservableCollection<parametr>() { par };
-            //                        row r = new row();
-            //                        r.cols.Add(par);
-            //                        r.rezh = rezhim;
-            //                        r.age = "old";
-            //                        sections[id_section - 1].pars.table.Add(r);
-            //                    }
-            //                    else
-            //                    {
-            //                        sections[id_section - 1].pars.table[rezh_num.Count - 1].cols.Add(par);
-            //                    }
-            //                }
-            //                else
-            //                {
-            //                    if (sections.Count < id_section)
-            //                    {
-            //                        section sec = new section(true, id_section, "old");
-            //                        sections.Add(sec);
-            //                    }
-            //                    travers_parametrs tr_pr = new travers_parametrs();
+                            if (id_traversing == 0)
+                            {
+                                if (sections.Count < id_section)
+                                {
+                                    section sec = new section(false, id_section, "old");
+                                    sections.Add(sec);
+                                }
+                                if (sections[id_section - 1].pars.column_headers.IndexOf(par_name) == -1)
+                                {
+                                    sections[id_section - 1].pars.column_headers.Add(par_name);
+                                }
+                                if (sections[id_section - 1].pars.table.Count < setting_num.Count)
+                                {
+                                    //ObservableCollection<parametr> cols = new ObservableCollection<parametr>() { par };
+                                    row r = new row();
+                                    r.cols.Add(par);
+                                    r.rezh = setting;
+                                    r.age = "old";
+                                    sections[id_section - 1].pars.table.Add(r);
+                                }
+                                else
+                                {
+                                    sections[id_section - 1].pars.table[setting_num.Count - 1].cols.Add(par);
+                                }
+                            }
+                            else
+                            {
+                                if (sections.Count < id_section)
+                                {
+                                    section sec = new section(true, id_section, "old");
+                                    sections.Add(sec);
+                                }
+                                travers_parametrs tr_pr = new travers_parametrs();
 
-            //                    switch (id_type)
-            //                    {
-            //                        case 7:
-            //                            tr_pr = sections[id_section - 1].coordinates;
-            //                            break;
-            //                        case 3:
-            //                            tr_pr = sections[id_section - 1].trav_pars;
-            //                            break;
-            //                    }
-            //                    if (tr_pr.column_headers.IndexOf(par_name) == -1)
-            //                    {
-            //                        tr_pr.column_headers.Add(par_name);
-            //                    }
-            //                    if (tr_pr.travers_table.Count < rezh_num.Count)
-            //                    {
-            //                        travers_row r = new travers_row();
-            //                        r.rezh = rezhim;
-            //                        r.age = "old";
-            //                        //ObservableCollection<parametr> col_par = new ObservableCollection<parametr>() { par};
-            //                        r.cols.Add(new ObservableCollection<parametr>() { par });
-            //                        tr_pr.travers_table.Add(r);
-            //                    }
-            //                    else
-            //                    {
-            //                        int rezhims = tr_pr.travers_table.Count;//количество режимов на текущий момент
-            //                        int number_columns = tr_pr.travers_table[rezhims - 1].cols.Count;//количество столбцов в координатах
-            //                        int column_index = tr_pr.column_headers.IndexOf(par_name);//номер столбца параметра
-            //                        if (column_index + 1 > number_columns)
-            //                        {
-            //                            tr_pr.travers_table[rezhims - 1].cols.Add(new ObservableCollection<parametr>() { par });
-            //                        }
-            //                        else
-            //                        {
-            //                            tr_pr.travers_table[rezhims - 1].cols[column_index].Add(par);
-            //                        }
-            //                    }
-            //                }
-            //            }
-            //        }
-            //        //else
-            //        //{
+                                switch (id_type)
+                                {
+                                    case 7:
+                                        tr_pr = sections[id_section - 1].coordinates;
+                                        break;
+                                    case 3:
+                                        tr_pr = sections[id_section - 1].trav_pars;
+                                        break;
+                                }
+                                if (tr_pr.column_headers.IndexOf(par_name) == -1)
+                                {
+                                    tr_pr.column_headers.Add(par_name);
+                                }
+                                if (tr_pr.travers_table.Count < setting_num.Count)
+                                {
+                                    travers_row r = new travers_row();
+                                    r.rezh = setting;
+                                    r.age = "old";
+                                    //ObservableCollection<parametr> col_par = new ObservableCollection<parametr>() { par};
+                                    r.cols.Add(new ObservableCollection<parametr>() { par });
+                                    tr_pr.travers_table.Add(r);
+                                }
+                                else
+                                {
+                                    int rezhims = tr_pr.travers_table.Count;//количество режимов на текущий момент
+                                    int number_columns = tr_pr.travers_table[rezhims - 1].cols.Count;//количество столбцов в координатах
+                                    int column_index = tr_pr.column_headers.IndexOf(par_name);//номер столбца параметра
+                                    if (column_index + 1 > number_columns)
+                                    {
+                                        tr_pr.travers_table[rezhims - 1].cols.Add(new ObservableCollection<parametr>() { par });
+                                    }
+                                    else
+                                    {
+                                        tr_pr.travers_table[rezhims - 1].cols[column_index].Add(par);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    //else
+                    //{
 
-            //        //}
-            //    }
-            //    reader_main.Close();
-            //    sqlconn.Close();
+                    //}
+                }
+                reader_main.Close();
+                sqlconn.Close();
 
-            //    //exp_results = new Results_of_fiz_exp(rezh_num, sreda, rezh_par, prochie_par, sections);
+                //exp_results = new Results_of_fiz_exp(rezh_num, sreda, rezh_par, prochie_par, sections);
 
-            //    this.rezh_num = rezh_num;
-            //    this.sreda = sreda;
-            //    this.rezh_par = rezh_par;
-            //    this.prochie_par = prochie_par;
-            //    this.sections = sections;
+                this.rezh_num = setting_num;
+                this.sreda = sreda;
+                this.rezh_par = rezh_par;
+                this.prochie_par = prochie_par;
+                this.sections = sections;
 
-            //    int max = 1;
-            //    foreach (section sec in sections)
-            //    {
-            //        if (sec.pars == null)
-            //        {
-            //            int num_rows = sec.coordinates.travers_table[0].cols[0].Count;
-            //            if (num_rows > max) max = num_rows;
-            //        }
-            //    }
-            //    this.max_travers_points = max;
+                int max = 1;
+                foreach (section sec in sections)
+                {
+                    if (sec.pars == null)
+                    {
+                        int num_rows = sec.coordinates.travers_table[0].cols[0].Count;
+                        if (num_rows > max) max = num_rows;
+                    }
+                }
+                this.max_travers_points = max;
 
-            //}
+            }
         }
 
         public Results_of_modelling(Construct constr, int chan) // создание заполненноей структуры классов по параметрам конструктора

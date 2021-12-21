@@ -13,7 +13,7 @@
       FontFamily="Comic Sans MS" Foreground="#FF000E99"
       Title="Model_construct">
 
-    <Page.Resources>
+    <!--<Page.Resources>
         <ResourceDictionary>
             <SolidColorBrush x:Key="MaterialDesignSelection" Color="#FFB8ECFD" po:Freeze="True" />
 
@@ -40,7 +40,7 @@
                 </Setter>
             </Style>
 
-            <!--SCROLLBARS-->
+            --><!--SCROLLBARS--><!--
             <Style x:Key="{x:Type ScrollBar}" TargetType="{x:Type ScrollBar}">
                 <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
                 <Setter Property="Foreground" Value="#FF000E99"/>
@@ -540,5 +540,5 @@
             </Grid>
         </materialDesign:DialogHost>
 
-    </Grid>
+    </Grid>-->
 </Page>
