@@ -36,10 +36,10 @@ namespace БД_НТИ
             //datagrid2.Columns.Clear();
             //datagrid3.Columns.Clear();
 
-            Data.id_obj = "6";
-            Data.current_mode = 1;
-            Data.current_realization = "1";
-            Data.current_channel = 1;
+            //Data.id_obj = "6";
+            //Data.current_mode = 1;
+            //Data.current_realization = "1";
+            //Data.current_channel = 1;
 
             Data.modelling_results = new Results_of_modelling(true);
 

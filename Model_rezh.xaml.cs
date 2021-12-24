@@ -43,9 +43,12 @@ namespace БД_НТИ
             public ObservableCollection<Rezh_value> rezh_all = new ObservableCollection<Rezh_value>();
             public ObservableCollection<Rezh_value> rezh_izm = new ObservableCollection<Rezh_value>();
         }
+
         ObservableCollection<Rezh_list> rezh_list = new ObservableCollection<Rezh_list>();  //список по каналам
 
         //ObservableCollection<exp_rezh_number> exp_rezh_numbers = new ObservableCollection<exp_rezh_number>();
+
+        // список по каналам списков номеров режимов из базы экспериментов
         ObservableCollection<ObservableCollection<exp_rezh_number>> exp_rezh_numbers_list = new ObservableCollection<ObservableCollection<exp_rezh_number>>();
         //parametrs rezh_pars = new parametrs();
         ObservableCollection<parametrs> rezh_pars_list = new ObservableCollection<parametrs>();
@@ -89,12 +92,14 @@ namespace БД_НТИ
                 NpgsqlDataReader reader_par = com_params.ExecuteReader();
                 
                 parametrs rezh_pars = new parametrs();
+
+                // список пар (из БД и в приложении) номеров  режимов для заголовков строк таблицы с выбором режима
                 ObservableCollection<exp_rezh_number> exp_rezh_numbers = new ObservableCollection<exp_rezh_number>();
 
 
                 while (reader_par.Read())
                 {
-                    int id_mode = (int)reader_par[0];
+                    int id_mode = (int)reader_par[0]; //номер режима в БД 
                     string name_par = reader_par[1].ToString();
                     string value_par = Convert.ToDouble(reader_par[2].ToString().Replace('.', ',')).ToString();
 
@@ -181,10 +186,20 @@ namespace БД_НТИ
             column_rezh_numbers.ItemsSource = exp_rezh_numbers_list[chan];
             parametrs.parametrs_table_build(exp_rezh_params, rezh_pars_list[chan]);
 
+            Data.current_channel = chan + 1;
+
+            NpgsqlConnection sqlconn = new NpgsqlConnection(conn_str);
+            sqlconn.Open();
+            NpgsqlCommand comm_id = new NpgsqlCommand($"select \"Id_R_C\" from main_block.\"Realization_channel\" where \"Id$\" = {Data.id_obj} and \"Realization\" = {Data.current_realization} and \"Channel\" = {chan + 1}", sqlconn);
+            Data.id_R_C = comm_id.ExecuteScalar().ToString();
+            sqlconn.Close();
+
         }
 
-        private void RadioButton_Checked_rezh(object sender, RoutedEventArgs e)
+        bool rezh_select = false;
+        private void RadioButton_Checked_rezh(object sender, RoutedEventArgs e)// выбор режима
         {
+            rezh_select = true;
             var radio = sender as RadioButton;
             int rezh = Convert.ToInt32(radio.Content.ToString()) - 1;
             for (int i = 0; i < rezh_pars_list[chan].column_headers.Count; i++)
@@ -194,6 +209,7 @@ namespace БД_НТИ
             datagrid_rezh_izm.ItemsSource = null;
             datagrid_rezh_izm.ItemsSource = rezh_list[chan].rezh_izm;
 
+            Data.current_mode = exp_rezh_numbers_list[Data.current_channel - 1][rezh].db_number;
 
         }
 
@@ -308,11 +324,42 @@ namespace БД_НТИ
             txt_par_unit.IsEnabled = true;
         }
 
+        private void messbut2_Click(object sender, RoutedEventArgs e)
+        {
+            messbar2.IsActive = false;
+        }
+
         private void dialog_add_param_DialogClosing(object sender, MaterialDesignThemes.Wpf.DialogClosingEventArgs eventArgs)
         {
             model_wind.Butt_back.IsEnabled = true;
             model_wind.Butt_next.IsEnabled = true;
             model_wind.listview_items.IsEnabled = true;
+        }
+
+        public bool check_rezh_pars()
+        {
+            bool check = true;
+            if (rezh_select)
+            {
+                foreach (Rezh_value value in rezh_list[chan].rezh_izm)
+                {
+                    if (value.value == null)
+                    {
+                        check = false;
+                        messtxt2.Text = "Не все поля заполнены!";
+                        messbar2.IsActive = true;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                check = false;
+                messtxt2.Text = "Режим не выбран!";
+                messbar2.IsActive = true;
+            }
+            
+            return check;
         }
     }
 }

@@ -90,12 +90,11 @@ namespace БД_НТИ
             cmb_setka_params.ItemsSource = cmb_setka_parametrs;
 
 
-            //NpgsqlCommand comm_id = new NpgsqlCommand($"select \"Id_R_C\" from main_block.\"Realization_channel\" where \"Id$\" = {Data.id_obj} and \"Realization\" = {Data.current_realization} and \"Channel\" = {chan + 1}", sqlconn);
-            //string Id_r_c = comm_id.ExecuteScalar().ToString();
-            //string Id_r_c = "1";
+            NpgsqlCommand comm_id = new NpgsqlCommand($"select \"Id_rcm\" from main_block.\"Mode\" where \"Id_R_C\"={Data.id_R_C} and \"Id_mode\"={Data.current_mode}", sqlconn);
+            string Id_rcm = comm_id.ExecuteScalar().ToString();
 
             List<string> setting_numbers = new List<string>();
-            NpgsqlCommand comm_main = new NpgsqlCommand($"select* from main_block.select_settings_values(1); ", sqlconn);
+            NpgsqlCommand comm_main = new NpgsqlCommand($"select* from main_block.select_settings_values({Id_rcm}); ", sqlconn);
             NpgsqlDataReader reader_main = comm_main.ExecuteReader();
             while (reader_main.Read())
             {
@@ -203,8 +202,6 @@ namespace БД_НТИ
                     gr = setka;
                     break;
             }
-
-           
 
             if (cmb.SelectedItem != null)
             {
@@ -384,6 +381,10 @@ namespace БД_НТИ
                 gr.ItemsSource = null;
                 parametrs.parametrs_table_build(gr, pars);
 
+                txt_par_name.Text ="";
+                txt_par_symb.Text = "";
+                txt_par_unit.Text = "";
+
                 dialog.IsOpen = false;
                 //model_wind.Butt_back.IsEnabled = true;
                 //model_wind.listview_items.IsEnabled = true;
@@ -392,6 +393,8 @@ namespace БД_НТИ
 
         private void Dialog_add_param_DialogClosing(object sender, MaterialDesignThemes.Wpf.DialogClosingEventArgs eventArgs)
         {
+            model_wind.Butt_back.IsEnabled = true;
+            model_wind.listview_items.IsEnabled = true;
             //switch (page_mode)
             //{
             //    case "Experiment":
@@ -414,7 +417,15 @@ namespace БД_НТИ
         {
             reshatel_pars.add_row();
             setka_pars.add_row();
-            setting_Numbers.Add(new setting_number((setting_Numbers.Count+1).ToString(), setting_Numbers[setting_Numbers.Count-1].db_number+1));
+            if (setting_Numbers.Count != 0)
+            {
+                setting_Numbers.Add(new setting_number((setting_Numbers.Count + 1).ToString(), setting_Numbers[setting_Numbers.Count - 1].db_number + 1));
+            }
+            else
+            {
+                setting_Numbers.Add(new setting_number("1",1));
+            }
+            
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)// добавление результатов экспериментов/моделирования
@@ -431,9 +442,6 @@ namespace БД_НТИ
         {
             messbar2.IsActive = false;
         }
-
-        
-
         
         private void TxtBox_chan_KeyDown(object sender, KeyEventArgs e)
         {
@@ -456,8 +464,6 @@ namespace БД_НТИ
             else
                 e.Handled = true;
         }
-
-        
 
         private void messbut_Click(object sender, RoutedEventArgs e)
         {

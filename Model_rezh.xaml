@@ -286,5 +286,18 @@
 
         </Grid>
 
+        <materialDesign:Snackbar x:Name="messbar2" IsActive="False" Margin="216,0,262,-90" Grid.Row="1" Width="624" Background="#000175" Foreground="LightCyan" Grid.ColumnSpan="2">
+            <materialDesign:SnackbarMessage Margin="15" Height="65">
+                <StackPanel Orientation="Horizontal" Margin="0,-15,0,-15">
+                    <ScrollViewer Width="471" CanContentScroll="True" Margin="0,0,0,4" >
+                        <TextBlock x:Name="messtxt2" Width="445" TextWrapping="Wrap" ScrollViewer.CanContentScroll="True" />
+                    </ScrollViewer>
+                    <Button Content="OK" x:Name="messbut2" Margin="0,0,20,0" Width="52" Style="{DynamicResource MaterialDesignRaisedButton}" 
+                            materialDesign:ShadowAssist.ShadowDepth="Depth3" 
+                            Foreground="LightCyan" BorderBrush="LightCyan" Background="#000175" Height="40"  VerticalAlignment="Top" Click="messbut2_Click" />
+                </StackPanel>
+            </materialDesign:SnackbarMessage>
+        </materialDesign:Snackbar>
+
     </Grid>
 </Page>

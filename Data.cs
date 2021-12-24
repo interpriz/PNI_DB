@@ -14,6 +14,8 @@ namespace БД_НТИ
     {
         public static string id { get; set; }   //ID*
         public static string id_obj { get; set; }   //id$
+        public static string id_R_C { get; set; }   //id_R_C
+
         public static bool exec { get; set; }//(для добавления параметров); существует ли уже данный класс задач в базе данных
 
         public static List<channel> channels { get; set; }  //список каналов
@@ -26,7 +28,7 @@ namespace БД_НТИ
 
         public static int id_channel { get; set; }      //номер канала (в приложении) 
 
-        public static int current_mode { get; set; } //номер текущего режима в моделировании
+        public static int current_mode{ get; set; } //номер текущего режима в моделировании (номер из базы данных)
 
         public static ObservableCollection<Construct> constr = new ObservableCollection<Construct>(); //см. страница Exp_construct - список каналов с настройками конструктора
 
