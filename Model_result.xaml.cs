@@ -41,7 +41,10 @@ namespace БД_НТИ
             //Data.current_realization = "1";
             //Data.current_channel = 1;
 
-            Data.modelling_results = new Results_of_modelling(true);
+            Data.modelling_results = new Results_of_modelling(false);
+            Data.modelling_results.add_rezhim();
+            Data.modelling_results.add_rezhim();
+            Data.modelling_results.add_rezhim();
 
             datagrid0.ItemsSource = Data.modelling_results.rezh_num;
             datagrid1.ItemsSource = Data.modelling_results.sreda;
