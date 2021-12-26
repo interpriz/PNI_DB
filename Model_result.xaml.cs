@@ -53,13 +53,19 @@ namespace БД_НТИ
 
             Data.modelling_results = new Results_of_modelling(count != "0");
 
-            if(count == "0")
-            {
-                //проверка количества настроек
+            //проверка количества настроек
+            int count1 = model_wind.new_Model_settings.setting_Numbers.Count();
 
-                int count1 = model_wind.new_Model_settings.setting_Numbers.Count();
-                
+            if (count == "0")
+            {
                 for(int i = 1; i < count1; i++)
+                {
+                    Data.modelling_results.add_rezhim();
+                }
+            }
+            else
+            {
+                for (int i = Data.modelling_results.rezh_num.Count(); i < count1; i++)
                 {
                     Data.modelling_results.add_rezhim();
                 }
