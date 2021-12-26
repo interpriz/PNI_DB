@@ -36,6 +36,7 @@ namespace БД_НТИ
         {
             public string rezh { get; set; }
             public string value { get; set; }
+            public string age { get; set; }
         }
         
         class Rezh_list
@@ -85,6 +86,7 @@ namespace БД_НТИ
                 
 
                 #region заполнение третьей таблицы (режимы из экспериментов)
+
                 NpgsqlCommand comm_id = new NpgsqlCommand($"select \"Id_R_C\" from main_block.\"Realization_channel\" where \"Id$\" = {Data.id_obj} and \"Realization\" = {Data.current_realization} and \"Channel\" = {ind_chan + 1}", sqlconn);
                 string Id_r_c = comm_id.ExecuteScalar().ToString();
 
@@ -205,6 +207,7 @@ namespace БД_НТИ
             for (int i = 0; i < rezh_pars_list[chan].column_headers.Count; i++)
             {
                 rezh_list[chan].rezh_izm[i].value = rezh_pars_list[chan].par_value(rezh_list[chan].rezh_izm[i].rezh, rezh).value;
+                rezh_list[chan].rezh_izm[i].age = "old";
             }
             datagrid_rezh_izm.ItemsSource = null;
             datagrid_rezh_izm.ItemsSource = rezh_list[chan].rezh_izm;

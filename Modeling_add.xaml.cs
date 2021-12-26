@@ -25,7 +25,7 @@ namespace БД_НТИ
         string conn_str = User.Connection_string;
         Page new_Task_class;
         Page new_Geom_param;
-        Page new_Model_settings;
+        public Model_settings new_Model_settings;
         Page new_Model_result;
         public Model_rezh new_Model_rezh;
 

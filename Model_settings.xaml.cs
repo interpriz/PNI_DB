@@ -24,7 +24,6 @@ namespace БД_НТИ
     {
         Modeling_add model_wind = (Modeling_add)Application.Current.Windows.OfType<Window>().Where(x => x.Name == "Modeling_wind").FirstOrDefault();
 
-
         public class setting_number // заголовок строк таблиц
         {
             public string number { get; set; }      //отображаемый номер режима
@@ -42,14 +41,12 @@ namespace БД_НТИ
 
         String conn_str = User.Connection_string;       //строка подключения
 
-        ObservableCollection<setting_number> setting_Numbers = new ObservableCollection<setting_number>();
+        public ObservableCollection<setting_number> setting_Numbers = new ObservableCollection<setting_number>(); // список заголовков строк (номера настроек)
         ObservableCollection<string> cmb_reshatel_parametrs = new ObservableCollection<string>();   // все параметры решателя в комбобоксе
         ObservableCollection<string> cmb_setka_parametrs = new ObservableCollection<string>();      // все параметры сетки в комбобоксе
 
-
-        parametrs reshatel_pars = new parametrs();
-        parametrs setka_pars = new parametrs();
-
+        parametrs reshatel_pars = new parametrs();  // параметры решателя выводимые в таблицу
+        parametrs setka_pars = new parametrs();     // параметры сетки выводимые в таблицу
 
         public Model_settings() 
         {
@@ -428,10 +425,7 @@ namespace БД_НТИ
             
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)// добавление результатов экспериментов/моделирования
-        {
-            
-        }
+
 
         private void batt_save_Click(object sender, RoutedEventArgs e)//сохранить изменения
         {

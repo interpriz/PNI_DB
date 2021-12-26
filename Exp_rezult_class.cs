@@ -14,8 +14,9 @@ namespace БД_НТИ
 
 
 
-    class Results_of_fiz_exp : DB_proc_func
+    class Results_of_fiz_exp
     {
+        
         public ObservableCollection<num_rezh> rezh_num { get; set; }// список номеров режимов
         public ObservableCollection<parametr> sreda { get; set; }   // список значений параметра среда
         public parametrs rezh_par { get; set; }                     // режимные параметры
@@ -768,14 +769,14 @@ namespace БД_НТИ
                         //добавить в mode_cros_section запись c сечением 0 mode
                         //NpgsqlCommand com_add = new NpgsqlCommand($"INSERT INTO main_block.\"Mode_cros_section\" (\"Id_R_C\", \"Id_mode\", id_cros_section) VALUES( {Id_r_c},{rezh.BD_num},0); ", sqlconn);
                         //com_add.ExecuteNonQuery();
-                        insert_mode_cros_section(Id_r_c, rezh.BD_num, 0);
+                        DB_proc_func.insert_mode_cros_section(Id_r_c, rezh.BD_num, 0);
                         rezh.age = "old";
                         if (rezh.visual_num == "1")
                         {
                             //добавить параметр среда в таблицу parametrs_experiment
                             //NpgsqlCommand com_add1 = new NpgsqlCommand($"INSERT INTO main_block.\"Parametrs_experiment\"(\"Id_R_C\", \"Id_param\", id_data) VALUES ({Id_r_c} , (select id_param from main_block.\"Parametrs\" where \"name_param\" = 'Среда'),3); ", sqlconn);
                             //com_add1.ExecuteNonQuery();
-                            insert_parametrs_experiment(Id_r_c,"Среда",3);
+                            DB_proc_func.insert_parametrs_experiment(Id_r_c,"Среда",3);
                         }
 
                     }
@@ -789,7 +790,7 @@ namespace БД_НТИ
                             //параметры процедуры по порядку: (обработка/результат), (режим), (сечение), (id_r_c_), (тип данных), (название параметра), (траверсирование), (значение), (строка)
                             //NpgsqlCommand com_add = new NpgsqlCommand($"main_block.insert_values_exp(1,{rezh.BD_num}, 0, {Id_r_c}, 3, 'Среда',0, Null ,'{this.sreda[row_ind].DB_value()}');", sqlconn);
                             //com_add.ExecuteNonQuery();
-                            insert_values_exp(1, rezh.BD_num,0, Id_r_c,3, "Среда", 0, null, this.sreda[row_ind].DB_value());
+                            DB_proc_func.insert_values_exp(1, rezh.BD_num,0, Id_r_c,3, "Среда", 0, null, this.sreda[row_ind].DB_value());
 
                             this.sreda[row_ind].mode = "old";
                             break;
@@ -797,7 +798,7 @@ namespace БД_НТИ
                             // обновить параметр среда в таблице values_experiment
                             //NpgsqlCommand com_add1 = new NpgsqlCommand($"UPDATE main_block.\"Values_experiment\" SET value_string = '{this.sreda[row_ind].DB_value()}',date = CURRENT_TIMESTAMP WHERE \"id_obr0/rez1\" = 1 and \"Id_m_c\" = (select \"Id_m_c\" from main_block.\"Mode_cros_section\" where \"Id_mode\" =  {rezh.BD_num} and \"id_cros_section\" = 0 and \"Id_R_C\" ={Id_r_c}) and \"Id#\" = (select \"Id#\" from main_block.\"Parametrs_experiment\" where Id_data = 3 and \"Id_param\" = (select id_param from main_block.\"Parametrs\" where \"name_param\" = 'Среда') and \"Id_R_C\" = { Id_r_c}) and id_traversing = 0; ", sqlconn);
                             //com_add1.ExecuteNonQuery();
-                            update_values_exp(1, rezh.BD_num, 0, Id_r_c, 3, "Среда", 0, null, this.sreda[row_ind].DB_value());
+                            DB_proc_func.update_values_exp(1, rezh.BD_num, 0, Id_r_c, 3, "Среда", 0, null, this.sreda[row_ind].DB_value());
                             this.sreda[row_ind].mode = "old";
                             break;
                     }
@@ -819,17 +820,17 @@ namespace БД_НТИ
                                         // добавить параметр в таблицу parametr experiment
                                         //NpgsqlCommand com_add2 = new NpgsqlCommand($"INSERT INTO main_block.\"Parametrs_experiment\"(\"Id_R_C\", \"Id_param\", id_data) VALUES ({Id_r_c} , (select id_param from main_block.\"Parametrs\" where \"name_param\" = '{name}'),1); ", sqlconn);
                                         //com_add2.ExecuteNonQuery();
-                                        insert_parametrs_experiment(Id_r_c, name, 1);
+                                        DB_proc_func.insert_parametrs_experiment(Id_r_c, name, 1);
                                     }
                                 }
                                 // добавить строку в таблицу values_experiment
                                 //NpgsqlCommand com_add = new NpgsqlCommand($"INSERT INTO main_block.\"Values_experiment\"(\"id_obr0/rez1\", \"Id_m_c\", \"Id#\", id_traversing, value_number) VALUES (1,(select \"Id_m_c\" from main_block.\"Mode_cros_section\" where \"Id_mode\" = {rezh.BD_num} and id_cros_section = 0 and \"Id_R_C\" = {Id_r_c}),(select \"Id#\" from main_block.\"Parametrs_experiment\" where Id_data = 1 and \"Id_param\" = (select id_param from main_block.\"Parametrs\" where \"name_param\" = '{name}') and \"Id_R_C\" = {Id_r_c}),0,{rezh_par.DB_value()}); ", sqlconn);
-                                
+
                                 //параметры процедуры по порядку: (обработка/результат), (режим), (сечение), (id_r_c_), (тип данных), (название параметра), (траверсирование), (значение), (строка)
                                 //NpgsqlCommand com_add = new NpgsqlCommand($"main_block.insert_values_exp(1,{rezh.BD_num}, 0, {Id_r_c}, 1, '{name}',0, {rezh_par.DB_value()} ,null);", sqlconn);
                                 //com_add.ExecuteNonQuery();
 
-                                insert_values_exp(1, rezh.BD_num, 0, Id_r_c, 1, name, 0, rezh_par.DB_value(), null);
+                                DB_proc_func.insert_values_exp(1, rezh.BD_num, 0, Id_r_c, 1, name, 0, rezh_par.DB_value(), null);
                                 rezh_par.mode = "old";
                                 break;
 
@@ -837,7 +838,7 @@ namespace БД_НТИ
                                 // обновить запись в таблице values_experiment
                                 //NpgsqlCommand com_add1 = new NpgsqlCommand($"UPDATE main_block.\"Values_experiment\" SET value_number = {rezh_par.DB_value()},date = CURRENT_TIMESTAMP WHERE \"id_obr0/rez1\" = 1 and \"Id_m_c\" = (select \"Id_m_c\" from main_block.\"Mode_cros_section\" where \"Id_mode\" =  {rezh.BD_num} and \"id_cros_section\" = 0 and \"Id_R_C\" ={Id_r_c}) and \"Id#\" = (select \"Id#\" from main_block.\"Parametrs_experiment\" where Id_data = 1 and \"Id_param\" = (select id_param from main_block.\"Parametrs\" where \"name_param\" = '{name}') and \"Id_R_C\" = { Id_r_c}) and id_traversing = 0; ", sqlconn);
                                 //com_add1.ExecuteNonQuery();
-                                update_values_exp(1, rezh.BD_num, 0, Id_r_c, 1, name, 0, rezh_par.DB_value(), null);
+                                DB_proc_func.update_values_exp(1, rezh.BD_num, 0, Id_r_c, 1, name, 0, rezh_par.DB_value(), null);
                                 rezh_par.mode = "old";
                                 break;
                         }
@@ -861,13 +862,13 @@ namespace БД_НТИ
                                         // добавить параметр в таблицу parametr experiment
                                         //NpgsqlCommand com_add2 = new NpgsqlCommand($"INSERT INTO main_block.\"Parametrs_experiment\"(\"Id_R_C\", \"Id_param\", id_data) VALUES ({Id_r_c} , (select id_param from main_block.\"Parametrs\" where \"name_param\" = '{name}'),1); ", sqlconn);
                                         //com_add2.ExecuteNonQuery();
-                                        insert_parametrs_experiment(Id_r_c, name, 1);
+                                        DB_proc_func.insert_parametrs_experiment(Id_r_c, name, 1);
                                     }
                                 }
                                 // добавить строку в таблицу values_experiment
                                 //NpgsqlCommand com_add = new NpgsqlCommand($"INSERT INTO main_block.\"Values_experiment\"(\"id_obr0/rez1\", \"Id_m_c\", \"Id#\", id_traversing, value_number) VALUES (1,(select \"Id_m_c\" from main_block.\"Mode_cros_section\" where \"Id_mode\" = {rezh.BD_num} and id_cros_section = 0 and \"Id_R_C\" = {Id_r_c}),(select \"Id#\" from main_block.\"Parametrs_experiment\" where Id_data = 1 and \"Id_param\" = (select id_param from main_block.\"Parametrs\" where \"name_param\" = '{name}') and \"Id_R_C\" = {Id_r_c}),0,{proch_par.DB_value()}); ", sqlconn);
                                 //com_add.ExecuteNonQuery();
-                                insert_values_exp(1, rezh.BD_num, 0, Id_r_c, 1, name, 0, proch_par.DB_value(), null);
+                                DB_proc_func.insert_values_exp(1, rezh.BD_num, 0, Id_r_c, 1, name, 0, proch_par.DB_value(), null);
                                 proch_par.mode = "old";
                                 break;
 
@@ -875,7 +876,7 @@ namespace БД_НТИ
                                 // обновить запись в таблице values_experiment
                                 //NpgsqlCommand com_add1 = new NpgsqlCommand($"UPDATE main_block.\"Values_experiment\" SET value_number = {proch_par.DB_value()},date = CURRENT_TIMESTAMP WHERE \"id_obr0/rez1\" = 1 and \"Id_m_c\" = (select \"Id_m_c\" from main_block.\"Mode_cros_section\" where \"Id_mode\" =  {rezh.BD_num} and \"id_cros_section\" = 0 and \"Id_R_C\" ={Id_r_c}) and \"Id#\" = (select \"Id#\" from main_block.\"Parametrs_experiment\" where Id_data = 1 and \"Id_param\" = (select id_param from main_block.\"Parametrs\" where \"name_param\" = '{name}') and \"Id_R_C\" = { Id_r_c}) and id_traversing = 0; ", sqlconn);
                                 //com_add1.ExecuteNonQuery();
-                                update_values_exp(1, rezh.BD_num, 0, Id_r_c, 1, name, 0, proch_par.DB_value(), null);
+                                DB_proc_func.update_values_exp(1, rezh.BD_num, 0, Id_r_c, 1, name, 0, proch_par.DB_value(), null);
                                 proch_par.mode = "old";
                                 break;
                         }
@@ -890,7 +891,7 @@ namespace БД_НТИ
                             // добавить запись в таблицу mode_cros_section
                             //NpgsqlCommand com_add = new NpgsqlCommand($"INSERT INTO main_block.\"Mode_cros_section\" (\"Id_R_C\", \"Id_mode\", id_cros_section) VALUES( {Id_r_c},{rezh.BD_num},{id_cros_section}); ", sqlconn);
                             //com_add.ExecuteNonQuery();
-                            insert_mode_cros_section(Id_r_c, rezh.BD_num, id_cros_section);
+                            DB_proc_func.insert_mode_cros_section(Id_r_c, rezh.BD_num, id_cros_section);
                             if (rezh.visual_num == this.rezh_num.Count.ToString())
                                 sec.age = "old";
                         }
@@ -912,14 +913,14 @@ namespace БД_НТИ
                                                 // добавить параметр в таблицу parametr experiment
                                                 //NpgsqlCommand com_add2 = new NpgsqlCommand($"INSERT INTO main_block.\"Parametrs_experiment\"(\"Id_R_C\", \"Id_param\", id_data) VALUES ({Id_r_c} , (select id_param from main_block.\"Parametrs\" where \"name_param\" = '{name}'),1); ", sqlconn);
                                                 //com_add2.ExecuteNonQuery();
-                                                insert_parametrs_experiment(Id_r_c, name, 1);
+                                                DB_proc_func.insert_parametrs_experiment(Id_r_c, name, 1);
                                             }
                                         }
                                         // добавить строку в таблицу values_experiment
                                         //NpgsqlCommand com_add = new NpgsqlCommand($"INSERT INTO main_block.\"Values_experiment\"(\"id_obr0/rez1\", \"Id_m_c\", \"Id#\", id_traversing, value_number) VALUES (1,(select \"Id_m_c\" from main_block.\"Mode_cros_section\" where \"Id_mode\" = {rezh.BD_num} and id_cros_section = {id_cros_section} and \"Id_R_C\" = {Id_r_c}),(select \"Id#\" from main_block.\"Parametrs_experiment\" where Id_data = 1 and \"Id_param\" = (select id_param from main_block.\"Parametrs\" where \"name_param\" = '{name}') and \"Id_R_C\" = {Id_r_c}),0,{par.DB_value()}); ", sqlconn);
                                         //com_add.ExecuteNonQuery();
 
-                                        insert_values_exp(1, rezh.BD_num, id_cros_section, Id_r_c, 1, name, 0, par.DB_value(), null);
+                                        DB_proc_func.insert_values_exp(1, rezh.BD_num, id_cros_section, Id_r_c, 1, name, 0, par.DB_value(), null);
                                         par.mode = "old";
                                         break;
 
@@ -927,7 +928,7 @@ namespace БД_НТИ
                                         // обновить запись в таблице values_experiment
                                         //NpgsqlCommand com_add1 = new NpgsqlCommand($"UPDATE main_block.\"Values_experiment\" SET value_number = {par.DB_value()},date = CURRENT_TIMESTAMP WHERE \"id_obr0/rez1\" = 1 and \"Id_m_c\" = (select \"Id_m_c\" from main_block.\"Mode_cros_section\" where \"Id_mode\" =  {rezh.BD_num} and \"id_cros_section\" = {id_cros_section} and \"Id_R_C\" ={Id_r_c}) and \"Id#\" = (select \"Id#\" from main_block.\"Parametrs_experiment\" where Id_data = 1 and \"Id_param\" = (select id_param from main_block.\"Parametrs\" where \"name_param\" = '{name}') and \"Id_R_C\" = { Id_r_c}) and id_traversing = 0; ", sqlconn);
                                         //com_add1.ExecuteNonQuery();
-                                        update_values_exp(1, rezh.BD_num, id_cros_section, Id_r_c, 1, name, 0, par.DB_value(), null);
+                                        DB_proc_func.update_values_exp(1, rezh.BD_num, id_cros_section, Id_r_c, 1, name, 0, par.DB_value(), null);
                                         par.mode = "old";
                                         break;
                                 }
@@ -956,14 +957,14 @@ namespace БД_НТИ
                                                     // добавить параметр в таблицу parametr experiment
                                                     //NpgsqlCommand com_add2 = new NpgsqlCommand($"INSERT INTO main_block.\"Parametrs_experiment\"(\"Id_R_C\", \"Id_param\", id_data) VALUES ({Id_r_c} , (select id_param from main_block.\"Parametrs\" where \"name_param\" = '{name}'),1); ", sqlconn);
                                                     //com_add2.ExecuteNonQuery();
-                                                    insert_parametrs_experiment(Id_r_c, name, 1);
+                                                    DB_proc_func.insert_parametrs_experiment(Id_r_c, name, 1);
                                                 }
                                             }
                                             // добавить строку в таблицу values_experiment
                                             //NpgsqlCommand com_add = new NpgsqlCommand($"INSERT INTO main_block.\"Values_experiment\"(\"id_obr0/rez1\", \"Id_m_c\", \"Id#\", id_traversing, value_number) VALUES (1,(select \"Id_m_c\" from main_block.\"Mode_cros_section\" where \"Id_mode\" = {rezh.BD_num} and id_cros_section = {id_cros_section} and \"Id_R_C\" = {Id_r_c}),(select \"Id#\" from main_block.\"Parametrs_experiment\" where Id_data = 1 and \"Id_param\" = (select id_param from main_block.\"Parametrs\" where \"name_param\" = '{name}') and \"Id_R_C\" = {Id_r_c}),{id_trav},{par.DB_value()}); ", sqlconn);
                                             //com_add.ExecuteNonQuery();
 
-                                            insert_values_exp(1, rezh.BD_num, id_cros_section, Id_r_c, 1, name, id_trav, par.DB_value(), null);
+                                            DB_proc_func.insert_values_exp(1, rezh.BD_num, id_cros_section, Id_r_c, 1, name, id_trav, par.DB_value(), null);
                                             par.mode = "old";
                                             break;
 
@@ -971,7 +972,7 @@ namespace БД_НТИ
                                             // обновить запись в таблице values_experiment
                                             //NpgsqlCommand com_add1 = new NpgsqlCommand($"UPDATE main_block.\"Values_experiment\" SET value_number = {par.DB_value()},date = CURRENT_TIMESTAMP WHERE \"id_obr0/rez1\" = 1 and \"Id_m_c\" = (select \"Id_m_c\" from main_block.\"Mode_cros_section\" where \"Id_mode\" =  {rezh.BD_num} and \"id_cros_section\" = {id_cros_section} and \"Id_R_C\" ={Id_r_c}) and \"Id#\" = (select \"Id#\" from main_block.\"Parametrs_experiment\" where Id_data = 1 and \"Id_param\" = (select id_param from main_block.\"Parametrs\" where \"name_param\" = '{name}') and \"Id_R_C\" = { Id_r_c}) and id_traversing = {id_trav}; ", sqlconn);
                                             //com_add1.ExecuteNonQuery();
-                                            update_values_exp(1, rezh.BD_num, id_cros_section, Id_r_c, 1, name, id_trav, par.DB_value(), null);
+                                            DB_proc_func.update_values_exp(1, rezh.BD_num, id_cros_section, Id_r_c, 1, name, id_trav, par.DB_value(), null);
                                             par.mode = "old";
                                             break;
                                     }
@@ -1000,14 +1001,14 @@ namespace БД_НТИ
                                                     // добавить параметр в таблицу parametr experiment
                                                     //NpgsqlCommand com_add2 = new NpgsqlCommand($"INSERT INTO main_block.\"Parametrs_experiment\"(\"Id_R_C\", \"Id_param\", id_data) VALUES ({Id_r_c} , (select id_param from main_block.\"Parametrs\" where \"name_param\" = '{name}'),1); ", sqlconn);
                                                     //com_add2.ExecuteNonQuery();
-                                                    insert_parametrs_experiment(Id_r_c, name, 1);
+                                                    DB_proc_func.insert_parametrs_experiment(Id_r_c, name, 1);
                                                 }
                                             }
                                             // добавить строку в таблицу values_experiment
                                             //NpgsqlCommand com_add = new NpgsqlCommand($"INSERT INTO main_block.\"Values_experiment\"(\"id_obr0/rez1\", \"Id_m_c\", \"Id#\", id_traversing, value_number) VALUES (1,(select \"Id_m_c\" from main_block.\"Mode_cros_section\" where \"Id_mode\" = {rezh.BD_num} and id_cros_section = {id_cros_section} and \"Id_R_C\" = {Id_r_c}),(select \"Id#\" from main_block.\"Parametrs_experiment\" where Id_data = 1 and \"Id_param\" = (select id_param from main_block.\"Parametrs\" where \"name_param\" = '{name}') and \"Id_R_C\" = {Id_r_c}),{id_trav},{par.DB_value()}); ", sqlconn);
                                             //com_add.ExecuteNonQuery();
 
-                                            insert_values_exp(1, rezh.BD_num, id_cros_section, Id_r_c, 1, name, id_trav, par.DB_value(), null);
+                                            DB_proc_func.insert_values_exp(1, rezh.BD_num, id_cros_section, Id_r_c, 1, name, id_trav, par.DB_value(), null);
                                             par.mode = "old";
                                             break;
 
@@ -1015,7 +1016,7 @@ namespace БД_НТИ
                                             // обновить запись в таблице values_experiment
                                             //NpgsqlCommand com_add1 = new NpgsqlCommand($"UPDATE main_block.\"Values_experiment\" SET value_number = {par.DB_value()},date = CURRENT_TIMESTAMP WHERE \"id_obr0/rez1\" = 1 and \"Id_m_c\" = (select \"Id_m_c\" from main_block.\"Mode_cros_section\" where \"Id_mode\" =  {rezh.BD_num} and \"id_cros_section\" = {id_cros_section} and \"Id_R_C\" ={Id_r_c}) and \"Id#\" = (select \"Id#\" from main_block.\"Parametrs_experiment\" where Id_data = 1 and \"Id_param\" = (select id_param from main_block.\"Parametrs\" where \"name_param\" = '{name}') and \"Id_R_C\" = { Id_r_c}) and id_traversing = {id_trav}; ", sqlconn);
                                             //com_add1.ExecuteNonQuery();
-                                            update_values_exp(1, rezh.BD_num, id_cros_section, Id_r_c, 1, name, id_trav, par.DB_value(), null);
+                                            DB_proc_func.update_values_exp(1, rezh.BD_num, id_cros_section, Id_r_c, 1, name, id_trav, par.DB_value(), null);
                                             par.mode = "old";
                                             break;
                                     }
@@ -1042,10 +1043,10 @@ namespace БД_НТИ
         }
     }
 
-    class DB_proc_func
+    static class DB_proc_func
     {
         //параметры процедуры по порядку: (обработка/результат), (режим), (сечение), (id_r_c_), (тип данных), (название параметра), (траверсирование), (значение), (строка)
-        public void insert_values_exp(int obr0_rez1_, int rezh_ , int sec_ , string id_r_c_, int id_data_, string par_name_ , int  traver_, string value_n_ , string value_s_)
+        static public void insert_values_exp(int obr0_rez1_, int rezh_ , int sec_ , string id_r_c_, int id_data_, string par_name_ , int  traver_, string value_n_ , string value_s_)
         {
             NpgsqlConnection sqlconn = new NpgsqlConnection(User.Connection_string);
             sqlconn.Open();
@@ -1058,7 +1059,7 @@ namespace БД_НТИ
             sqlconn.Close();
         }
 
-        public void update_values_exp(int obr0_rez1_, int rezh_, int sec_, string id_r_c_, int id_data_, string par_name_, int traver_, string value_n_, string value_s_)
+        static public void update_values_exp(int obr0_rez1_, int rezh_, int sec_, string id_r_c_, int id_data_, string par_name_, int traver_, string value_n_, string value_s_)
         {
             NpgsqlConnection sqlconn = new NpgsqlConnection(User.Connection_string);
             sqlconn.Open();
@@ -1071,7 +1072,7 @@ namespace БД_НТИ
             sqlconn.Close();
         }
 
-        public void insert_mode_cros_section(string id_r_c_, int rezh_, int sec_)
+        static public void insert_mode_cros_section(string id_r_c_, int rezh_, int sec_)
         {
             NpgsqlConnection sqlconn = new NpgsqlConnection(User.Connection_string);
             sqlconn.Open();
@@ -1089,7 +1090,7 @@ namespace БД_НТИ
             sqlconn.Close();
         }
 
-        public void insert_parametrs_experiment(string id_r_c_, string name_, int id_data_)
+        static public void insert_parametrs_experiment(string id_r_c_, string name_, int id_data_)
         {
             NpgsqlConnection sqlconn = new NpgsqlConnection(User.Connection_string);
             sqlconn.Open();
@@ -1100,11 +1101,9 @@ namespace БД_НТИ
             sqlconn.Close();
         }
 
-
-
     }
 
-    class Obrabotka_of_fiz_exp : DB_proc_func
+    class Obrabotka_of_fiz_exp
     {
         public ObservableCollection<num_rezh> rezh_num { get; set; }// список номеров режимов
         public ObservableCollection<parametr> sreda { get; set; }   // список значений параметра среда
@@ -1690,14 +1689,14 @@ namespace БД_НТИ
                         // добавить параметр среда в таблицу values_experiment
                         //NpgsqlCommand com_add = new NpgsqlCommand($"INSERT INTO main_block.\"Values_experiment\"(\"id_obr0/rez1\", \"Id_m_c\", \"Id#\", id_traversing, value_string) VALUES (0,(select \"Id_m_c\" from main_block.\"Mode_cros_section\" where \"Id_mode\" = {rezh.BD_num} and id_cros_section = 0 and \"Id_R_C\" = {Id_r_c}),(select \"Id#\" from main_block.\"Parametrs_experiment\" where Id_data = 3 and \"Id_param\" = (select id_param from main_block.\"Parametrs\" where \"name_param\" = 'Среда') and \"Id_R_C\" = {Id_r_c}),0,'{this.sreda[row_ind].DB_value()}'); ", sqlconn);
                         //com_add.ExecuteNonQuery();
-                        insert_values_exp(0, rezh.BD_num, 0, Id_r_c, 3, "Среда", 0, null, this.sreda[row_ind].DB_value());
+                        DB_proc_func.insert_values_exp(0, rezh.BD_num, 0, Id_r_c, 3, "Среда", 0, null, this.sreda[row_ind].DB_value());
                         this.sreda[row_ind].mode = "old";
                         break;
                     case "update":
                         // обновить параметр среда в таблице values_experiment
                         //NpgsqlCommand com_add1 = new NpgsqlCommand($"UPDATE main_block.\"Values_experiment\" SET value_string = '{this.sreda[row_ind].DB_value()}',date = CURRENT_TIMESTAMP WHERE \"id_obr0/rez1\" = 0 and \"Id_m_c\" = (select \"Id_m_c\" from main_block.\"Mode_cros_section\" where \"Id_mode\" =  {rezh.BD_num} and \"id_cros_section\" = 0 and \"Id_R_C\" ={Id_r_c}) and \"Id#\" = (select \"Id#\" from main_block.\"Parametrs_experiment\" where Id_data = 3 and \"Id_param\" = (select id_param from main_block.\"Parametrs\" where \"name_param\" = 'Среда') and \"Id_R_C\" = { Id_r_c}) and id_traversing = 0; ", sqlconn);
                         //com_add1.ExecuteNonQuery();
-                        update_values_exp(0, rezh.BD_num, 0, Id_r_c, 3, "Среда", 0, null, this.sreda[row_ind].DB_value());
+                        DB_proc_func.update_values_exp(0, rezh.BD_num, 0, Id_r_c, 3, "Среда", 0, null, this.sreda[row_ind].DB_value());
                         this.sreda[row_ind].mode = "old";
                         break;
                 }
@@ -1720,13 +1719,13 @@ namespace БД_НТИ
                                     // добавить параметр в таблицу parametr experiment
                                     //NpgsqlCommand com_add2 = new NpgsqlCommand($"INSERT INTO main_block.\"Parametrs_experiment\"(\"Id_R_C\", \"Id_param\", id_data) VALUES ({Id_r_c} , (select id_param from main_block.\"Parametrs\" where \"name_param\" = '{name}'),4); ", sqlconn);
                                     //com_add2.ExecuteNonQuery();
-                                    insert_parametrs_experiment(Id_r_c, name, 4);
+                                    DB_proc_func.insert_parametrs_experiment(Id_r_c, name, 4);
                                 }
                             }
                             // добавить строку в таблицу values_experiment
                             //NpgsqlCommand com_add = new NpgsqlCommand($"INSERT INTO main_block.\"Values_experiment\"(\"id_obr0/rez1\", \"Id_m_c\", \"Id#\", id_traversing, value_string) VALUES (0,(select \"Id_m_c\" from main_block.\"Mode_cros_section\" where \"Id_mode\" = {rezh.BD_num} and id_cros_section = 0 and \"Id_R_C\" = {Id_r_c}),(select \"Id#\" from main_block.\"Parametrs_experiment\" where Id_data = 4 and \"Id_param\" = (select id_param from main_block.\"Parametrs\" where \"name_param\" = '{name}') and \"Id_R_C\" = {Id_r_c}),0,'{rezh_par.function_value}'); ", sqlconn);
                             //com_add.ExecuteNonQuery();
-                            insert_values_exp(0, rezh.BD_num, 0, Id_r_c, 4, name, 0, null, rezh_par.function_value);
+                            DB_proc_func.insert_values_exp(0, rezh.BD_num, 0, Id_r_c, 4, name, 0, null, rezh_par.function_value);
                             rezh_par.mode = "old";
                             break;
 
@@ -1734,7 +1733,7 @@ namespace БД_НТИ
                             // обновить запись в таблице values_experiment
                             //NpgsqlCommand com_add1 = new NpgsqlCommand($"UPDATE main_block.\"Values_experiment\" SET value_string = '{rezh_par.function_value}',date = CURRENT_TIMESTAMP WHERE \"id_obr0/rez1\" = 0 and \"Id_m_c\" = (select \"Id_m_c\" from main_block.\"Mode_cros_section\" where \"Id_mode\" =  {rezh.BD_num} and \"id_cros_section\" = 0 and \"Id_R_C\" ={Id_r_c}) and \"Id#\" = (select \"Id#\" from main_block.\"Parametrs_experiment\" where Id_data = 4 and \"Id_param\" = (select id_param from main_block.\"Parametrs\" where \"name_param\" = '{name}') and \"Id_R_C\" = { Id_r_c}) and id_traversing = 0; ", sqlconn);
                             //com_add1.ExecuteNonQuery();
-                            update_values_exp(0, rezh.BD_num, 0, Id_r_c, 4, name, 0, null, rezh_par.function_value);
+                            DB_proc_func.update_values_exp(0, rezh.BD_num, 0, Id_r_c, 4, name, 0, null, rezh_par.function_value);
                             rezh_par.mode = "old";
                             break;
                     }
@@ -1758,13 +1757,13 @@ namespace БД_НТИ
                                     // добавить параметр в таблицу parametr experiment
                                     //NpgsqlCommand com_add2 = new NpgsqlCommand($"INSERT INTO main_block.\"Parametrs_experiment\"(\"Id_R_C\", \"Id_param\", id_data) VALUES ({Id_r_c} , (select id_param from main_block.\"Parametrs\" where \"name_param\" = '{name}'),4); ", sqlconn);
                                     //com_add2.ExecuteNonQuery();
-                                    insert_parametrs_experiment(Id_r_c,name,4);
+                                    DB_proc_func.insert_parametrs_experiment(Id_r_c,name,4);
                                 }
                             }
                             // добавить строку в таблицу values_experiment
                             //NpgsqlCommand com_add = new NpgsqlCommand($"INSERT INTO main_block.\"Values_experiment\"(\"id_obr0/rez1\", \"Id_m_c\", \"Id#\", id_traversing, value_string) VALUES (0,(select \"Id_m_c\" from main_block.\"Mode_cros_section\" where \"Id_mode\" = {rezh.BD_num} and id_cros_section = 0 and \"Id_R_C\" = {Id_r_c}),(select \"Id#\" from main_block.\"Parametrs_experiment\" where Id_data = 4 and \"Id_param\" = (select id_param from main_block.\"Parametrs\" where \"name_param\" = '{name}') and \"Id_R_C\" = {Id_r_c}),0,'{integr_par.function_value}'); ", sqlconn);
                             //com_add.ExecuteNonQuery();
-                            insert_values_exp(0, rezh.BD_num, 0, Id_r_c, 4, name, 0, null, integr_par.function_value);
+                            DB_proc_func.insert_values_exp(0, rezh.BD_num, 0, Id_r_c, 4, name, 0, null, integr_par.function_value);
                             integr_par.mode = "old";
                             break;
 
@@ -1772,7 +1771,7 @@ namespace БД_НТИ
                             // обновить запись в таблице values_experiment
                             NpgsqlCommand com_add1 = new NpgsqlCommand($"UPDATE main_block.\"Values_experiment\" SET value_string = '{integr_par.function_value}',date = CURRENT_TIMESTAMP WHERE \"id_obr0/rez1\" = 0 and \"Id_m_c\" = (select \"Id_m_c\" from main_block.\"Mode_cros_section\" where \"Id_mode\" =  {rezh.BD_num} and \"id_cros_section\" = 0 and \"Id_R_C\" ={Id_r_c}) and \"Id#\" = (select \"Id#\" from main_block.\"Parametrs_experiment\" where Id_data = 4 and \"Id_param\" = (select id_param from main_block.\"Parametrs\" where \"name_param\" = '{name}') and \"Id_R_C\" = { Id_r_c}) and id_traversing = 0; ", sqlconn);
                             com_add1.ExecuteNonQuery();
-                            update_values_exp(0, rezh.BD_num, 0, Id_r_c, 4, name, 0, null, integr_par.function_value);
+                            DB_proc_func.update_values_exp(0, rezh.BD_num, 0, Id_r_c, 4, name, 0, null, integr_par.function_value);
                             integr_par.mode = "old";
                             break;
                     }
@@ -1808,13 +1807,13 @@ namespace БД_НТИ
                                             // добавить параметр в таблицу parametr experiment
                                             //NpgsqlCommand com_add2 = new NpgsqlCommand($"INSERT INTO main_block.\"Parametrs_experiment\"(\"Id_R_C\", \"Id_param\", id_data) VALUES ({Id_r_c} , (select id_param from main_block.\"Parametrs\" where \"name_param\" = '{name}'),4); ", sqlconn);
                                             //com_add2.ExecuteNonQuery();
-                                            insert_parametrs_experiment(Id_r_c,name,4);
+                                            DB_proc_func.insert_parametrs_experiment(Id_r_c,name,4);
                                         }
                                     }
                                     // добавить строку в таблицу values_experiment
                                     //NpgsqlCommand com_add = new NpgsqlCommand($"INSERT INTO main_block.\"Values_experiment\"(\"id_obr0/rez1\", \"Id_m_c\", \"Id#\", id_traversing, value_string) VALUES (0,(select \"Id_m_c\" from main_block.\"Mode_cros_section\" where \"Id_mode\" = {rezh.BD_num} and id_cros_section = {id_cros_section} and \"Id_R_C\" = {Id_r_c}),(select \"Id#\" from main_block.\"Parametrs_experiment\" where Id_data = 4 and \"Id_param\" = (select id_param from main_block.\"Parametrs\" where \"name_param\" = '{name}') and \"Id_R_C\" = {Id_r_c}),0,'{par.function_value}'); ", sqlconn);
                                     //com_add.ExecuteNonQuery();
-                                    insert_values_exp(0, rezh.BD_num, id_cros_section, Id_r_c, 4, name, 0, null, par.function_value);
+                                    DB_proc_func.insert_values_exp(0, rezh.BD_num, id_cros_section, Id_r_c, 4, name, 0, null, par.function_value);
                                     par.mode = "old";
                                     break;
 
@@ -1822,7 +1821,7 @@ namespace БД_НТИ
                                     // обновить запись в таблице values_experiment
                                     //NpgsqlCommand com_add1 = new NpgsqlCommand($"UPDATE main_block.\"Values_experiment\" SET value_string = '{par.function_value}',date = CURRENT_TIMESTAMP WHERE \"id_obr0/rez1\" = 0 and \"Id_m_c\" = (select \"Id_m_c\" from main_block.\"Mode_cros_section\" where \"Id_mode\" =  {rezh.BD_num} and \"id_cros_section\" = {id_cros_section} and \"Id_R_C\" ={Id_r_c}) and \"Id#\" = (select \"Id#\" from main_block.\"Parametrs_experiment\" where Id_data = 4 and \"Id_param\" = (select id_param from main_block.\"Parametrs\" where \"name_param\" = '{name}') and \"Id_R_C\" = { Id_r_c}) and id_traversing = 0; ", sqlconn);
                                     //com_add1.ExecuteNonQuery();
-                                    update_values_exp(0, rezh.BD_num, id_cros_section, Id_r_c, 4, name, 0, null, par.function_value);
+                                    DB_proc_func.update_values_exp(0, rezh.BD_num, id_cros_section, Id_r_c, 4, name, 0, null, par.function_value);
                                     par.mode = "old";
                                     break;
                             }

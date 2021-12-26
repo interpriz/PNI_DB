@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Npgsql;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,7 +22,7 @@ namespace БД_НТИ
 
     public partial class Model_result : Page
     {
-        Experiment_add exp_wind = (Experiment_add)Application.Current.Windows.OfType<Window>().Where(x => x.Name == "Experiment_wind").FirstOrDefault();
+        Modeling_add model_wind = (Modeling_add)Application.Current.Windows.OfType<Window>().Where(x => x.Name == "Modeling_wind").FirstOrDefault();
         //public static int id_chan { get; set; }// номер выбранного канала
         public static bool save = true;//проверка сохранения перед добавлением результатов моделирования
 
@@ -41,10 +42,35 @@ namespace БД_НТИ
             //Data.current_realization = "1";
             //Data.current_channel = 1;
 
-            Data.modelling_results = new Results_of_modelling(false);
-            Data.modelling_results.add_rezhim();
-            Data.modelling_results.add_rezhim();
-            Data.modelling_results.add_rezhim();
+            String conn_str = User.Connection_string;       //строка подключения
+
+            NpgsqlConnection sqlconn = new NpgsqlConnection(conn_str);
+            sqlconn.Open();
+
+            //проверка на наличие результатов моделирования в БД
+            NpgsqlCommand comm_count = new NpgsqlCommand($"select count(\"Id_mode\") FROM main_block.\"Mode_setting_cros_section\" where \"Id_mode\"={Data.current_mode}", sqlconn);
+            string count = comm_count.ExecuteScalar().ToString();
+
+            Data.modelling_results = new Results_of_modelling(count != "0");
+
+            if(count == "0")
+            {
+                //проверка количества настроек
+
+                int count1 = model_wind.new_Model_settings.setting_Numbers.Count();
+                
+                for(int i = 1; i < count1; i++)
+                {
+                    Data.modelling_results.add_rezhim();
+                }
+            }
+           
+
+
+            sqlconn.Close();
+
+
+            
 
             datagrid0.ItemsSource = Data.modelling_results.rezh_num;
             datagrid1.ItemsSource = Data.modelling_results.sreda;

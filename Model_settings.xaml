@@ -231,12 +231,9 @@
                                 <DataGridTemplateColumn x:Name="userControlColumn" Header="Номер настройки">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <StackPanel Orientation="Horizontal" Height="{Binding RowHeight, ElementName=datagrid2}">
-                                                <Label Content="{Binding number}"/>
-                                                <Button Width="150" Height="50" Click="Button_Click" Tag ="{Binding header}">
-                                                    <TextBlock x:Name="butt_add_results" Text="Добавить результаты моделирования" TextWrapping="Wrap" FontSize="10"/>
-                                                </Button>
-                                                <CheckBox x:Name="check_del" />
+                                            <StackPanel Orientation="Horizontal" Height="{Binding RowHeight, ElementName=datagrid2}" HorizontalAlignment="Center">
+                                                <Label Content="{Binding number}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                                                <CheckBox x:Name="check_del" VerticalAlignment="Center" HorizontalAlignment="Right" />
                                             </StackPanel>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
