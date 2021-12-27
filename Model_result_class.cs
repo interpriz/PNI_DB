@@ -752,4 +752,508 @@ namespace БД_НТИ
             return true;
         }
     }
+
+    class Obrabotka_of_modelling : Obrabotka_of_fiz_exp
+    {
+       
+        public Obrabotka_of_modelling(ObservableCollection<num_rezh> rezh_num,
+            ObservableCollection<parametr> sreda,
+            parametrs rezh_par,
+            parametrs prochie_par,
+            parametrs integr_par,
+            ObservableCollection<section> sections)
+        {
+            this.rezh_num = rezh_num;
+            this.sreda = sreda;
+            this.rezh_par = rezh_par;
+            this.sections = sections;
+            this.integr_par = integr_par;
+        }
+
+        public Obrabotka_of_modelling(bool DB, int chan)// заполнение из БД
+        {
+            //if (DB)
+            //{
+            //    this.id_chan = chan;
+
+            //    String conn_str = User.Connection_string;       //строка подключения
+
+            //    ObservableCollection<num_rezh> rezh_num = new ObservableCollection<num_rezh>();
+
+            //    ObservableCollection<parametr> sreda = new ObservableCollection<parametr>();
+
+            //    parametrs rezh_par = new parametrs();
+
+            //    parametrs integr_par = new parametrs();
+
+            //    ObservableCollection<section> sections = new ObservableCollection<section>();
+
+            //    NpgsqlConnection sqlconn = new NpgsqlConnection(conn_str);
+            //    sqlconn.Open();
+
+            //    //заполнение и создание таблиц каналов из базы данных
+            //    NpgsqlCommand comm_main = new NpgsqlCommand($"select * from main_block.\"select_chan_results\"({Data.id_obj},{Data.current_realization},{this.id_chan},0);", sqlconn);
+            //    NpgsqlDataReader reader_main = comm_main.ExecuteReader();
+            //    while (reader_main.Read())
+            //    {
+            //        int rezhim = (int)reader_main[0];           //номер режима
+            //        int id_section = (int)reader_main[1];       //номер сечения
+            //        int id_traversing = (int)reader_main[2];    //номер траверсирования
+            //        int id_type = (int)reader_main[3];          // тип параметра (2-режимные 3-теплофизические 7,8-координаты)
+            //        string par_name = reader_main[4].ToString();//название параметра
+            //        int id_data = Convert.ToInt32(reader_main[9]);    //тип данных (1 - значение, 3 - строка, 4 -функция)
+            //                                                          //string value_str = reader_main[5].ToString();//строковое значение параметра (среда)
+            //                                                          //string value = Convert.ToDouble(reader_main[6]).ToString();//убираем лишние нули
+
+            //        parametr par = new parametr();
+            //        par.mode = "old";
+            //        par.id_traversing = id_traversing;
+            //        switch (id_data)
+            //        {
+            //            //значение
+            //            case 1:
+            //                par.value = Convert.ToDouble(reader_main[8].ToString().Replace('.', ',')).ToString();
+            //                break;
+            //            //строка
+            //            case 3:
+            //                par.value = reader_main[7].ToString();  //строковое значение параметра (среда)
+            //                break;
+            //            //функция
+            //            case 4:
+            //                par.function_value = reader_main[7].ToString();
+            //                // обработка функции
+
+            //                break;
+            //        }
+
+
+            //        if (rezh_num.Count < rezhim)
+            //        {
+            //            num_rezh rezh = new num_rezh() { BD_num = rezhim, visual_num = Convert.ToString(rezh_num.Count + 1), age = "old" };
+            //            rezh_num.Add(rezh);
+            //        }
+            //        if (rezh_num.Count == rezhim)
+            //        {
+            //            if (id_section == 0)
+            //            {
+            //                if (id_traversing == 0)
+            //                {
+            //                    parametrs parametrs = new parametrs();
+            //                    switch (id_type)
+            //                    {
+            //                        case 2:
+            //                            parametrs = rezh_par;
+            //                            break;
+            //                        case 3:
+            //                            if (par_name == "Среда") sreda.Add(par);
+            //                            break;
+            //                        case 8:
+            //                            parametrs = integr_par;
+            //                            break;
+            //                    }
+            //                    if (parametrs.column_headers.IndexOf(par_name) == -1) parametrs.column_headers.Add(par_name);
+            //                    if (parametrs.table.Count < rezh_num.Count)
+            //                    {
+            //                        ObservableCollection<parametr> cols = new ObservableCollection<parametr>() { par };
+            //                        row r = new row();
+            //                        r.cols = cols;
+            //                        r.rezh = rezhim;
+            //                        r.age = "old";
+            //                        parametrs.table.Add(r);
+            //                    }
+            //                    else
+            //                    {
+            //                        parametrs.table[rezh_num.Count - 1].cols.Add(par);
+            //                    }
+
+            //                }//нет траверсирования в 0ом сечении
+            //            }
+            //            else
+            //            {
+            //                if (id_traversing == 0)
+            //                {
+            //                    if (sections.Count < id_section)
+            //                    {
+            //                        section sec = new section(false, id_section, "old");
+            //                        sections.Add(sec);
+            //                    }
+            //                    if (sections[id_section - 1].pars.column_headers.IndexOf(par_name) == -1) sections[id_section - 1].pars.column_headers.Add(par_name);
+            //                    if (sections[id_section - 1].pars.table.Count < rezh_num.Count)
+            //                    {
+            //                        //ObservableCollection<parametr> cols = new ObservableCollection<parametr>() { par };
+            //                        row r = new row();
+            //                        r.cols.Add(par);
+            //                        r.rezh = rezhim;
+            //                        r.age = "old";
+            //                        sections[id_section - 1].pars.table.Add(r);
+            //                    }
+            //                    else
+            //                    {
+            //                        sections[id_section - 1].pars.table[rezh_num.Count - 1].cols.Add(par);
+            //                    }
+            //                }
+            //            }
+            //        }
+            //        //else
+            //        //{
+
+            //        //}
+            //    }
+            //    reader_main.Close();
+            //    sqlconn.Close();
+
+            //    //exp_results = new Results_of_fiz_exp(rezh_num, sreda, rezh_par, prochie_par, sections);
+
+            //    this.rezh_num = rezh_num;
+            //    this.sreda = sreda;
+            //    this.rezh_par = rezh_par;
+            //    this.integr_par = integr_par;
+            //    this.sections = sections;
+            //}
+        }
+
+        public Obrabotka_of_modelling(Construct constr, int chan) // создание заполненноей структтуры классов по параметрам конструктора
+        {
+            //this.id_chan = chan;
+
+            //ObservableCollection<num_rezh> rezh_num = new ObservableCollection<num_rezh>();
+            //num_rezh rezhim = new num_rezh() { BD_num = 1, visual_num = "1", age = "new" };
+            //rezh_num.Add(rezhim);
+
+            //ObservableCollection<parametr> sreda = new ObservableCollection<parametr>();
+            //parametr sreda1 = new parametr() { value = constr.sreda };
+            //sreda.Add(sreda1);
+
+            //parametrs rezh_par = new parametrs();
+            //ObservableCollection<string> rezh_headers = new ObservableCollection<string>();
+            //foreach (Rezh r6 in constr.rezh_obr_7)
+            //{
+            //    rezh_headers.Add(r6.rezh);
+            //}
+            //rezh_par.column_headers = rezh_headers;
+            //rezh_par.add_row();
+
+            //parametrs integr_par = new parametrs();
+            //ObservableCollection<string> integr_headers = new ObservableCollection<string>();
+            //foreach (Integr p in constr.integr_obr)
+            //{
+            //    integr_headers.Add(p.integr);
+            //}
+            //integr_par.column_headers = integr_headers;
+            //integr_par.add_row();
+
+            //ObservableCollection<section> sections = new ObservableCollection<section>();
+            //foreach (Obr_parametrs_sech_7 par in constr.obr_params_sech)
+            //{
+            //    int i = constr.obr_params_sech.IndexOf(par); // индекс сечения
+            //    int id_section = Convert.ToInt32(constr.sechen[i]);// номер сечения
+
+            //    ObservableCollection<string> parametrs = new ObservableCollection<string>();
+            //    foreach (Phys p in constr.obr_params_sech[i].phys_obr_7)
+            //    {
+            //        parametrs.Add(p.phys);
+            //    }
+
+            //    sections.Add(new section(id_section, parametrs, 1, "new"));
+            //}
+
+            //this.rezh_num = rezh_num;
+            //this.sreda = sreda;
+            //this.rezh_par = rezh_par;
+            //this.integr_par = integr_par;
+            //this.sections = sections;
+
+            //for (int i = 1; i < Convert.ToInt32(constr.rezh_count); i++)
+            //{
+            //    add_rezhim();
+            //}
+        }
+
+        public void update(Construct constr) // обновление структуры классов по параметрам конструктора
+        {
+            //foreach (parametr sred in this.sreda)
+            //{
+            //    if (sred.value != constr.sreda)
+            //    {
+            //        sred.mode = "update";
+            //        sred.value = constr.sreda;
+            //    }
+            //}
+
+            //List<string> rezh_par = new List<string>();
+            //foreach (Rezh r6 in constr.rezh_obr_7)
+            //{
+            //    if (this.rezh_par.column_headers.IndexOf(r6.rezh) == -1)
+            //    {
+            //        this.rezh_par.add_parametr(r6.rezh);
+            //    }
+            //    rezh_par.Add(r6.rezh);
+            //}
+            //for (int i = 0; i < this.rezh_par.column_headers.Count; i++)
+            //{
+            //    if (rezh_par.IndexOf(this.rezh_par.column_headers[i]) == -1)
+            //    {
+            //        this.rezh_par.delete_parametr(this.rezh_par.column_headers[i]);
+            //    }
+            //}
+
+            //List<string> integr_par = new List<string>();
+            //foreach (Integr p in constr.integr_obr)
+            //{
+            //    if (this.integr_par.column_headers.IndexOf(p.integr) == -1)
+            //    {
+            //        this.integr_par.add_parametr(p.integr);
+            //    }
+            //    integr_par.Add(p.integr);
+            //}
+            //for (int i = 0; i < this.integr_par.column_headers.Count; i++)
+            //{
+            //    if (integr_par.IndexOf(this.integr_par.column_headers[i]) == -1)
+            //    {
+            //        this.integr_par.delete_parametr(this.integr_par.column_headers[i]);
+            //    }
+            //}
+
+
+
+            //int col_sech = this.sections.Count;
+            //int new_col_sech = Convert.ToInt32(constr.count_sech);
+            //// добавление\удаление новых сечений
+            //if (new_col_sech - col_sech > 0)
+            //{
+            //    for (int i = col_sech; i < new_col_sech; i++)
+            //    {
+            //        int id_section = Convert.ToInt32(constr.sechen[i]);
+            //        ObservableCollection<string> parametrs = new ObservableCollection<string>();
+            //        foreach (Phys p in constr.obr_params_sech[i].phys_obr_7)
+            //        {
+            //            parametrs.Add(p.phys);
+            //        }
+            //        this.sections.Add(new section(id_section, parametrs, this.rezh_num.Count, "new"));
+            //    }
+            //}
+            //else
+            //{
+            //    for (int i = 0; i < (new_col_sech - col_sech) * -1; i++)
+            //    {
+            //        this.sections.RemoveAt(this.sections.Count - 1);
+            //    }
+            //}
+
+            //// обновление старых сечений
+            //foreach (section sec in this.sections)
+            //{
+            //    int sech_id = this.sections.IndexOf(sec);
+
+            //    List<string> phiz_par = new List<string>();
+            //    foreach (Phys p in constr.obr_params_sech[sech_id].phys_obr_7)
+            //    {
+            //        if (this.sections[sech_id].pars.column_headers.IndexOf(p.phys) == -1)
+            //        {
+            //            this.sections[sech_id].pars.add_parametr(p.phys);
+            //        }
+            //        phiz_par.Add(p.phys);
+            //    }
+            //    for (int i = 0; i < this.sections[sech_id].pars.column_headers.Count; i++)
+            //    {
+            //        if (phiz_par.IndexOf(this.sections[sech_id].pars.column_headers[i]) == -1)
+            //        {
+            //            this.sections[sech_id].pars.delete_parametr(this.sections[sech_id].pars.column_headers[i]);
+            //        }
+            //    }
+
+            //}
+
+            //// добавление новых режимов
+            //int col_rezh = this.rezh_num.Count;
+            //int new_col_rezh = Convert.ToInt32(constr.rezh_count);
+            //if (new_col_rezh > col_rezh)
+            //{
+            //    for (int i = 0; i < new_col_rezh - col_rezh; i++)
+            //    {
+            //        this.add_rezhim();
+            //    }
+            //}
+
+        }
+
+        // сохранение данных структуры классов в базе данных
+        public void save_in_DB(int chan)
+        {
+            //NpgsqlConnection sqlconn = new NpgsqlConnection(User.Connection_string);
+            //sqlconn.Open();
+
+
+            //NpgsqlCommand comm_id = new NpgsqlCommand($"select \"Id_R_C\" from main_block.\"Realization_channel\" where \"Id$\" = {Data.id_obj} and \"Realization\" = {Data.current_realization} and \"Channel\" = {chan}", sqlconn);
+            //string Id_r_c = comm_id.ExecuteScalar().ToString();
+
+            //foreach (num_rezh rezh in this.rezh_num)
+            //{
+            //    int row_ind = this.rezh_num.IndexOf(rezh); // индекс режима (индекс большой строки в таблице)
+            //    //if (rezh.age == "new")
+            //    //{
+            //    //    //добавить в mode_cros_section запись c сечением 0 mode
+            //    //    //NpgsqlCommand com_add = new NpgsqlCommand($"INSERT INTO main_block.\"Mode_cros_section\" (\"Id_R_C\", \"Id_mode\", id_cros_section) VALUES( {Id_r_c},{rezh.BD_num},0); ", sqlconn);
+            //    //    //com_add.ExecuteNonQuery();
+            //    //    rezh.age = "old";
+            //    //    if (rezh.visual_num == "1")
+            //    //    {
+            //    //        //добавить параметр среда в таблицу parametrs_experiment
+            //    //        NpgsqlCommand com_add1 = new NpgsqlCommand($"INSERT INTO main_block.\"Parametrs_experiment\"(\"Id_R_C\", \"Id_param\", id_data) VALUES ({Id_r_c} , (select id_param from main_block.\"Parametrs\" where \"name_param\" = 'Среда'),3); ", sqlconn);
+            //    //        com_add1.ExecuteNonQuery();
+            //    //    }
+
+            //    //}
+
+            //    switch (this.sreda[row_ind].mode)
+            //    {
+            //        case "new":
+            //            // добавить параметр среда в таблицу values_experiment
+            //            //NpgsqlCommand com_add = new NpgsqlCommand($"INSERT INTO main_block.\"Values_experiment\"(\"id_obr0/rez1\", \"Id_m_c\", \"Id#\", id_traversing, value_string) VALUES (0,(select \"Id_m_c\" from main_block.\"Mode_cros_section\" where \"Id_mode\" = {rezh.BD_num} and id_cros_section = 0 and \"Id_R_C\" = {Id_r_c}),(select \"Id#\" from main_block.\"Parametrs_experiment\" where Id_data = 3 and \"Id_param\" = (select id_param from main_block.\"Parametrs\" where \"name_param\" = 'Среда') and \"Id_R_C\" = {Id_r_c}),0,'{this.sreda[row_ind].DB_value()}'); ", sqlconn);
+            //            //com_add.ExecuteNonQuery();
+            //            DB_proc_func.insert_values_exp(0, rezh.BD_num, 0, Id_r_c, 3, "Среда", 0, null, this.sreda[row_ind].DB_value());
+            //            this.sreda[row_ind].mode = "old";
+            //            break;
+            //        case "update":
+            //            // обновить параметр среда в таблице values_experiment
+            //            //NpgsqlCommand com_add1 = new NpgsqlCommand($"UPDATE main_block.\"Values_experiment\" SET value_string = '{this.sreda[row_ind].DB_value()}',date = CURRENT_TIMESTAMP WHERE \"id_obr0/rez1\" = 0 and \"Id_m_c\" = (select \"Id_m_c\" from main_block.\"Mode_cros_section\" where \"Id_mode\" =  {rezh.BD_num} and \"id_cros_section\" = 0 and \"Id_R_C\" ={Id_r_c}) and \"Id#\" = (select \"Id#\" from main_block.\"Parametrs_experiment\" where Id_data = 3 and \"Id_param\" = (select id_param from main_block.\"Parametrs\" where \"name_param\" = 'Среда') and \"Id_R_C\" = { Id_r_c}) and id_traversing = 0; ", sqlconn);
+            //            //com_add1.ExecuteNonQuery();
+            //            DB_proc_func.update_values_exp(0, rezh.BD_num, 0, Id_r_c, 3, "Среда", 0, null, this.sreda[row_ind].DB_value());
+            //            this.sreda[row_ind].mode = "old";
+            //            break;
+            //    }
+
+
+            //    int id_par = 0;// номер параметра в списке заголовков(и не только)
+            //    foreach (parametr rezh_par in this.rezh_par.table[row_ind].cols)
+            //    {
+            //        string name = this.rezh_par.column_headers[id_par];// название параметра
+
+            //        switch (rezh_par.mode)
+            //        {
+            //            case "new":
+            //                if (row_ind == 0)
+            //                {
+            //                    NpgsqlCommand comm = new NpgsqlCommand($"select count(\"Id#\") from main_block.\"Parametrs_experiment\" where \"Id_R_C\" ={Id_r_c} and Id_data = 4 and \"Id_param\" = (select id_param from main_block.\"Parametrs\" where \"name_param\" = '{name}')", sqlconn);
+            //                    string Id_pe = comm.ExecuteScalar().ToString();//Id#
+            //                    if (Id_pe == "0")
+            //                    {
+            //                        // добавить параметр в таблицу parametr experiment
+            //                        //NpgsqlCommand com_add2 = new NpgsqlCommand($"INSERT INTO main_block.\"Parametrs_experiment\"(\"Id_R_C\", \"Id_param\", id_data) VALUES ({Id_r_c} , (select id_param from main_block.\"Parametrs\" where \"name_param\" = '{name}'),4); ", sqlconn);
+            //                        //com_add2.ExecuteNonQuery();
+            //                        DB_proc_func.insert_parametrs_experiment(Id_r_c, name, 4);
+            //                    }
+            //                }
+            //                // добавить строку в таблицу values_experiment
+            //                //NpgsqlCommand com_add = new NpgsqlCommand($"INSERT INTO main_block.\"Values_experiment\"(\"id_obr0/rez1\", \"Id_m_c\", \"Id#\", id_traversing, value_string) VALUES (0,(select \"Id_m_c\" from main_block.\"Mode_cros_section\" where \"Id_mode\" = {rezh.BD_num} and id_cros_section = 0 and \"Id_R_C\" = {Id_r_c}),(select \"Id#\" from main_block.\"Parametrs_experiment\" where Id_data = 4 and \"Id_param\" = (select id_param from main_block.\"Parametrs\" where \"name_param\" = '{name}') and \"Id_R_C\" = {Id_r_c}),0,'{rezh_par.function_value}'); ", sqlconn);
+            //                //com_add.ExecuteNonQuery();
+            //                DB_proc_func.insert_values_exp(0, rezh.BD_num, 0, Id_r_c, 4, name, 0, null, rezh_par.function_value);
+            //                rezh_par.mode = "old";
+            //                break;
+
+            //            case "update":
+            //                // обновить запись в таблице values_experiment
+            //                //NpgsqlCommand com_add1 = new NpgsqlCommand($"UPDATE main_block.\"Values_experiment\" SET value_string = '{rezh_par.function_value}',date = CURRENT_TIMESTAMP WHERE \"id_obr0/rez1\" = 0 and \"Id_m_c\" = (select \"Id_m_c\" from main_block.\"Mode_cros_section\" where \"Id_mode\" =  {rezh.BD_num} and \"id_cros_section\" = 0 and \"Id_R_C\" ={Id_r_c}) and \"Id#\" = (select \"Id#\" from main_block.\"Parametrs_experiment\" where Id_data = 4 and \"Id_param\" = (select id_param from main_block.\"Parametrs\" where \"name_param\" = '{name}') and \"Id_R_C\" = { Id_r_c}) and id_traversing = 0; ", sqlconn);
+            //                //com_add1.ExecuteNonQuery();
+            //                DB_proc_func.update_values_exp(0, rezh.BD_num, 0, Id_r_c, 4, name, 0, null, rezh_par.function_value);
+            //                rezh_par.mode = "old";
+            //                break;
+            //        }
+            //        id_par++;
+            //    }
+
+            //    id_par = 0;// номер параметра в списке заголовков(и не только)
+            //    foreach (parametr integr_par in this.integr_par.table[row_ind].cols)
+            //    {
+            //        string name = this.integr_par.column_headers[id_par];// название параметра
+
+            //        switch (integr_par.mode)
+            //        {
+            //            case "new":
+            //                if (row_ind == 0)
+            //                {
+            //                    NpgsqlCommand comm = new NpgsqlCommand($"select count(\"Id#\") from main_block.\"Parametrs_experiment\" where \"Id_R_C\" ={Id_r_c} and Id_data = 4 and \"Id_param\" = (select id_param from main_block.\"Parametrs\" where \"name_param\" = '{name}')", sqlconn);
+            //                    string Id_pe = comm.ExecuteScalar().ToString();//Id#
+            //                    if (Id_pe == "0")
+            //                    {
+            //                        // добавить параметр в таблицу parametr experiment
+            //                        //NpgsqlCommand com_add2 = new NpgsqlCommand($"INSERT INTO main_block.\"Parametrs_experiment\"(\"Id_R_C\", \"Id_param\", id_data) VALUES ({Id_r_c} , (select id_param from main_block.\"Parametrs\" where \"name_param\" = '{name}'),4); ", sqlconn);
+            //                        //com_add2.ExecuteNonQuery();
+            //                        DB_proc_func.insert_parametrs_experiment(Id_r_c, name, 4);
+            //                    }
+            //                }
+            //                // добавить строку в таблицу values_experiment
+            //                //NpgsqlCommand com_add = new NpgsqlCommand($"INSERT INTO main_block.\"Values_experiment\"(\"id_obr0/rez1\", \"Id_m_c\", \"Id#\", id_traversing, value_string) VALUES (0,(select \"Id_m_c\" from main_block.\"Mode_cros_section\" where \"Id_mode\" = {rezh.BD_num} and id_cros_section = 0 and \"Id_R_C\" = {Id_r_c}),(select \"Id#\" from main_block.\"Parametrs_experiment\" where Id_data = 4 and \"Id_param\" = (select id_param from main_block.\"Parametrs\" where \"name_param\" = '{name}') and \"Id_R_C\" = {Id_r_c}),0,'{integr_par.function_value}'); ", sqlconn);
+            //                //com_add.ExecuteNonQuery();
+            //                DB_proc_func.insert_values_exp(0, rezh.BD_num, 0, Id_r_c, 4, name, 0, null, integr_par.function_value);
+            //                integr_par.mode = "old";
+            //                break;
+
+            //            case "update":
+            //                // обновить запись в таблице values_experiment
+            //                NpgsqlCommand com_add1 = new NpgsqlCommand($"UPDATE main_block.\"Values_experiment\" SET value_string = '{integr_par.function_value}',date = CURRENT_TIMESTAMP WHERE \"id_obr0/rez1\" = 0 and \"Id_m_c\" = (select \"Id_m_c\" from main_block.\"Mode_cros_section\" where \"Id_mode\" =  {rezh.BD_num} and \"id_cros_section\" = 0 and \"Id_R_C\" ={Id_r_c}) and \"Id#\" = (select \"Id#\" from main_block.\"Parametrs_experiment\" where Id_data = 4 and \"Id_param\" = (select id_param from main_block.\"Parametrs\" where \"name_param\" = '{name}') and \"Id_R_C\" = { Id_r_c}) and id_traversing = 0; ", sqlconn);
+            //                com_add1.ExecuteNonQuery();
+            //                DB_proc_func.update_values_exp(0, rezh.BD_num, 0, Id_r_c, 4, name, 0, null, integr_par.function_value);
+            //                integr_par.mode = "old";
+            //                break;
+            //        }
+            //        id_par++;
+            //    }
+
+            //    int id_cros_section = 1; // индекс ceчения (1, 2, 3 ...)
+            //    foreach (section sec in this.sections)
+            //    {
+            //        if (sec.age == "new")
+            //        {
+            //            // добавить запись в таблицу mode_cros_section
+            //            //NpgsqlCommand com_add = new NpgsqlCommand($"INSERT INTO main_block.\"Mode_cros_section\" (\"Id_R_C\", \"Id_mode\", id_cros_section) VALUES( {Id_r_c},{rezh.BD_num},{id_cros_section}); ", sqlconn);
+            //            //com_add.ExecuteNonQuery();
+            //            if (rezh.visual_num == this.rezh_num.Count.ToString())
+            //                sec.age = "old";
+            //        }
+            //        if (sec.pars != null)
+            //        {
+            //            id_par = 0;// номер параметра в списке заголовков(и не только)
+            //            foreach (parametr par in sec.pars.table[row_ind].cols)
+            //            {
+            //                string name = sec.pars.column_headers[id_par];// название параметра
+            //                switch (par.mode)
+            //                {
+            //                    case "new":
+            //                        if (row_ind == 0)
+            //                        {
+            //                            NpgsqlCommand comm = new NpgsqlCommand($"select count(\"Id#\") from main_block.\"Parametrs_experiment\" where \"Id_R_C\" ={Id_r_c} and Id_data = 4 and \"Id_param\" = (select id_param from main_block.\"Parametrs\" where \"name_param\" = '{name}')", sqlconn);
+            //                            string Id_pe = comm.ExecuteScalar().ToString();//Id#
+            //                            if (Id_pe == "0")
+            //                            {
+            //                                // добавить параметр в таблицу parametr experiment
+            //                                //NpgsqlCommand com_add2 = new NpgsqlCommand($"INSERT INTO main_block.\"Parametrs_experiment\"(\"Id_R_C\", \"Id_param\", id_data) VALUES ({Id_r_c} , (select id_param from main_block.\"Parametrs\" where \"name_param\" = '{name}'),4); ", sqlconn);
+            //                                //com_add2.ExecuteNonQuery();
+            //                                DB_proc_func.insert_parametrs_experiment(Id_r_c, name, 4);
+            //                            }
+            //                        }
+            //                        // добавить строку в таблицу values_experiment
+            //                        //NpgsqlCommand com_add = new NpgsqlCommand($"INSERT INTO main_block.\"Values_experiment\"(\"id_obr0/rez1\", \"Id_m_c\", \"Id#\", id_traversing, value_string) VALUES (0,(select \"Id_m_c\" from main_block.\"Mode_cros_section\" where \"Id_mode\" = {rezh.BD_num} and id_cros_section = {id_cros_section} and \"Id_R_C\" = {Id_r_c}),(select \"Id#\" from main_block.\"Parametrs_experiment\" where Id_data = 4 and \"Id_param\" = (select id_param from main_block.\"Parametrs\" where \"name_param\" = '{name}') and \"Id_R_C\" = {Id_r_c}),0,'{par.function_value}'); ", sqlconn);
+            //                        //com_add.ExecuteNonQuery();
+            //                        DB_proc_func.insert_values_exp(0, rezh.BD_num, id_cros_section, Id_r_c, 4, name, 0, null, par.function_value);
+            //                        par.mode = "old";
+            //                        break;
+
+            //                    case "update":
+            //                        // обновить запись в таблице values_experiment
+            //                        //NpgsqlCommand com_add1 = new NpgsqlCommand($"UPDATE main_block.\"Values_experiment\" SET value_string = '{par.function_value}',date = CURRENT_TIMESTAMP WHERE \"id_obr0/rez1\" = 0 and \"Id_m_c\" = (select \"Id_m_c\" from main_block.\"Mode_cros_section\" where \"Id_mode\" =  {rezh.BD_num} and \"id_cros_section\" = {id_cros_section} and \"Id_R_C\" ={Id_r_c}) and \"Id#\" = (select \"Id#\" from main_block.\"Parametrs_experiment\" where Id_data = 4 and \"Id_param\" = (select id_param from main_block.\"Parametrs\" where \"name_param\" = '{name}') and \"Id_R_C\" = { Id_r_c}) and id_traversing = 0; ", sqlconn);
+            //                        //com_add1.ExecuteNonQuery();
+            //                        DB_proc_func.update_values_exp(0, rezh.BD_num, id_cros_section, Id_r_c, 4, name, 0, null, par.function_value);
+            //                        par.mode = "old";
+            //                        break;
+            //                }
+            //                id_par++;
+            //            }
+            //        }
+            //        id_cros_section++;
+            //    }
+            //}
+            //sqlconn.Close();
+        }
+    }
 }

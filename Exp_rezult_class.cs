@@ -1114,6 +1114,7 @@ namespace БД_НТИ
 
         public int id_chan { get; set; }                            // номер канала
 
+        public Obrabotka_of_fiz_exp() { }
 
         public Obrabotka_of_fiz_exp(ObservableCollection<num_rezh> rezh_num,
             ObservableCollection<parametr> sreda,
