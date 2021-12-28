@@ -50,7 +50,7 @@ namespace БД_НТИ
             NpgsqlCommand comm_count = new NpgsqlCommand($"select count(\"Id_mode\") FROM main_block.\"Mode_setting_cros_section\" where \"Id_mode\"={Data.current_mode}", sqlconn);
             string count = comm_count.ExecuteScalar().ToString();
 
-            Data.modelling_results = new Results_of_modelling(count != "0");
+            Data.modeling_results = new Results_of_modeling(count != "0");
 
             //проверка количества настроек
             int count1 = exp_wind_search.new_Model_settings_view.setting_Numbers.Count();
@@ -59,14 +59,14 @@ namespace БД_НТИ
             {
                 for (int i = 1; i < count1; i++)
                 {
-                    Data.modelling_results.add_rezhim();
+                    Data.modeling_results.add_rezhim();
                 }
             }
             else
             {
-                for (int i = Data.modelling_results.rezh_num.Count(); i < count1; i++)
+                for (int i = Data.modeling_results.rezh_num.Count(); i < count1; i++)
                 {
-                    Data.modelling_results.add_rezhim();
+                    Data.modeling_results.add_rezhim();
                 }
             }
 
@@ -77,16 +77,16 @@ namespace БД_НТИ
 
 
 
-            datagrid0.ItemsSource = Data.modelling_results.rezh_num;
-            datagrid1.ItemsSource = Data.modelling_results.sreda;
-            parametrs_table_build(datagrid2, Data.modelling_results.rezh_par);
-            parametrs_table_build(datagrid3, Data.modelling_results.prochie_par);
-            foreach (section sec in Data.modelling_results.sections)
+            datagrid0.ItemsSource = Data.modeling_results.rezh_num;
+            datagrid1.ItemsSource = Data.modeling_results.sreda;
+            parametrs_table_build(datagrid2, Data.modeling_results.rezh_par);
+            parametrs_table_build(datagrid3, Data.modeling_results.prochie_par);
+            foreach (section sec in Data.modeling_results.sections)
             {
-                section_table_build(sec, Data.modelling_results, sections_cols);
+                section_table_build(sec, Data.modeling_results, sections_cols);
             }
 
-            double row_height = Data.modelling_results.max_travers_points * 40 + 2;
+            double row_height = Data.modeling_results.max_travers_points * 40 + 2;
             datagrid0.RowHeight = row_height;
             datagrid1.RowHeight = row_height;
             datagrid2.RowHeight = row_height;

@@ -36,7 +36,9 @@ namespace БД_НТИ
 
         public static List<Obrabotka_of_fiz_exp> chans_obr { get; set; }
 
-        public static Results_of_modelling modelling_results { get; set; }
+        public static Results_of_modeling modeling_results { get; set; }
+
+        public static Obrabotka_of_modeling modeling_obrabotka { get; set; }
 
         public static string php_name { get; set; }//тип физического процесса
         public static string tpe_name { get; set; }//тип энергетического оборудования

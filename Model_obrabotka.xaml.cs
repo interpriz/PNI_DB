@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Npgsql;
 
 namespace БД_НТИ
 {
@@ -23,9 +24,192 @@ namespace БД_НТИ
     {
         //Experiment_add exp_wind = (Experiment_add)Application.Current.Windows.OfType<Window>().Where(x => x.Name == "Experiment_wind").FirstOrDefault();
         //int id_chan;
+        public Construct constr_model_obr = new Construct();
+        string conn_str = User.Connection_string;
+
+        int sech7 = 0;
+        bool is_obr_be = true;
+
+        ObservableCollection<Integr> integr_db = new ObservableCollection<Integr>();
+        ObservableCollection<Rezh> rezh_db = new ObservableCollection<Rezh>();
+        ObservableCollection<ObservableCollection<Phys>> phys_db = new ObservableCollection<ObservableCollection<Phys>>();
         public Model_obrabotka()
         {
+            Parametrs.update_parametrs();
             InitializeComponent();
+
+            Data.id_obj = "6";
+            Data.current_mode = 1;
+            Data.current_realization = "1";
+            Data.current_channel = 1;
+
+            Data.modeling_obrabotka = new Obrabotka_of_modeling(true);
+
+            //Data.modeling_obrabotka.integr_par.column_headers;
+
+            //Data.modeling_obrabotka.rezh_par.column_headers
+
+            //Data.modeling_obrabotka.sections.count
+
+            //Data.modeling_obrabotka.sections[0].pars.column_headers
+
+            constr_model_obr.integr_obr = new ObservableCollection<Integr>();
+            constr_model_obr.integr_all = new ObservableCollection<Integr>();
+            constr_model_obr.rezh_obr_7 = new ObservableCollection<Rezh>();
+            constr_model_obr.rezh_all_7 = new ObservableCollection<Rezh>();
+
+            constr_model_obr.obr_params_sech = new ObservableCollection<Obr_parametrs_sech_7>();
+
+            constr_model_obr.sechen = new ObservableCollection<string>();
+
+
+            NpgsqlConnection sqlconn = new NpgsqlConnection(conn_str);
+            sqlconn.Open();
+
+            constr_model_obr.count_sech = Data.modeling_results.sections.Count.ToString();
+
+            
+            if (Data.modeling_obrabotka.sections.Count == 0)    //есть ли данные об обработке в базе (минимум 1 сечение дб, если данные есть)
+            {
+                is_obr_be = false;
+            }
+            
+            if (is_obr_be)  //если в базе есть данные
+            {
+                for (int k = 0; k < Data.modeling_obrabotka.integr_par.column_headers.Count; k++)
+                {
+                    Integr integ_par = new Integr();
+                    integ_par.integr = Data.modeling_obrabotka.integr_par.column_headers[k];
+                    constr_model_obr.integr_obr.Add(integ_par);
+                    integr_db.Add(integ_par);
+                }
+
+                for (int k = 0; k < Data.modeling_obrabotka.rezh_par.column_headers.Count; k++)
+                {
+                    Rezh str = new Rezh();
+                    str.rezh = Data.modeling_obrabotka.rezh_par.column_headers[k];
+                    constr_model_obr.rezh_obr_7.Add(str);
+                    rezh_db.Add(str);
+                }
+            }
+            
+            
+            NpgsqlCommand comm_integ_7 = new NpgsqlCommand($"select * from main_block.select_parametrs('Интегральные характеристики физического процесса');", sqlconn);    //все интегральные параметры (пункт 7)
+            NpgsqlDataReader rdr_integ_7 = comm_integ_7.ExecuteReader();
+            Parametrs.integral_pars = new Dictionary<string, Param>();
+            while (rdr_integ_7.Read())
+            {
+                bool fl = true;
+                if (is_obr_be)
+                {
+                    for (int q = 0; q < constr_model_obr.integr_obr.Count; q++)
+                    {
+                        if (constr_model_obr.integr_obr[q].integr == rdr_integ_7[0].ToString())
+                        {
+                            fl = false;
+                            q = constr_model_obr.integr_obr.Count;
+                        }
+                    }
+                }
+
+                if (fl)
+                {
+                    Integr str = new Integr();
+                    str.integr = rdr_integ_7[0].ToString();
+                    constr_model_obr.integr_all.Add(str);
+                }
+                //Param p = new Param() { short_name = rdr_integ_7[1].ToString(), unit = rdr_integ_7[2].ToString() };
+                //Parametrs.integral_pars.Add(rdr_integ_7[0].ToString(), p);
+            }
+            rdr_integ_7.Close();
+
+            
+
+            NpgsqlCommand comm_rezh_7 = new NpgsqlCommand($"select * from main_block.select_parametrs('Режимные параметры');", sqlconn);    //все режимные параметры (пункт 7)
+            NpgsqlDataReader rdr_rezh_7 = comm_rezh_7.ExecuteReader();
+            while (rdr_rezh_7.Read())
+            {
+                bool fl = true;
+                if (is_obr_be)
+                {
+                    for (int q = 0; q < constr_model_obr.rezh_obr_7.Count; q++)
+                    {
+                        if (constr_model_obr.rezh_obr_7[q].rezh == rdr_rezh_7[0].ToString())
+                        {
+                            fl = false;
+                            q = constr_model_obr.rezh_obr_7.Count;
+                        }
+                    }
+                }
+                
+                if (fl)
+                {
+                    Rezh str = new Rezh();
+                    str.rezh = rdr_rezh_7[0].ToString();
+                    constr_model_obr.rezh_all_7.Add(str);
+                }
+
+            }
+            rdr_rezh_7.Close();
+
+            for (int i = 0; i < Convert.ToInt32(constr_model_obr.count_sech); i++)
+            {
+                constr_model_obr.sechen.Add($"{i+1}");
+
+                Obr_parametrs_sech_7 phys_pars = new Obr_parametrs_sech_7();
+                phys_pars.phys_obr_7 = new ObservableCollection<Phys>();
+                phys_pars.phys_all_7 = new ObservableCollection<Phys>();
+
+                if (is_obr_be)
+                {
+                    for (int k = 0; k < Data.modeling_obrabotka.sections[i].pars.column_headers.Count; k++)
+                    {
+                        Phys par = new Phys();
+                        par.phys = Data.modeling_obrabotka.integr_par.column_headers[k];
+                        phys_pars.phys_obr_7.Add(par);
+                    }
+                    phys_db.Add(phys_pars.phys_obr_7);
+                }
+
+                NpgsqlCommand comm_phys = new NpgsqlCommand($"select * from main_block.select_parametrs('Теплофизические параметры');", sqlconn);
+                NpgsqlDataReader rdr_phys = comm_phys.ExecuteReader();
+                while (rdr_phys.Read())
+                {
+                    if (rdr_phys[0].ToString() != "Среда")
+                    {
+                        bool fl = true;
+                        if (is_obr_be)
+                        {
+                            for (int q = 0; q < phys_pars.phys_obr_7.Count; q++)
+                            {
+                                if (rdr_phys[0].ToString() == phys_pars.phys_obr_7[q].phys)
+                                {
+                                    fl = false;
+                                    q = phys_pars.phys_obr_7.Count;
+                                }
+                            }
+                        }
+                           
+                        if (fl)
+                        {
+                            Phys str = new Phys();
+                            str.phys = rdr_phys[0].ToString();
+                            phys_pars.phys_all_7.Add(str);
+                        }
+                    }
+
+                }
+                rdr_phys.Close();
+
+                constr_model_obr.obr_params_sech.Add(phys_pars);
+            }
+
+
+
+            sqlconn.Close();
+
+            Dialog_construct.DataContext = constr_model_obr;
+
             Dialog_construct.IsOpen = true;
             //id_chan = chan;// индекс канала в списке данных обработки каналов
             //page_name.Text += chan + 1;
@@ -333,7 +517,16 @@ namespace БД_НТИ
 
         private void combox_7_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            if (combox_7.SelectedItem != null)
+            {
+                string comitem = combox_7.SelectedItem.ToString();
+                sech7 = Convert.ToInt32(comitem);
+                grid_7_phys.DataContext = constr_model_obr.obr_params_sech[sech7 - 1];
+            }
+            else
+            {
+                grid_7_phys.DataContext = null;
+            }
         }
 
         private void butt_phys_addnew_6_Click(object sender, RoutedEventArgs e)
@@ -343,12 +536,44 @@ namespace БД_НТИ
 
         private void butt_obr_phys_add_Click(object sender, RoutedEventArgs e)
         {
-
+            if (datagrid_obr_phys_all_7.SelectedItems.Count != 0)
+            {
+                for (int i = 0; i < datagrid_obr_phys_all_7.SelectedItems.Count; i++)
+                {
+                    Phys phys = datagrid_obr_phys_all_7.SelectedItems[i] as Phys;
+                    constr_model_obr.obr_params_sech[sech7 - 1].phys_all_7.Remove(phys);
+                    constr_model_obr.obr_params_sech[sech7 - 1].phys_obr_7.Add(phys);
+                }
+            }
         }
 
         private void butt_obr_phys_del_Click(object sender, RoutedEventArgs e)
         {
+            if (datagrid_obr_phys_sech_7.SelectedItems.Count != 0)
+            {
+                for (int i = 0; i < datagrid_obr_phys_sech_7.SelectedItems.Count; i++)
+                {
+                    Phys phys = datagrid_obr_phys_sech_7.SelectedItems[i] as Phys;
+                    bool fl = true;
+                    if (is_obr_be)
+                    {
+                        for (int j = 0; j < phys_db[sech7 - 1].Count; j++)
+                        {
+                            if (phys.phys == phys_db[sech7 - 1][j].phys)
+                            {
+                                fl = false;
+                                j = phys_db[sech7 - 1].Count;
+                            }
+                        }
+                    }
 
+                    if (fl)
+                    {
+                        constr_model_obr.obr_params_sech[sech7 - 1].phys_all_7.Add(phys);
+                        constr_model_obr.obr_params_sech[sech7 - 1].phys_obr_7.Remove(phys);
+                    }
+                }
+            }
         }
 
         private void butt_rezh_addnew_6_Click(object sender, RoutedEventArgs e)
@@ -358,12 +583,45 @@ namespace БД_НТИ
 
         private void butt_obr_rezh_add_7_Click(object sender, RoutedEventArgs e)
         {
-
+            if (datagrid_obr_rezh_all_7.SelectedItems.Count != 0)
+            {
+                for (int i = 0; i < datagrid_obr_rezh_all_7.SelectedItems.Count; i++)
+                {
+                    Rezh rezh = datagrid_obr_rezh_all_7.SelectedItems[i] as Rezh;
+                    constr_model_obr.rezh_all_7.Remove(rezh);
+                    constr_model_obr.rezh_obr_7.Add(rezh);
+                }
+            }
         }
 
         private void butt_obr_rezh_del_7_Click(object sender, RoutedEventArgs e)
         {
+            if (datagrid_obr_rezh_obr_7.SelectedItems.Count != 0)
+            {
+                for (int i = 0; i < datagrid_obr_rezh_obr_7.SelectedItems.Count; i++)
+                {
+                    Rezh rezh = datagrid_obr_rezh_obr_7.SelectedItems[i] as Rezh;
+                    bool fl = true;
+                    if (is_obr_be)
+                    {
+                        for (int j = 0; j < rezh_db.Count; j++)
+                        {
+                            if (rezh.rezh == rezh_db[j].rezh)
+                            {
+                                fl = false;
+                                j = rezh_db.Count;
+                            }
+                        }
+                    }
+                        
+                    if (fl)
+                    {
+                        constr_model_obr.rezh_all_7.Add(rezh);
+                        constr_model_obr.rezh_obr_7.Remove(rezh);
+                    }
 
+                }
+            }
         }
 
         private void butt_obr_int_addnew_Click(object sender, RoutedEventArgs e)
@@ -373,12 +631,45 @@ namespace БД_НТИ
 
         private void butt_obr_int_add_Click(object sender, RoutedEventArgs e)
         {
-
+            if (datagrid_obr_int_all.SelectedItems.Count != 0)
+            {
+                for (int i = 0; i < datagrid_obr_int_all.SelectedItems.Count; i++)
+                {
+                    Integr integ = datagrid_obr_int_all.SelectedItems[i] as Integr;
+                    constr_model_obr.integr_all.Remove(integ);
+                    constr_model_obr.integr_obr.Add(integ);
+                }
+            }
         }
 
         private void butt_obr_int_del_Click(object sender, RoutedEventArgs e)
         {
+            if (datagrid_obr_int_sech.SelectedItems.Count != 0)
+            {
+                for (int i = 0; i < datagrid_obr_int_sech.SelectedItems.Count; i++)
+                {
+                    Integr integ = datagrid_obr_int_sech.SelectedItems[i] as Integr;
+                    bool fl = true;
+                    if (is_obr_be)
+                    {
+                        for (int j = 0; j < integr_db.Count; j++)
+                        {
+                            if (integ.integr == integr_db[j].integr)
+                            {
+                                fl = false;
+                                j = integr_db.Count;
+                            }
+                        }
+                    }
+                    
+                    if (fl)
+                    {
+                        constr_model_obr.integr_all.Add(integ);
+                        constr_model_obr.integr_obr.Remove(integ);
+                    }
 
+                }
+            }
         }
     }
 }

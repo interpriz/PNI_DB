@@ -17,6 +17,7 @@
     <Page.Resources>
         <ResourceDictionary>
             <Style TargetType="{x:Type RadioButton}" BasedOn="{StaticResource MaterialDesignTabRadioButton}"/>
+            <SolidColorBrush x:Key="MaterialDesignSelection" Color="#FFB8ECFD" po:Freeze="True" />
             <Style x:Key="ScrollThumbs" TargetType="{x:Type Thumb}">
                 <Setter Property="Template">
                     <Setter.Value>
@@ -116,6 +117,7 @@
         </materialDesign:Card>
         <materialDesign:DialogHost Grid.Row="1" x:Name="Dialog_construct" OverlayBackground="#b8eeff" DialogClosing="Dialog_construct_DialogClosing">
             <materialDesign:DialogHost.DialogContent>
+                <Grid Background="LightCyan" Width="367" Height="410">
                 <StackPanel Grid.Column="2">
                     <TextBlock Text="Настройка обрабатываемых параметров в сечениях" 
                        TextWrapping="Wrap" HorizontalAlignment="Center" TextAlignment="Center" Margin="0,5"/>
@@ -273,6 +275,7 @@
                         </TabItem>
                     </dragablz:TabablzControl>
                 </StackPanel>
+                </Grid>
             </materialDesign:DialogHost.DialogContent>
             <Grid>
                 <Grid.RowDefinitions>
