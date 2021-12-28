@@ -118,7 +118,65 @@
         <materialDesign:DialogHost Grid.Row="1" x:Name="Dialog_construct" OverlayBackground="#b8eeff" DialogClosing="Dialog_construct_DialogClosing">
             <materialDesign:DialogHost.DialogContent>
                 <Grid Background="LightCyan" Width="367" Height="410">
-                <StackPanel Grid.Column="2">
+                    <materialDesign:DialogHost x:Name="dialog_add_param" OverlayBackground="#b8eeff">
+                        <materialDesign:DialogHost.DialogContent >
+                            <Grid Background="LightCyan">
+                                <StackPanel Orientation="Vertical" Margin="20">
+                                    <StackPanel Orientation="Horizontal" Margin="5">
+                                        <TextBlock Text="Название параметра" Width="150" Foreground="#FF000E99" VerticalAlignment="Center" />
+                                        <TextBox x:Name="txt_par_name"
+                                Width="150" Margin="5,0,0,0" 
+                                Foreground="#FF000E99" BorderBrush="#FF000E99" BorderThickness="1"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="5">
+                                        <TextBlock Text="Обозначение параметра" Width="150" Foreground="#FF000E99" VerticalAlignment="Center"/>
+                                        <TextBox x:Name="txt_par_symb"
+                                Width="150" Margin="5,0,0,0" 
+                                Foreground="#FF000E99" BorderBrush="#FF000E99" BorderThickness="1"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="5">
+                                        <TextBlock Text="Единицы измерения" Width="150" Foreground="#FF000E99" VerticalAlignment="Center"/>
+                                        <TextBox x:Name="txt_par_unit"
+                                Width="150" Margin="5,0,0,0" 
+                                Foreground="#FF000E99" BorderBrush="#FF000E99" BorderThickness="1"/>
+                                    </StackPanel>
+                                    <StackPanel
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Center" Margin="0,5,0,0">
+                                        <Button
+                            x:Name="Butt_OK"
+                            Style="{StaticResource MaterialDesignRaisedButton}"
+                            materialDesign:RippleAssist.Feedback="#FF86E2FD"
+                            Background="LightCyan" Foreground="#FF000E99" BorderBrush="#FF000E99" BorderThickness="1"
+                            IsDefault="True" Margin="0,8,25,0" Content="Добавить"
+                            HorizontalAlignment="Left" VerticalAlignment="Center" Click="Butt_OK_Click" >
+                                        </Button>
+                                        <Button
+                            Style="{StaticResource MaterialDesignRaisedButton}"
+                            materialDesign:RippleAssist.Feedback="#FF86E2FD"
+                            Background="LightCyan" Foreground="#FF000E99" BorderBrush="#FF000E99" BorderThickness="1"
+                            IsCancel="True" Margin="25,8,8,0" Content="Отменить"
+                            Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                        </Button>
+                                    </StackPanel>
+                                </StackPanel>
+                                <materialDesign:Snackbar x:Name="messbar_dialog" IsActive="False" Foreground="LightCyan" Width="320"  Background="#FF000E99">
+                                    <materialDesign:SnackbarMessage Margin="15,15,15,15" >
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,0,-5" >
+                                            <ScrollViewer Background="#FF000E99" BorderBrush="LightCyan" Foreground="LightCyan" Margin="0" CanContentScroll="True">
+                                                <TextBlock x:Name="messtxt_dialog" Width="210" TextWrapping="Wrap" ScrollViewer.CanContentScroll="True"/>
+                                            </ScrollViewer>
+                                            <Button Content="OK" x:Name="messbut_dialog" Margin="5,0,0,0" Width="55" 
+                                        Style="{DynamicResource MaterialDesignRaisedButton}" 
+                                        materialDesign:ShadowAssist.ShadowDepth="Depth3" 
+                                        Foreground="LightCyan" BorderBrush="LightCyan" Background="#FF000E99" VerticalAlignment="Top" Click="messbut_dialog_Click"/>
+                                        </StackPanel>
+                                    </materialDesign:SnackbarMessage>
+                                </materialDesign:Snackbar>
+                            </Grid>
+                        </materialDesign:DialogHost.DialogContent>
+
+                        <StackPanel Grid.Column="2">
                     <TextBlock Text="Настройка обрабатываемых параметров в сечениях" 
                        TextWrapping="Wrap" HorizontalAlignment="Center" TextAlignment="Center" Margin="0,5"/>
                     <dragablz:TabablzControl Height="360" Margin="10,0" Background="LightCyan" FixedHeaderCount="3">
@@ -275,6 +333,7 @@
                         </TabItem>
                     </dragablz:TabablzControl>
                 </StackPanel>
+                    </materialDesign:DialogHost>
                 </Grid>
             </materialDesign:DialogHost.DialogContent>
             <Grid>

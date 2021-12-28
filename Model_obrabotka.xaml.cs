@@ -531,7 +531,8 @@ namespace БД_НТИ
 
         private void butt_phys_addnew_6_Click(object sender, RoutedEventArgs e)
         {
-
+            dialog_add_param.Tag = "Теплофизические параметры";
+            dialog_add_param.IsOpen = true;
         }
 
         private void butt_obr_phys_add_Click(object sender, RoutedEventArgs e)
@@ -578,7 +579,8 @@ namespace БД_НТИ
 
         private void butt_rezh_addnew_6_Click(object sender, RoutedEventArgs e)
         {
-
+            dialog_add_param.Tag = "Режимные параметры";
+            dialog_add_param.IsOpen = true;
         }
 
         private void butt_obr_rezh_add_7_Click(object sender, RoutedEventArgs e)
@@ -626,7 +628,8 @@ namespace БД_НТИ
 
         private void butt_obr_int_addnew_Click(object sender, RoutedEventArgs e)
         {
-
+            dialog_add_param.Tag = "Интегральные характеристики физического процесса";
+            dialog_add_param.IsOpen = true;
         }
 
         private void butt_obr_int_add_Click(object sender, RoutedEventArgs e)
@@ -670,6 +673,82 @@ namespace БД_НТИ
 
                 }
             }
+        }
+
+        private void Butt_OK_Click(object sender, RoutedEventArgs e)
+        {
+            if (txt_par_name.Text == "" || txt_par_symb.Text == "" || txt_par_unit.Text == "")
+            {
+                messtxt.Text = "Не все поля заполнены!";
+                messbar.IsActive = true;
+                txt_par_name.IsEnabled = false;
+                txt_par_symb.IsEnabled = false;
+                txt_par_unit.IsEnabled = false;
+            }
+            else
+            {
+                string name = txt_par_name.Text;
+                string short_name = txt_par_symb.Text;
+                string unit = txt_par_unit.Text;
+                Parametrs.update_parametrs();
+                string check = Parametrs.check_new_param(name, short_name);
+                if (check == "")
+                {
+
+                    Parametrs.insert_parametr(dialog_add_param.Tag.ToString(), name, short_name, unit);
+                    switch (dialog_add_param.Tag)
+                    {
+                        case "Теплофизические параметры":
+                            Phys newparphys = new Phys();
+                            newparphys.phys = txt_par_name.Text;
+
+                            for (int i = 0; i < Data.constr.Count; i++)
+                            {
+                                constr_model_obr.obr_params_sech[i].phys_all_7.Add(newparphys);
+                            }
+                            break;
+
+                        case "Режимные параметры":
+                            Rezh newparrezh = new Rezh();
+                            newparrezh.rezh = txt_par_name.Text;
+                            constr_model_obr.rezh_all_7.Add(newparrezh);
+                            break;
+
+                        case "Интегральные характеристики физического процесса":
+                            Integr newparint = new Integr();
+                            newparint.integr = txt_par_name.Text;
+                            constr_model_obr.integr_all.Add(newparint);
+                            break;
+                    }
+
+
+                    dialog_add_param.IsOpen = false;
+                }
+                else
+                {
+                    if (check == name)
+                    {
+                        messtxt.Text = $"Параметр \"{name}\" уже есть в базе!";
+                        messbar.IsActive = true;
+                    }
+                    else
+                    {
+                        messtxt.Text = $"Обозначение \"{short_name}\" уже есть в базе!";
+                        messbar.IsActive = true;
+                    }
+                    txt_par_name.IsEnabled = false;
+                    txt_par_symb.IsEnabled = false;
+                    txt_par_unit.IsEnabled = false;
+                }
+            }
+        }
+
+        private void messbut_dialog_Click(object sender, RoutedEventArgs e)
+        {
+            messbar.IsActive = false;
+            txt_par_name.IsEnabled = true;
+            txt_par_symb.IsEnabled = true;
+            txt_par_unit.IsEnabled = true;
         }
     }
 }
