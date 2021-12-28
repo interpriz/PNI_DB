@@ -3,7 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      
+      xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       xmlns:po="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
       xmlns:local="clr-namespace:БД_НТИ"
@@ -114,121 +114,281 @@
                    Background="Transparent" Foreground="#000E99" FontSize="24" 
                    FontFamily="Comic Sans MS" VerticalAlignment="Center" Height="35" Margin="38,8,0,7" HorizontalAlignment="Left"/>
         </materialDesign:Card>
-        <Grid Grid.Row="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="391"/>
-                <RowDefinition Height="50"/>
-            </Grid.RowDefinitions>
-            <Grid Grid.Row="0" Margin="0,10,10,10" >
-                <ScrollViewer HorizontalScrollBarVisibility="Visible">
-                    <Grid >
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
+        <materialDesign:DialogHost Grid.Row="1" x:Name="Dialog_construct" OverlayBackground="#b8eeff" DialogClosing="Dialog_construct_DialogClosing">
+            <materialDesign:DialogHost.DialogContent>
+                <StackPanel Grid.Column="2">
+                    <TextBlock Text="Настройка обрабатываемых параметров в сечениях" 
+                       TextWrapping="Wrap" HorizontalAlignment="Center" TextAlignment="Center" Margin="0,5"/>
+                    <dragablz:TabablzControl Height="360" Margin="10,0" Background="LightCyan" FixedHeaderCount="3">
+                        <dragablz:TabablzControl.Resources>
+                            <ResourceDictionary>
+                                <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="#FFB8ECFD" po:Freeze="True" />
+                                <SolidColorBrush x:Key="PrimaryHueMidForegroundBrush" Color="#FF000E99" po:Freeze="True" />
+                                <SolidColorBrush x:Key="SecondaryAccentBrush" Color="#FF000E99" po:Freeze="True"/>
+                            </ResourceDictionary>
+                        </dragablz:TabablzControl.Resources>
+                        <TabItem Header="Физические">
+                            <StackPanel>
+                                <ComboBox x:Name="combox_7" HorizontalAlignment="Center" Width="120" Margin="0,10" BorderBrush="#FF000E99" 
+                                  materialDesign:HintAssist.Hint="Выбор сечения" Foreground="#FF000E99" ItemsSource="{Binding Path=sechen, Mode=TwoWay}" SelectionChanged="combox_7_SelectionChanged" >
+                                    <ComboBox.Resources>
+                                        <ResourceDictionary>
+                                            <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="#FF000E99" po:Freeze="True" />
+                                        </ResourceDictionary>
+                                    </ComboBox.Resources>
+                                </ComboBox>
+                                <Grid Height="289" x:Name="grid_7_phys">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="140"/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="140"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Grid.Column="0">
+                                        <DataGrid x:Name="datagrid_obr_phys_all_7" HorizontalScrollBarVisibility="Auto" FontSize="10" Height="210" 
+                                          HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" 
+                                          Margin="7,0,0,0" Width="133" BorderThickness="1" CanUserDeleteRows="False" CanUserAddRows="False" CanUserResizeColumns="False" 
+                                                  CanUserReorderColumns="False" CanUserResizeRows="False" CanUserSortColumns="False" AutoGenerateColumns="False"
+                                                  ItemsSource="{Binding Path=phys_all_7, Mode=TwoWay}">
+                                            <DataGrid.Columns>
+                                                <DataGridTextColumn IsReadOnly="True" Binding="{Binding Path=phys, Mode=TwoWay}">
+                                                    <DataGridTextColumn.Header>
+                                                        <TextBlock Text="Физические параметры" TextWrapping="Wrap" Width="75" TextAlignment="Center" HorizontalAlignment="Center" Margin="10,0,0,0"/>
+                                                    </DataGridTextColumn.Header>
+                                                </DataGridTextColumn>
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+                                        <Button x:Name="butt_obr_phys_addnew" Margin="17,10,16,0" HorizontalAlignment="Center" Height="37" Width="80" Click="butt_phys_addnew_6_Click">
+                                            <TextBlock Text="Добавить параметр" Width="50" TextWrapping="Wrap" TextAlignment="Center" FontSize="10" Height="30" />
+                                        </Button>
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,50">
+                                        <Button x:Name="butt_obr_phys_add" Content=">>" Margin="0,0,0,5" Padding="4" FontSize="11" Click="butt_obr_phys_add_Click"/>
+                                        <Button x:Name="butt_obr_phys_del" Content="&lt;&lt;" Margin="0,5,0,0" Padding="4" FontSize="11" Click="butt_obr_phys_del_Click"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="2">
+                                        <DataGrid x:Name="datagrid_obr_phys_sech_7" HorizontalScrollBarVisibility="Auto" Height="210" Margin="0,0,7,0" BorderThickness="1"
+                                                  CanUserDeleteRows="False" CanUserAddRows="False" CanUserResizeColumns="False" FontSize="10"
+                                                  CanUserReorderColumns="False" CanUserResizeRows="False" CanUserSortColumns="False" AutoGenerateColumns="False"
+                                                  ItemsSource="{Binding Path=phys_obr_7, Mode=TwoWay}">
+                                            <DataGrid.Columns>
+                                                <DataGridTextColumn IsReadOnly="True" Binding="{Binding Path=phys, Mode=TwoWay}">
+                                                    <DataGridTextColumn.Header>
+                                                        <TextBlock Text="Обрабатываемые параметры" TextWrapping="Wrap" Width="84" TextAlignment="Center" FontSize="10" Height="29" Margin="7,0,0,0"/>
+                                                    </DataGridTextColumn.Header>
+                                                </DataGridTextColumn>
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+                                    </StackPanel>
+                                </Grid>
 
-                        <Grid x:Name="main_table" Grid.Row="0" Grid.Column="0">
+                            </StackPanel>
+                        </TabItem>
+                        <TabItem Header="Режимные">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="140"/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="140"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <DataGrid x:Name="datagrid_obr_rezh_all_7" HorizontalScrollBarVisibility="Auto" FontSize="10" Height="235" Margin="7,20,0,0" BorderThickness="1"
+                                              CanUserDeleteRows="False" CanUserAddRows="False" CanUserResizeColumns="False" 
+                                                  CanUserReorderColumns="False" CanUserResizeRows="False" CanUserSortColumns="False" AutoGenerateColumns="False"
+                                              ItemsSource="{Binding Path=rezh_all_7, Mode=TwoWay}">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn IsReadOnly="True" Binding="{Binding Path=rezh, Mode=TwoWay}">
+                                                <DataGridTextColumn.Header>
+                                                    <TextBlock Text="Режимные параметры" TextWrapping="Wrap" Width="77" TextAlignment="Center" Margin="10,0,0,0"/>
+                                                </DataGridTextColumn.Header>
+                                            </DataGridTextColumn>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                    <Button x:Name="butt_obr_rezh_addnew" Margin="17,10,16,0" HorizontalAlignment="Center" Height="37" Width="80" Click="butt_rezh_addnew_6_Click">
+                                        <TextBlock Text="Добавить параметр" Width="50" TextWrapping="Wrap" TextAlignment="Center" FontSize="10" Height="30" />
+                                    </Button>
+                                </StackPanel>
+                                <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,50">
+                                    <Button x:Name="butt_obr_rezh_add_7" Content=">>" Margin="0,0,0,5" Padding="4" FontSize="11" Click="butt_obr_rezh_add_7_Click"/>
+                                    <Button x:Name="butt_obr_rezh_del_7" Content="&lt;&lt;" Margin="0,5,0,0" Padding="4" FontSize="11" Click="butt_obr_rezh_del_7_Click"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="2">
+                                    <DataGrid x:Name="datagrid_obr_rezh_obr_7" HorizontalScrollBarVisibility="Auto" Height="235" Margin="0,20,7,0" BorderThickness="1"
+                                              CanUserDeleteRows="False" CanUserAddRows="False" CanUserResizeColumns="False" FontSize="10"
+                                                  CanUserReorderColumns="False" CanUserResizeRows="False" CanUserSortColumns="False" AutoGenerateColumns="False"
+                                              ItemsSource="{Binding Path=rezh_obr_7, Mode=TwoWay}">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn IsReadOnly="True" Binding="{Binding Path=rezh, Mode=TwoWay}">
+                                                <DataGridTextColumn.Header>
+                                                    <TextBlock Text="Обрабатываемые параметры" TextWrapping="Wrap" Width="84" TextAlignment="Center" FontSize="10" Margin="7,0,0,0"/>
+                                                </DataGridTextColumn.Header>
+                                            </DataGridTextColumn>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </StackPanel>
+                            </Grid>
+                        </TabItem>
+                        <TabItem Header="Интегральные">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="140"/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="140"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <DataGrid x:Name="datagrid_obr_int_all" HorizontalScrollBarVisibility="Auto" FontSize="10" Height="235" Margin="7,20,0,0" BorderThickness="1"
+                                              CanUserDeleteRows="False" CanUserAddRows="False" CanUserResizeColumns="False" 
+                                              CanUserReorderColumns="False" CanUserResizeRows="False" CanUserSortColumns="False" AutoGenerateColumns="False"
+                                              ItemsSource="{Binding Path=integr_all, Mode=TwoWay}">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn IsReadOnly="True" Binding="{Binding Path=integr, Mode=TwoWay}">
+                                                <DataGridTextColumn.Header>
+                                                    <TextBlock Text="Интегральные характеристики" TextWrapping="Wrap" Width="77" TextAlignment="Center" Margin="10,0,0,0"/>
+                                                </DataGridTextColumn.Header>
+                                            </DataGridTextColumn>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                    <Button x:Name="butt_obr_int_addnew" Margin="17,10,16,0" HorizontalAlignment="Center" Height="37" Width="80" Click="butt_obr_int_addnew_Click">
+                                        <TextBlock Text="Добавить параметр" Width="50" TextWrapping="Wrap" TextAlignment="Center" FontSize="10" Height="30"/>
+                                    </Button>
+                                </StackPanel>
+                                <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,50">
+                                    <Button x:Name="butt_obr_int_add" Content=">>" Margin="0,0,0,5" Padding="4" FontSize="11" Click="butt_obr_int_add_Click"/>
+                                    <Button x:Name="butt_obr_int_del" Content="&lt;&lt;" Margin="0,5,0,0" Padding="4" FontSize="11" Click="butt_obr_int_del_Click"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="2">
+                                    <DataGrid x:Name="datagrid_obr_int_sech" HorizontalScrollBarVisibility="Auto" Height="235" Margin="0,20,7,0" BorderThickness="1"
+                                              CanUserDeleteRows="False" CanUserAddRows="False" CanUserResizeColumns="False" FontSize="10"
+                                              CanUserReorderColumns="False" CanUserResizeRows="False" CanUserSortColumns="False" AutoGenerateColumns="False"
+                                              ItemsSource="{Binding Path=integr_obr, Mode=TwoWay}">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn IsReadOnly="True" Binding="{Binding Path=integr, Mode=TwoWay}">
+                                                <DataGridTextColumn.Header>
+                                                    <TextBlock Text="Обрабатываемые характеристики" TextWrapping="Wrap" Width="85" TextAlignment="Center" FontSize="10" Margin="7,0,0,0"/>
+                                                </DataGridTextColumn.Header>
+                                            </DataGridTextColumn>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </StackPanel>
+                            </Grid>
+                        </TabItem>
+                    </dragablz:TabablzControl>
+                </StackPanel>
+            </materialDesign:DialogHost.DialogContent>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="391"/>
+                    <RowDefinition Height="50"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Margin="0,10,10,10" >
+                    <ScrollViewer HorizontalScrollBarVisibility="Visible">
+                        <Grid >
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition x:Name="rezh_num" Width="{Binding Width, ElementName=datagrid0}"/>
-                                <ColumnDefinition x:Name="sreda" Width="{Binding Width, ElementName=datagrid1}"/>
-                                <ColumnDefinition x:Name="rezh_par" Width="{Binding Width, ElementName=datagrid2}"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="40" />
-                                <RowDefinition Height="40" />
-                                <RowDefinition />
-                            </Grid.RowDefinitions>
-
-
-
-                            <DataGrid x:Name="datagrid0" Grid.Row="0" Grid.Column="0"  Grid.RowSpan="3" BorderBrush="Black" BorderThickness="1,1,1,1"  ColumnHeaderHeight="120" AutoGenerateColumns="False" CanUserAddRows="False" RowHeight="67" IsReadOnly="True" >
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Header="№Настройка" Binding="{Binding visual_num, Mode=TwoWay}" IsReadOnly="True">
-                                        <DataGridTextColumn.ElementStyle>
-                                            <Style TargetType="TextBlock">
-                                                <Setter Property="HorizontalAlignment" Value="Center" />
-                                                <Setter Property="VerticalAlignment" Value="Center" />
-                                            </Style>
-                                        </DataGridTextColumn.ElementStyle>
-                                    </DataGridTextColumn>
-                                </DataGrid.Columns>
-                            </DataGrid>
-                            <DataGrid x:Name="datagrid1" AutoGenerateColumns="False" Grid.Row="0" Grid.Column="1"  Grid.RowSpan="3" BorderBrush="Black" BorderThickness="1,1,1,1"  ColumnHeaderHeight="120" CanUserAddRows="False" RowHeight="67" IsReadOnly="True">
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Среда" Binding="{Binding value, Mode=TwoWay}">
-                                        <DataGridTextColumn.ElementStyle>
-                                            <Style TargetType="TextBlock">
-                                                <Setter Property="HorizontalAlignment" Value="Center" />
-                                                <Setter Property="VerticalAlignment" Value="Center" />
-                                            </Style>
-                                        </DataGridTextColumn.ElementStyle>
-                                    </DataGridTextColumn>
-                                </DataGrid.Columns>
-                            </DataGrid>
-
-                            <Border Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" BorderBrush="Black" BorderThickness="1" Height="80">
-                                <Label  Content="Режимные параметры" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
-                            </Border>
-
-
-
-                            <DataGrid x:Name="datagrid2" AutoGenerateColumns="False" Grid.Row="2" Grid.Column="2" BorderBrush="Black" BorderThickness="1" ScrollViewer.CanContentScroll="False" RowHeight="67" ColumnHeaderHeight="40" CanUserAddRows="False"/>
-
-                        </Grid>
-
-                        <Grid x:Name="sections_cols" Grid.Row="0" Grid.Column="1"  Grid.RowSpan="3">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="40" />
-                                <RowDefinition Height="40" />
-                                <RowDefinition />
-                            </Grid.RowDefinitions>
-                        </Grid>
-
-                        <Grid x:Name="integral_param" Grid.Row="0" Grid.Column="2"  Grid.RowSpan="3">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="40" />
-                                <RowDefinition Height="40" />
-                                <RowDefinition />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition x:Name="integral" Width="{Binding Width, ElementName=datagrid3}"/>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
                             </Grid.ColumnDefinitions>
 
-                            <Border Grid.Row="0" Grid.Column="3"  Grid.RowSpan="2" BorderBrush="Black" BorderThickness="1" Height="80">
-                                <TextBlock  Text="Интегральные характеристики физического процесса"  TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" Width="194" TextAlignment="Center" Height="36"/>
-                            </Border>
+                            <Grid x:Name="main_table" Grid.Row="0" Grid.Column="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition x:Name="rezh_num" Width="{Binding Width, ElementName=datagrid0}"/>
+                                    <ColumnDefinition x:Name="sreda" Width="{Binding Width, ElementName=datagrid1}"/>
+                                    <ColumnDefinition x:Name="rezh_par" Width="{Binding Width, ElementName=datagrid2}"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="40" />
+                                    <RowDefinition Height="40" />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
 
-                            <DataGrid x:Name="datagrid3" AutoGenerateColumns="False" Grid.Row="2" Grid.Column="3" BorderBrush="Black" BorderThickness="1" ScrollViewer.CanContentScroll="False" RowHeight="67" ColumnHeaderHeight="40" CanUserAddRows="False" />
 
+
+                                <DataGrid x:Name="datagrid0" Grid.Row="0" Grid.Column="0"  Grid.RowSpan="3" BorderBrush="Black" BorderThickness="1,1,1,1"  ColumnHeaderHeight="120" AutoGenerateColumns="False" CanUserAddRows="False" RowHeight="67" IsReadOnly="True" >
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="№Настройка" Binding="{Binding visual_num, Mode=TwoWay}" IsReadOnly="True">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="HorizontalAlignment" Value="Center" />
+                                                    <Setter Property="VerticalAlignment" Value="Center" />
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                                <DataGrid x:Name="datagrid1" AutoGenerateColumns="False" Grid.Row="0" Grid.Column="1"  Grid.RowSpan="3" BorderBrush="Black" BorderThickness="1,1,1,1"  ColumnHeaderHeight="120" CanUserAddRows="False" RowHeight="67" IsReadOnly="True">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Среда" Binding="{Binding value, Mode=TwoWay}">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="HorizontalAlignment" Value="Center" />
+                                                    <Setter Property="VerticalAlignment" Value="Center" />
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+
+                                <Border Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" BorderBrush="Black" BorderThickness="1" Height="80">
+                                    <Label  Content="Режимные параметры" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+                                </Border>
+
+
+
+                                <DataGrid x:Name="datagrid2" AutoGenerateColumns="False" Grid.Row="2" Grid.Column="2" BorderBrush="Black" BorderThickness="1" ScrollViewer.CanContentScroll="False" RowHeight="67" ColumnHeaderHeight="40" CanUserAddRows="False"/>
+
+                            </Grid>
+
+                            <Grid x:Name="sections_cols" Grid.Row="0" Grid.Column="1"  Grid.RowSpan="3">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="40" />
+                                    <RowDefinition Height="40" />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                            </Grid>
+
+                            <Grid x:Name="integral_param" Grid.Row="0" Grid.Column="2"  Grid.RowSpan="3">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="40" />
+                                    <RowDefinition Height="40" />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition x:Name="integral" Width="{Binding Width, ElementName=datagrid3}"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Border Grid.Row="0" Grid.Column="3"  Grid.RowSpan="2" BorderBrush="Black" BorderThickness="1" Height="80">
+                                    <TextBlock  Text="Интегральные характеристики физического процесса"  TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" Width="194" TextAlignment="Center" Height="36"/>
+                                </Border>
+
+                                <DataGrid x:Name="datagrid3" AutoGenerateColumns="False" Grid.Row="2" Grid.Column="3" BorderBrush="Black" BorderThickness="1" ScrollViewer.CanContentScroll="False" RowHeight="67" ColumnHeaderHeight="40" CanUserAddRows="False" />
+
+                            </Grid>
                         </Grid>
-                    </Grid>
 
 
-                </ScrollViewer>
-            </Grid>
+                    </ScrollViewer>
+                </Grid>
 
-            <StackPanel Grid.Row="1" Orientation="Horizontal">
-                <Button x:Name="batt_save"  
+                <StackPanel Grid.Row="1" Orientation="Horizontal">
+                    <Button x:Name="batt_save"  
                         VerticalAlignment="Center" HorizontalAlignment="Center" 
                         Style="{StaticResource MaterialDesignRaisedButton}"
                         materialDesign:RippleAssist.Feedback="#FF86E2FD"
                         Background="LightCyan" Foreground="#000E99" BorderBrush="#000E99" BorderThickness="1" 
                         Width="180" RenderTransformOrigin="3.173,12.625"  Height="38" Margin="50,2,0,10" Click="batt_save_Click">
-                    <TextBlock Text="Сохранить изменения" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"/>
-                </Button>
+                        <TextBlock Text="Сохранить изменения" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"/>
+                    </Button>
 
-                <Button x:Name="batt_"  
+                    <Button x:Name="batt_"  
                         VerticalAlignment="Center" HorizontalAlignment="Center" 
                         Style="{StaticResource MaterialDesignRaisedButton}"
                         materialDesign:RippleAssist.Feedback="#FF86E2FD"
                         Background="LightCyan" Foreground="#000E99" BorderBrush="#000E99" BorderThickness="1" 
                         Width="190" RenderTransformOrigin="3.173,12.625"  Height="38" Margin="630,2,0,10" >
-                    <TextBlock Text="Кнопка на всякий" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Width="155"/>
-                </Button>
-            </StackPanel>
-        </Grid>
-
+                        <TextBlock Text="Кнопка на всякий" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Width="155"/>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </materialDesign:DialogHost>
         <materialDesign:Snackbar x:Name="messbar" IsActive="False" Margin="210,0,256,-90" Grid.Row="2" Width="624" Background="#000175" Foreground="LightCyan">
             <materialDesign:SnackbarMessage Margin="15" Height="65">
                 <StackPanel Orientation="Horizontal" Margin="0,-15,0,-15">

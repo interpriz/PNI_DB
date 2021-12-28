@@ -26,6 +26,7 @@ namespace БД_НТИ
         public Model_obrabotka(int chan)
         {
             InitializeComponent();
+            Dialog_construct.IsOpen = true;
             //id_chan = chan;// индекс канала в списке данных обработки каналов
             //page_name.Text += chan + 1;
             //batt_.Visibility = Visibility.Hidden;
@@ -325,5 +326,59 @@ namespace БД_НТИ
             //newin1.ShowDialog();
         }
 
+        private void Dialog_construct_DialogClosing(object sender, MaterialDesignThemes.Wpf.DialogClosingEventArgs eventArgs)
+        {
+
+        }
+
+        private void combox_7_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void butt_phys_addnew_6_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void butt_obr_phys_add_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void butt_obr_phys_del_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void butt_rezh_addnew_6_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void butt_obr_rezh_add_7_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void butt_obr_rezh_del_7_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void butt_obr_int_addnew_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void butt_obr_int_add_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void butt_obr_int_del_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

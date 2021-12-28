@@ -206,9 +206,6 @@
     <Compile Include="Modeling_add.xaml.cs">
       <DependentUpon>Modeling_add.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Model_construct.xaml.cs">
-      <DependentUpon>Model_construct.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Model_obrabotka.xaml.cs">
       <DependentUpon>Model_obrabotka.xaml</DependentUpon>
     </Compile>
@@ -285,10 +282,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Modeling_add.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Model_construct.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
