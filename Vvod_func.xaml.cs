@@ -37,6 +37,8 @@ namespace БД_НТИ
 
         public static string name_par { get; set; }
 
+        public static string work_mode { get; set; }
+
         public Vvod_func()
         {
             InitializeComponent();
@@ -204,10 +206,21 @@ namespace БД_НТИ
                     if (check == "")
                     {
                         par.mode = "update";
-                        Experiment_add exp_wind = (Experiment_add)Application.Current.Windows.OfType<Window>().Where(x => x.Name == "Experiment_wind").FirstOrDefault();
-                        //Experiment_add exp_wind = (Experiment_add)Application.Current.Windows[4];
-                        exp_wind.item6.IsSelected = false;
-                        exp_wind.item6.IsSelected = true;
+                        switch (work_mode)
+                        {
+                            case "experiment":
+                                Experiment_add exp_wind = (Experiment_add)Application.Current.Windows.OfType<Window>().Where(x => x.Name == "Experiment_wind").FirstOrDefault();
+                                //Experiment_add exp_wind = (Experiment_add)Application.Current.Windows[4];
+                                exp_wind.item6.IsSelected = false;
+                                exp_wind.item6.IsSelected = true;
+                                break;
+
+                            case "modeling":
+                                Modeling_add modeling_wind = (Modeling_add)Application.Current.Windows.OfType<Window>().Where(x => x.Name == "Modeling_wind").FirstOrDefault();
+                                modeling_wind.new_Model_Obrabotka.update_table();
+                                break;
+                        }
+                        
                         this.Close();
                     }
                     else
@@ -247,9 +260,16 @@ namespace БД_НТИ
 
         private void Window_Closed(object sender, EventArgs e)
         {
+            switch (work_mode)
+            {
+                case "experiment":
+                    Application.Current.Windows.OfType<Window>().Where(x => x.Name == "Experiment_wind").FirstOrDefault().Show();
+                    break;
 
-            Application.Current.Windows.OfType<Window>().Where(x => x.Name == "Experiment_wind").FirstOrDefault().Show();
-
+                case "modeling":
+                    Application.Current.Windows.OfType<Window>().Where(x => x.Name == "Modeling_wind").FirstOrDefault().Show();
+                    break;
+            }
         }
 
         private void args_SelectionChanged(object sender, SelectionChangedEventArgs e)

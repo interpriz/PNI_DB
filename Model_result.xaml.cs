@@ -338,7 +338,7 @@ namespace БД_НТИ
 
         private void batt_save_Click(object sender, RoutedEventArgs e)// сохранение измнений в БД
         {
-            //if (Data.chans_results[id_chan].save_in_DB(id_chan + 1))
+            //if (Data.modeling_results.save_in_DB(id_chan + 1))
             //{
             //    //changes = 0;
             //    //batt_obr_rez.IsEnabled = true;

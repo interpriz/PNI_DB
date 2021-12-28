@@ -22,7 +22,7 @@ namespace БД_НТИ
     /// </summary>
     public partial class Model_obrabotka : Page
     {
-        //Experiment_add exp_wind = (Experiment_add)Application.Current.Windows.OfType<Window>().Where(x => x.Name == "Experiment_wind").FirstOrDefault();
+        Modeling_add model_wind = (Modeling_add)Application.Current.Windows.OfType<Window>().Where(x => x.Name == "Modeling_wind").FirstOrDefault();
         //int id_chan;
         public Construct constr_model_obr = new Construct();
         string conn_str = User.Connection_string;
@@ -290,206 +290,205 @@ namespace БД_НТИ
         private void datagrid_MouseDown(object sender, MouseButtonEventArgs e)
         {
 
-            //DataGrid gr = sender as DataGrid;
-            //int id_row = ((ObservableCollection<row>)gr.ItemsSource).IndexOf((row)gr.CurrentItem);
-            //string name = gr.CurrentCell.Column.Header.ToString().Split(',')[0];
-            //string grid_name = gr.Name;
-            //Dictionary<string, Param> arguments = new Dictionary<string, Param>();
-            //Dictionary<string, double> arg_value = new Dictionary<string, double>();
-            //List<Dictionary<string, double>> arg_i_value = new List<Dictionary<string, double>>();// список словарей с параметрами(обозначениями) и их значениями для каждой точки траверсирования
-            //switch (grid_name)
-            //{
-            //    // интегральные параметры
-            //    case "datagrid3":
-            //        //геометрические параметры
-            //        foreach (string par in Data.channels[id_chan].column_headers)
-            //        {
-            //            Param p = Parametrs.geom_pars[par];
-            //            arguments.Add(par, p);
-            //            string value = Data.channels[id_chan].par_value(par, Data.id_realization);
-            //            arg_value.Add(p.short_name, Convert.ToDouble(value));
-            //        }
-            //        //режимные параметры
-            //        foreach (string par in Data.chans_results[id_chan].rezh_par.column_headers)
-            //        {
-            //            Param p = Parametrs.reg_pars[par];
-            //            arguments.Add(par, p);
-            //            string value = Data.chans_results[id_chan].rezh_par.par_value(par, id_row).value;
-            //            arg_value.Add(p.short_name, Convert.ToDouble(value));
-            //        }
-            //        foreach (string par in Data.chans_obr[id_chan].rezh_par.column_headers)
-            //        {
-            //            Param p = Parametrs.reg_pars[par];
-            //            if (!arguments.ContainsKey(par))
-            //            {
-            //                string value = Data.chans_obr[id_chan].rezh_par.par_value(par, id_row).value;
-            //                if (value != "")
-            //                {
-            //                    arguments.Add(par, p);
-            //                    arg_value.Add(p.short_name, Convert.ToDouble(value));
-            //                }
-            //            }
-            //        }
-            //        //параметры обработки результатов всех сечений 
-            //        foreach (section sec in Data.chans_obr[id_chan].sections)
-            //        {
-            //            int id = Data.chans_obr[id_chan].sections.IndexOf(sec);
-            //            foreach (string par in sec.pars.column_headers)
-            //            {
-            //                Param p = Parametrs.phys_pars[par];
+            DataGrid gr = sender as DataGrid;
+            int id_row = ((ObservableCollection<row>)gr.ItemsSource).IndexOf((row)gr.CurrentItem);
+            string name = gr.CurrentCell.Column.Header.ToString().Split(',')[0];
+            string grid_name = gr.Name;
+            Dictionary<string, Param> arguments = new Dictionary<string, Param>();
+            Dictionary<string, double> arg_value = new Dictionary<string, double>();
+            List<Dictionary<string, double>> arg_i_value = new List<Dictionary<string, double>>();// список словарей с параметрами(обозначениями) и их значениями для каждой точки траверсирования
+            switch (grid_name)
+            {
+                // интегральные параметры
+                case "datagrid3":
+                    //геометрические параметры
+                    foreach (string par in Data.channels[Data.current_channel].column_headers)
+                    {
+                        Param p = Parametrs.geom_pars[par];
+                        arguments.Add(par, p);
+                        string value = Data.channels[Data.current_channel].par_value(par, Data.id_realization);
+                        arg_value.Add(p.short_name, Convert.ToDouble(value));
+                    }
+                    //режимные параметры
+                    foreach (string par in Data.modeling_results.rezh_par.column_headers)
+                    {
+                        Param p = Parametrs.reg_pars[par];
+                        arguments.Add(par, p);
+                        string value = Data.modeling_results.rezh_par.par_value(par, id_row).value;
+                        arg_value.Add(p.short_name, Convert.ToDouble(value));
+                    }
+                    foreach (string par in Data.modeling_obrabotka.rezh_par.column_headers)
+                    {
+                        Param p = Parametrs.reg_pars[par];
+                        if (!arguments.ContainsKey(par))
+                        {
+                            string value = Data.modeling_obrabotka.rezh_par.par_value(par, id_row).value;
+                            if (value != "")
+                            {
+                                arguments.Add(par, p);
+                                arg_value.Add(p.short_name, Convert.ToDouble(value));
+                            }
+                        }
+                    }
+                    //параметры обработки результатов всех сечений 
+                    foreach (section sec in Data.modeling_obrabotka.sections)
+                    {
+                        int id = Data.modeling_obrabotka.sections.IndexOf(sec);
+                        foreach (string par in sec.pars.column_headers)
+                        {
+                            Param p = Parametrs.phys_pars[par];
 
-            //                p.short_name += $"_sec{id + 1}";
+                            p.short_name += $"_sec{id + 1}";
 
-            //                string value = sec.pars.par_value(par, id_row).value;
-            //                if (value != "")
-            //                {
+                            string value = sec.pars.par_value(par, id_row).value;
+                            if (value != "")
+                            {
 
-            //                    arguments.Add(par + $"_sec{id + 1}", p);
-            //                    arg_value.Add(p.short_name, Convert.ToDouble(value));
-            //                }
-            //            }
-            //        }
-            //        //прочие параметры
-            //        foreach (string par in Data.chans_results[id_chan].prochie_par.column_headers)
-            //        {
-            //            Param p = Parametrs.phys_pars[par];
-            //            arguments.Add(par, p);
-            //            string value = Data.chans_results[id_chan].prochie_par.par_value(par, id_row).value;
-            //            arg_value.Add(p.short_name, Convert.ToDouble(value));
-            //        }
-            //        Vvod_func.par = Data.chans_obr[id_chan].integr_par.par_value(name, id_row);
+                                arguments.Add(par + $"_sec{id + 1}", p);
+                                arg_value.Add(p.short_name, Convert.ToDouble(value));
+                            }
+                        }
+                    }
+                    //прочие параметры
+                    foreach (string par in Data.modeling_results.prochie_par.column_headers)
+                    {
+                        Param p = Parametrs.phys_pars[par];
+                        arguments.Add(par, p);
+                        string value = Data.modeling_results.prochie_par.par_value(par, id_row).value;
+                        arg_value.Add(p.short_name, Convert.ToDouble(value));
+                    }
+                    Vvod_func.par = Data.modeling_obrabotka.integr_par.par_value(name, id_row);
 
-            //        break;
+                    break;
 
-            //    // режимные параметры
-            //    case "datagrid2":
-            //        //геометрические параметры
-            //        foreach (string par in Data.channels[id_chan].column_headers)
-            //        {
-            //            Param p = Parametrs.geom_pars[par];
-            //            arguments.Add(par, p);
-            //            string value = Data.channels[id_chan].par_value(par, Data.id_realization);
-            //            arg_value.Add(p.short_name, Convert.ToDouble(value));
-            //        }
-            //        //режимные параметры
-            //        foreach (string par in Data.chans_results[id_chan].rezh_par.column_headers)
-            //        {
-            //            Param p = Parametrs.reg_pars[par];
-            //            arguments.Add(par, p);
-            //            string value = Data.chans_results[id_chan].rezh_par.par_value(par, id_row).value;
-            //            arg_value.Add(p.short_name, Convert.ToDouble(value));
-            //        }
-            //        //прочие параметры
-            //        foreach (string par in Data.chans_results[id_chan].prochie_par.column_headers)
-            //        {
-            //            Param p = Parametrs.phys_pars[par];
-            //            arguments.Add(par, p);
-            //            string value = Data.chans_results[id_chan].prochie_par.par_value(par, id_row).value;
-            //            arg_value.Add(p.short_name, Convert.ToDouble(value));
-            //        }
+                // режимные параметры
+                case "datagrid2":
+                    //геометрические параметры
+                    foreach (string par in Data.channels[Data.current_channel].column_headers)
+                    {
+                        Param p = Parametrs.geom_pars[par];
+                        arguments.Add(par, p);
+                        string value = Data.channels[Data.current_channel].par_value(par, Data.id_realization);
+                        arg_value.Add(p.short_name, Convert.ToDouble(value));
+                    }
+                    //режимные параметры
+                    foreach (string par in Data.modeling_results.rezh_par.column_headers)
+                    {
+                        Param p = Parametrs.reg_pars[par];
+                        arguments.Add(par, p);
+                        string value = Data.modeling_results.rezh_par.par_value(par, id_row).value;
+                        arg_value.Add(p.short_name, Convert.ToDouble(value));
+                    }
+                    //прочие параметры
+                    foreach (string par in Data.modeling_results.prochie_par.column_headers)
+                    {
+                        Param p = Parametrs.phys_pars[par];
+                        arguments.Add(par, p);
+                        string value = Data.modeling_results.prochie_par.par_value(par, id_row).value;
+                        arg_value.Add(p.short_name, Convert.ToDouble(value));
+                    }
 
-            //        Vvod_func.par = Data.chans_obr[id_chan].rezh_par.par_value(name, id_row);
+                    Vvod_func.par = Data.modeling_obrabotka.rezh_par.par_value(name, id_row);
 
-            //        break;
+                    break;
 
-            //    // сечения
-            //    default:
-            //        int sec_id = Convert.ToInt32(grid_name.Split('_')[1]) - 1;
-            //        //параметры сечения
-            //        if (Data.chans_results[id_chan].sections[sec_id].pars == null)
-            //        {
-            //            foreach (string par in Data.chans_results[id_chan].sections[sec_id].coordinates.column_headers)
-            //            {
-            //                Param p = new Param() { short_name = par + "_i", unit = "" };
-            //                arguments.Add(par, p);
-            //                int travers_points_count = Data.chans_results[id_chan].sections[sec_id].coordinates.travers_table[id_row].cols[0].Count;
+                // сечения
+                default:
+                    int sec_id = Convert.ToInt32(grid_name.Split('_')[1]) - 1;
+                    //параметры сечения
+                    if (Data.modeling_results.sections[sec_id].pars == null)
+                    {
+                        foreach (string par in Data.modeling_results.sections[sec_id].coordinates.column_headers)
+                        {
+                            Param p = new Param() { short_name = par + "_i", unit = "" };
+                            arguments.Add(par, p);
+                            int travers_points_count = Data.modeling_results.sections[sec_id].coordinates.travers_table[id_row].cols[0].Count;
 
-            //                for (int i = 0; i < travers_points_count; i++)
-            //                {
-            //                    if (Data.chans_results[id_chan].sections[sec_id].coordinates.column_headers.IndexOf(par) == 0)
-            //                    {
-            //                        Dictionary<string, double> arg_j_value = new Dictionary<string, double>();
-            //                        arg_i_value.Add(arg_j_value);
-            //                    }
-            //                    string value = Data.chans_results[id_chan].sections[sec_id].coordinates.par_value(par, id_row, i).value;
-            //                    arg_i_value[i].Add(p.short_name, Convert.ToDouble(value));
-            //                }
-            //            }
-            //            foreach (string par in Data.chans_results[id_chan].sections[sec_id].trav_pars.column_headers)
-            //            {
-            //                Param p = Parametrs.phys_pars[par];
-            //                p.short_name += "_i";
-            //                arguments.Add(par + $"_sec{sec_id + 1}", p);
-            //                int travers_points_count = Data.chans_results[id_chan].sections[sec_id].trav_pars.travers_table[id_row].cols[0].Count;
+                            for (int i = 0; i < travers_points_count; i++)
+                            {
+                                if (Data.modeling_results.sections[sec_id].coordinates.column_headers.IndexOf(par) == 0)
+                                {
+                                    Dictionary<string, double> arg_j_value = new Dictionary<string, double>();
+                                    arg_i_value.Add(arg_j_value);
+                                }
+                                string value = Data.modeling_results.sections[sec_id].coordinates.par_value(par, id_row, i).value;
+                                arg_i_value[i].Add(p.short_name, Convert.ToDouble(value));
+                            }
+                        }
+                        foreach (string par in Data.modeling_results.sections[sec_id].trav_pars.column_headers)
+                        {
+                            Param p = Parametrs.phys_pars[par];
+                            p.short_name += "_i";
+                            arguments.Add(par + $"_sec{sec_id + 1}", p);
+                            int travers_points_count = Data.modeling_results.sections[sec_id].trav_pars.travers_table[id_row].cols[0].Count;
 
-            //                for (int i = 0; i < travers_points_count; i++)
-            //                {
-            //                    //if (Data.chans_results[id_chan].sections[sec_id].trav_pars.column_headers.IndexOf(par) == 0)
-            //                    //{
-            //                    //    Dictionary<string, double> arg_j_value = new Dictionary<string, double>();
-            //                    //    arg_i_value.Add(arg_j_value);
-            //                    //}
-            //                    string value = Data.chans_results[id_chan].sections[sec_id].trav_pars.par_value(par, id_row, i).value;
-            //                    arg_i_value[i].Add(p.short_name, Convert.ToDouble(value));
-            //                }
-            //            }
-            //        }
-            //        else
-            //        {
-            //            foreach (string par in Data.chans_results[id_chan].sections[sec_id].pars.column_headers)
-            //            {
-            //                Param p = Parametrs.phys_pars[par];
-            //                p.short_name += $"_sec{sec_id + 1}";
-            //                arguments.Add(par + $"_sec{sec_id + 1}", p);
-            //                string value = Data.chans_results[id_chan].sections[sec_id].pars.par_value(par, id_row).value;
-            //                arg_value.Add(p.short_name, Convert.ToDouble(value));
-            //            }
-            //        }
-            //        //геометрические параметры
-            //        foreach (string par in Data.channels[id_chan].column_headers)
-            //        {
-            //            Param p = Parametrs.geom_pars[par];
-            //            arguments.Add(par, p);
+                            for (int i = 0; i < travers_points_count; i++)
+                            {
+                                //if (Data.modeling_results.sections[sec_id].trav_pars.column_headers.IndexOf(par) == 0)
+                                //{
+                                //    Dictionary<string, double> arg_j_value = new Dictionary<string, double>();
+                                //    arg_i_value.Add(arg_j_value);
+                                //}
+                                string value = Data.modeling_results.sections[sec_id].trav_pars.par_value(par, id_row, i).value;
+                                arg_i_value[i].Add(p.short_name, Convert.ToDouble(value));
+                            }
+                        }
+                    }
+                    else
+                    {
+                        foreach (string par in Data.modeling_results.sections[sec_id].pars.column_headers)
+                        {
+                            Param p = Parametrs.phys_pars[par];
+                            p.short_name += $"_sec{sec_id + 1}";
+                            arguments.Add(par + $"_sec{sec_id + 1}", p);
+                            string value = Data.modeling_results.sections[sec_id].pars.par_value(par, id_row).value;
+                            arg_value.Add(p.short_name, Convert.ToDouble(value));
+                        }
+                    }
+                    //геометрические параметры
+                    foreach (string par in Data.channels[Data.current_channel].column_headers)
+                    {
+                        Param p = Parametrs.geom_pars[par];
+                        arguments.Add(par, p);
 
-            //            string value = Data.channels[id_chan].par_value(par, Data.id_realization);
-            //            arg_value.Add(p.short_name, Convert.ToDouble(value));
-            //        }
-            //        //режимные параметры
-            //        foreach (string par in Data.chans_results[id_chan].rezh_par.column_headers)
-            //        {
-            //            Param p = Parametrs.reg_pars[par];
-            //            arguments.Add(par, p);
+                        string value = Data.channels[Data.current_channel].par_value(par, Data.id_realization);
+                        arg_value.Add(p.short_name, Convert.ToDouble(value));
+                    }
+                    //режимные параметры
+                    foreach (string par in Data.modeling_results.rezh_par.column_headers)
+                    {
+                        Param p = Parametrs.reg_pars[par];
+                        arguments.Add(par, p);
 
-            //            string value = Data.chans_results[id_chan].rezh_par.par_value(par, id_row).value;
-            //            arg_value.Add(p.short_name, Convert.ToDouble(value));
-            //        }
-            //        //прочие параметры
-            //        foreach (string par in Data.chans_results[id_chan].prochie_par.column_headers)
-            //        {
-            //            Param p = Parametrs.phys_pars[par];
-            //            arguments.Add(par, p);
-            //            string value = Data.chans_results[id_chan].prochie_par.par_value(par, id_row).value;
-            //            arg_value.Add(p.short_name, Convert.ToDouble(value));
-            //        }
+                        string value = Data.modeling_results.rezh_par.par_value(par, id_row).value;
+                        arg_value.Add(p.short_name, Convert.ToDouble(value));
+                    }
+                    //прочие параметры
+                    foreach (string par in Data.modeling_results.prochie_par.column_headers)
+                    {
+                        Param p = Parametrs.phys_pars[par];
+                        arguments.Add(par, p);
+                        string value = Data.modeling_results.prochie_par.par_value(par, id_row).value;
+                        arg_value.Add(p.short_name, Convert.ToDouble(value));
+                    }
 
-            //        Vvod_func.par = Data.chans_obr[id_chan].sections[sec_id].pars.par_value(name, id_row);
-
-
-            //        break;
+                    Vvod_func.par = Data.modeling_obrabotka.sections[sec_id].pars.par_value(name, id_row);
+                    break;
 
 
 
 
 
-            //}
+            }
 
-            //Vvod_func.arguments = arguments;
-            //Vvod_func.arg_value = arg_value;
-            //Vvod_func.arg_i_value = arg_i_value;
-            //Vvod_func.name_par = name;
-            //exp_wind.Hide();
-            //Window newin1 = new Vvod_func();
-            //newin1.ShowDialog();
+            Vvod_func.arguments = arguments;
+            Vvod_func.arg_value = arg_value;
+            Vvod_func.arg_i_value = arg_i_value;
+            Vvod_func.name_par = name;
+            Vvod_func.work_mode = "modeling";
+            model_wind.Hide();
+            Window newin1 = new Vvod_func();
+            newin1.ShowDialog();
         }
 
         private void Dialog_construct_DialogClosing(object sender, MaterialDesignThemes.Wpf.DialogClosingEventArgs eventArgs)
@@ -512,7 +511,23 @@ namespace БД_НТИ
             {
                 section_table_build(sec, Data.modeling_obrabotka, sections_cols);
             }
-            Data.modeling_obrabotka.func_to_value();
+            Data.modeling_obrabotka.func_to_value(Data.current_channel);
+        }
+
+        public void update_table()
+        {
+            datagrid0.ItemsSource = Data.modeling_obrabotka.rezh_num;
+            datagrid1.ItemsSource = Data.modeling_obrabotka.sreda;
+            datagrid2.Columns.Clear();
+            datagrid3.Columns.Clear();
+            parametrs_table_build(datagrid2, Data.modeling_obrabotka.rezh_par);
+            parametrs_table_build(datagrid3, Data.modeling_obrabotka.integr_par);
+            sections_cols.Children.Clear();
+            foreach (section sec in Data.modeling_obrabotka.sections)
+            {
+                section_table_build(sec, Data.modeling_obrabotka, sections_cols);
+            }
+            Data.modeling_obrabotka.func_to_value(Data.current_channel);
         }
 
         # region configurator

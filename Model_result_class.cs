@@ -1076,7 +1076,7 @@ namespace БД_НТИ
         }
 
         //подсчет функций 
-        public void func_to_value()
+        public void func_to_value(int id_chan)
         {
             foreach (row r in this.rezh_par.table)
             {

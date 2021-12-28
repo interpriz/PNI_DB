@@ -320,6 +320,7 @@ namespace БД_НТИ
             Vvod_func.arg_value = arg_value;
             Vvod_func.arg_i_value = arg_i_value;
             Vvod_func.name_par = name;
+            Vvod_func.work_mode = "experiment";
             exp_wind.Hide();
             Window newin1 = new Vvod_func();
             newin1.ShowDialog();
