@@ -23,7 +23,7 @@ namespace БД_НТИ
     {
         //Experiment_add exp_wind = (Experiment_add)Application.Current.Windows.OfType<Window>().Where(x => x.Name == "Experiment_wind").FirstOrDefault();
         //int id_chan;
-        public Model_obrabotka(int chan)
+        public Model_obrabotka()
         {
             InitializeComponent();
             Dialog_construct.IsOpen = true;

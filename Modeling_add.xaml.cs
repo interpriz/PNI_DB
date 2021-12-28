@@ -28,6 +28,7 @@ namespace БД_НТИ
         public Model_settings new_Model_settings;
         Page new_Model_result;
         public Model_rezh new_Model_rezh;
+        public Model_obrabotka new_Model_Obrabotka;
 
         public Modeling_add(string zadacha)
         {
@@ -37,7 +38,7 @@ namespace БД_НТИ
             frame.Navigate(new_Task_class);
             condition = "step1";
             //item4.IsEnabled = true;
-            //item5.IsEnabled = true;
+            item6.IsEnabled = true;
         }
         private void ButtonCloseMenu_Click(object sender, RoutedEventArgs e)
         {
@@ -320,7 +321,6 @@ namespace БД_НТИ
             item4.IsSelected = false;
             item5.IsSelected = false;
             item6.IsSelected = false;
-            item7.IsSelected = false;
         }
 
         private void item2_Selected(object sender, RoutedEventArgs e)
@@ -341,7 +341,6 @@ namespace БД_НТИ
             item4.IsSelected = false;
             item5.IsSelected = false;
             item6.IsSelected = false;
-            item7.IsSelected = false;
         }
 
         private void item3_Selected(object sender, RoutedEventArgs e)
@@ -355,7 +354,6 @@ namespace БД_НТИ
             item4.IsSelected = false;
             item5.IsSelected = false;
             item6.IsSelected = false;
-            item7.IsSelected = false;
         }
 
         private void item4_Selected(object sender, RoutedEventArgs e)
@@ -371,7 +369,6 @@ namespace БД_НТИ
             item3.IsSelected = false;
             item5.IsSelected = false;
             item6.IsSelected = false;
-            item7.IsSelected = false;
         }
 
         private void item5_Selected(object sender, RoutedEventArgs e)
@@ -387,7 +384,15 @@ namespace БД_НТИ
             item3.IsSelected = false;
             item4.IsSelected = false;
             item6.IsSelected = false;
-            item7.IsSelected = false;
+        }
+
+        private void item6_Selected(object sender, RoutedEventArgs e)
+        {
+            new_Model_Obrabotka = new Model_obrabotka();
+            frame.Navigate(new_Model_Obrabotka);
+            Butt_next.IsEnabled = false;
+            Butt_back.IsEnabled = false;
+            condition = "step6";
         }
     }
     public class bool_model
