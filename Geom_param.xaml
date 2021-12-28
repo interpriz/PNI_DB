@@ -244,11 +244,16 @@
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
                                                     <StackPanel Orientation="Horizontal" Height="{Binding RowHeight, ElementName=datagrid2}">
-                                                        <Label Content="{Binding header}"/>
-                                                        <Button Width="150" Height="50" Click="Button_Click" Tag ="{Binding header}">
-                                                            <TextBlock x:Name="butt_add_results" Text="{Binding button_name}" TextWrapping="Wrap" FontSize="10"/>
+                                                        <Label Content="{Binding header}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,10,0"/>
+                                                        <Button Width="120" Height="50" Click="Button_Click" Tag ="{Binding header}"
+                                                                VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                                                Style="{StaticResource MaterialDesignRaisedButton}"
+                                                                materialDesign:RippleAssist.Feedback="#FF86E2FD"
+                                                                Background="LightCyan" BorderBrush="#FF000E99" BorderThickness="1" >
+                                                            <TextBlock x:Name="butt_add_results" Text="{Binding button_name}" TextWrapping="Wrap" FontSize="10"
+                                                                       HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"/>
                                                         </Button>
-                                                        <CheckBox x:Name="check_del" />
+                                                        <CheckBox x:Name="check_del" VerticalAlignment="Center" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Margin="10,0,0,0" />
                                                     </StackPanel>
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellTemplate>

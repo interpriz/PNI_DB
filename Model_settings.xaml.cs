@@ -20,22 +20,24 @@ namespace БД_НТИ
     /// <summary>
     /// Логика взаимодействия для Model_settings.xaml
     /// </summary>
+    /// 
+
+    public class setting_number // заголовок строк таблиц
+    {
+        public string number { get; set; }      //отображаемый номер режима
+        public int db_number { get; set; }    // номер режима в базе данных
+
+        // конструктор заголовка
+        public setting_number(string number, int db_number)
+        {
+            this.number = number;
+            this.db_number = db_number;
+        }
+    }
+
     public partial class Model_settings : Page
     {
         Modeling_add model_wind = (Modeling_add)Application.Current.Windows.OfType<Window>().Where(x => x.Name == "Modeling_wind").FirstOrDefault();
-
-        public class setting_number // заголовок строк таблиц
-        {
-            public string number { get; set; }      //отображаемый номер режима
-            public int db_number { get; set; }    // номер режима в базе данных
-
-            // конструктор заголовка
-            public setting_number(string number, int db_number)
-            {
-                this.number = number;
-                this.db_number = db_number;
-            }
-        }
 
         public static MaterialDesignThemes.Wpf.DialogHost dialog = new MaterialDesignThemes.Wpf.DialogHost();
 

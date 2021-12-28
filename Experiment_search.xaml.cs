@@ -27,6 +27,8 @@ namespace БД_НТИ
         Page new_Stand_PiM;
         Page new_result_view;
         Page new_obrabotka_view;
+        public Model_settings_view new_Model_settings_view;
+        Model_result_view new_Model_result_view;
         public Experiment_search()
         {
             InitializeComponent();
@@ -119,6 +121,12 @@ namespace БД_НТИ
                 case "step5":
                     break;
 
+                case "step6":
+                    item7.IsEnabled = true;
+                    item6.IsSelected = false;
+                    item7.IsSelected = true;
+                    break;
+
             }
         }
 
@@ -143,7 +151,7 @@ namespace БД_НТИ
 
                 case "step4":
                     item3.IsSelected = true;
-                    item4.IsEnabled = false;
+                    //item4.IsEnabled = false;
                     item4.IsSelected = false;
                     break;
 
@@ -151,6 +159,18 @@ namespace БД_НТИ
                     item4.IsSelected = true;
                     item5.IsEnabled = false;
                     item5.IsSelected = false;
+                    break;
+
+                case "step6":
+                    item4.IsSelected = true;
+                    item6.IsEnabled = false;
+                    item6.IsSelected = false;
+                    break;
+
+                case "step7":
+                    item6.IsSelected = true;
+                    item7.IsEnabled = false;
+                    item7.IsSelected = false;
                     break;
             }
         }
@@ -211,6 +231,28 @@ namespace БД_НТИ
             new_obrabotka_view = new Exp_obrabotka_view(Exp_result_view.id_chan);
             frame.Navigate(new_obrabotka_view);
             step = "step5";
+        }
+
+        private void item6_Selected(object sender, RoutedEventArgs e)
+        {
+            new_Model_settings_view = new Model_settings_view();
+            frame.Navigate(new_Model_settings_view);
+            Butt_next.Visibility = Visibility.Visible;
+            step = "step6";
+
+        }
+
+        private void item7_Selected(object sender, RoutedEventArgs e)
+        {
+            new_Model_result_view = new Model_result_view();
+            frame.Navigate(new_Model_result_view);
+            Butt_next.Visibility = Visibility.Hidden;
+            step = "step7";
+        }
+
+        private void item8_Selected(object sender, RoutedEventArgs e)
+        {
+            
         }
     }
     public static class bool_exp_search_update

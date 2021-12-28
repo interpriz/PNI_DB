@@ -1,18 +1,18 @@
-﻿<Page x:Class="БД_НТИ.Exp_result_view"
+﻿<Page x:Class="БД_НТИ.Model_result_view"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       xmlns:po="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
       xmlns:local="clr-namespace:БД_НТИ"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="Exp_result_view"
+      Title="Model_result_view"
+      
       Background="LightCyan"
       Width="1102" Height="530"
       FontFamily="Comic Sans MS" Foreground="#FF000E99">
-
 
     <Page.Resources>
         <ResourceDictionary>
@@ -101,6 +101,7 @@
 
         </ResourceDictionary>
     </Page.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="80"/>
@@ -110,22 +111,16 @@
                                    materialDesign:ShadowAssist.ShadowDepth="Depth3"  
                                    materialDesign:ShadowAssist.ShadowEdges="Bottom,Left"
                                    VerticalAlignment="Top" Height="80" >
-            <TextBlock Text="4. Просмотр результатов измерения параметров эксперимента" 
+            <TextBlock Text="7. Просмотр результатов моделирования" 
                    Background="Transparent" Foreground="#000E99" FontSize="24" 
                    FontFamily="Comic Sans MS" VerticalAlignment="Center" Height="35" Margin="38,8,0,7" HorizontalAlignment="Left"/>
         </materialDesign:Card>
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="39"/>
-                <RowDefinition Height="361"/>
+                <RowDefinition Height="390"/>
                 <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
-            <materialDesign:Card Grid.Row="0" Background="#FFB8ECFD" materialDesign:ShadowAssist.ShadowDepth="Depth3">
-                <StackPanel Orientation="Horizontal" x:Name="stackpanel_chan">
-                    <RadioButton Content="Канал 1" BorderBrush="#FF000E99" x:Name="radiobut_chan1" Checked="RadioButton_Checked"/>
-                </StackPanel>
-            </materialDesign:Card>
-            <Grid Grid.Row="1" Margin="0,10,10,10" >
+            <Grid Grid.Row="0" Margin="0,10,10,10" >
                 <ScrollViewer HorizontalScrollBarVisibility="Visible">
                     <Grid >
                         <Grid.ColumnDefinitions>
@@ -151,23 +146,14 @@
 
                             <DataGrid x:Name="datagrid0" Grid.Row="0" Grid.Column="0"  Grid.RowSpan="3" BorderBrush="Black" BorderThickness="1,1,1,1"  ColumnHeaderHeight="120" AutoGenerateColumns="False" CanUserAddRows="False" RowHeight="67" IsReadOnly="True" >
                                 <DataGrid.Columns>
-                                    <DataGridTemplateColumn x:Name="userControlColumn" Header="№Режима">
-                                        <DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <StackPanel Orientation="Horizontal" Height="{Binding RowHeight, ElementName=datagrid2}" HorizontalAlignment="Center">
-                                                    <Label Content="{Binding visual_num, Mode=TwoWay}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,10,0"/>
-                                                    <Button Width="130" Height="50" Click="Button_Click" Tag ="{Binding visual_num}"
-                                                             VerticalAlignment="Center" HorizontalAlignment="Center" 
-                                                                Style="{StaticResource MaterialDesignRaisedButton}"
-                                                                materialDesign:RippleAssist.Feedback="#FF86E2FD"
-                                                                Background="LightCyan" BorderBrush="#FF000E99" BorderThickness="1" >
-                                                        <TextBlock x:Name="butt_add_results" Text="Просмотр результатов моделирования" TextWrapping="Wrap" FontSize="10"
-                                                                    HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"/>
-                                                    </Button>
-                                                </StackPanel>
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.CellTemplate>
-                                    </DataGridTemplateColumn>
+                                    <DataGridTextColumn Header="№Настройки" Binding="{Binding visual_num, Mode=TwoWay}" IsReadOnly="True">
+                                        <DataGridTextColumn.ElementStyle>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="HorizontalAlignment" Value="Center" />
+                                                <Setter Property="VerticalAlignment" Value="Center" />
+                                            </Style>
+                                        </DataGridTextColumn.ElementStyle>
+                                    </DataGridTextColumn>
                                 </DataGrid.Columns>
                             </DataGrid>
                             <DataGrid x:Name="datagrid1" AutoGenerateColumns="False" Grid.Row="0" Grid.Column="1"  Grid.RowSpan="3" BorderBrush="Black" BorderThickness="1,1,1,1"  ColumnHeaderHeight="120" CanUserAddRows="False" RowHeight="67" IsReadOnly="True">
@@ -191,8 +177,8 @@
                                 <Label  Content="Прочие параметры" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
                             </Border>
 
-                            <DataGrid x:Name="datagrid2" AutoGenerateColumns="False" Grid.Row="2" Grid.Column="2" BorderBrush="Black" BorderThickness="1" ScrollViewer.CanContentScroll="False" RowHeight="67" ColumnHeaderHeight="40" CanUserAddRows="False" IsReadOnly="True" />
-                            <DataGrid x:Name="datagrid3" AutoGenerateColumns="False" Grid.Row="2" Grid.Column="3" BorderBrush="Black" BorderThickness="1" ScrollViewer.CanContentScroll="False" RowHeight="67" ColumnHeaderHeight="40" CanUserAddRows="False" IsReadOnly="True" />
+                            <DataGrid x:Name="datagrid2" AutoGenerateColumns="False" Grid.Row="2" Grid.Column="2" BorderBrush="Black" BorderThickness="1" ScrollViewer.CanContentScroll="False" RowHeight="67" ColumnHeaderHeight="40" CanUserAddRows="False"  IsReadOnly="True"/>
+                            <DataGrid x:Name="datagrid3" AutoGenerateColumns="False" Grid.Row="2" Grid.Column="3" BorderBrush="Black" BorderThickness="1" ScrollViewer.CanContentScroll="False" RowHeight="67" ColumnHeaderHeight="40" CanUserAddRows="False"  IsReadOnly="True"/>
 
                         </Grid>
 
@@ -203,26 +189,22 @@
                                 <RowDefinition />
                             </Grid.RowDefinitions>
                         </Grid>
-                        
-                        
-                        
                     </Grid>
 
 
                 </ScrollViewer>
             </Grid>
 
-            <StackPanel Grid.Row="2" Orientation="Horizontal">
+            <StackPanel Grid.Row="1" Orientation="Horizontal">
                 <Button x:Name="batt_obr_rez"  
-                        VerticalAlignment="Center" HorizontalAlignment="Center" 
+                        VerticalAlignment="Center" HorizontalAlignment="Right" 
                         Style="{StaticResource MaterialDesignRaisedButton}"
                         materialDesign:RippleAssist.Feedback="#FF86E2FD"
                         Background="LightCyan" Foreground="#000E99" BorderBrush="#000E99" BorderThickness="1" 
-                        Width="190" RenderTransformOrigin="3.173,12.625"  Height="38" Margin="830,2,0,10" Click="batt_obr_rez_Click">
+                        Width="190" RenderTransformOrigin="3.173,12.625"  Height="38" Margin="880,2,0,2" Click="batt_obr_rez_Click">
                     <TextBlock Text="Обработка результатов" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Width="155"/>
                 </Button>
             </StackPanel>
-
         </Grid>
 
         <materialDesign:Snackbar x:Name="messbar" IsActive="False" Margin="210,0,256,-90" Grid.Row="2" Width="624" Background="#000175" Foreground="LightCyan">

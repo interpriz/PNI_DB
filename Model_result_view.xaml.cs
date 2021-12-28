@@ -17,39 +17,81 @@ using System.Windows.Shapes;
 namespace БД_НТИ
 {
     /// <summary>
-    /// Логика взаимодействия для Exp_result_view.xaml
+    /// Логика взаимодействия для Model_result_view.xaml
     /// </summary>
-    public partial class Exp_result_view : Page
+    public partial class Model_result_view : Page
     {
-
-
         Experiment_search exp_wind_search = (Experiment_search)Application.Current.Windows.OfType<Window>().Where(x => x.Name == "Experiment_search_wind").FirstOrDefault();
-        public static int id_chan { get; set; }// номер выбранного канала
+        //public static int id_chan { get; set; }// номер выбранного канала
+        public static bool save = true;//проверка сохранения перед добавлением результатов моделирования
 
-        public static int chan_count { get; set; }// количество каналов
-
-        String conn_str = User.Connection_string;       //строка подключения
-
-        public Exp_result_view()
+        //int changes = 0;//количество изменений в таблице
+        public Model_result_view()
         {
             InitializeComponent();
 
-            Parametrs.update_parametrs();
 
-            for (int i = 1; i < chan_count; i++)
-            {
-                RadioButton radio = new RadioButton { Content = $"Канал {i + 1}", BorderBrush = new SolidColorBrush(Color.FromRgb(0, 14, 153)) };
-                radio.Checked += new RoutedEventHandler(RadioButton_Checked);
-                stackpanel_chan.Children.Add(radio);
-            }
-
-            Data.chans_results = new List<Results_of_fiz_exp>();
-            for (int i = 0; i < chan_count; i++)
-            {
-                Data.chans_results.Add(new Results_of_fiz_exp(true, i + 1));
-            }
-            radiobut_chan1.IsChecked = true;
             //sections_cols.Children.Clear();
+            //sections_cols.ColumnDefinitions.Clear();
+            //datagrid2.Columns.Clear();
+            //datagrid3.Columns.Clear();
+
+            //Data.id_obj = "6";
+            //Data.current_mode = 1;
+            //Data.current_realization = "1";
+            //Data.current_channel = 1;
+
+            String conn_str = User.Connection_string;       //строка подключения
+
+            NpgsqlConnection sqlconn = new NpgsqlConnection(conn_str);
+            sqlconn.Open();
+
+            //проверка на наличие результатов моделирования в БД
+            NpgsqlCommand comm_count = new NpgsqlCommand($"select count(\"Id_mode\") FROM main_block.\"Mode_setting_cros_section\" where \"Id_mode\"={Data.current_mode}", sqlconn);
+            string count = comm_count.ExecuteScalar().ToString();
+
+            Data.modelling_results = new Results_of_modelling(count != "0");
+
+            //проверка количества настроек
+            int count1 = exp_wind_search.new_Model_settings_view.setting_Numbers.Count();
+
+            if (count == "0")
+            {
+                for (int i = 1; i < count1; i++)
+                {
+                    Data.modelling_results.add_rezhim();
+                }
+            }
+            else
+            {
+                for (int i = Data.modelling_results.rezh_num.Count(); i < count1; i++)
+                {
+                    Data.modelling_results.add_rezhim();
+                }
+            }
+
+
+
+            sqlconn.Close();
+
+
+
+
+            datagrid0.ItemsSource = Data.modelling_results.rezh_num;
+            datagrid1.ItemsSource = Data.modelling_results.sreda;
+            parametrs_table_build(datagrid2, Data.modelling_results.rezh_par);
+            parametrs_table_build(datagrid3, Data.modelling_results.prochie_par);
+            foreach (section sec in Data.modelling_results.sections)
+            {
+                section_table_build(sec, Data.modelling_results, sections_cols);
+            }
+
+            double row_height = Data.modelling_results.max_travers_points * 40 + 2;
+            datagrid0.RowHeight = row_height;
+            datagrid1.RowHeight = row_height;
+            datagrid2.RowHeight = row_height;
+            datagrid3.RowHeight = row_height;
+
         }
 
         void parametrs_table_build(DataGrid gr, parametrs par)
@@ -218,63 +260,46 @@ namespace БД_НТИ
 
         }
 
-        private void RadioButton_Checked(object sender, RoutedEventArgs e)
-        {
-            var radio = sender as RadioButton;
-            string[] names = radio.Content.ToString().Split(' ');
-            id_chan = Convert.ToInt32(names[1]) - 1;
-
-            Data.current_channel = id_chan + 1;
-
-            sections_cols.Children.Clear();
-            sections_cols.ColumnDefinitions.Clear();
-            datagrid2.Columns.Clear();
-            datagrid3.Columns.Clear();
-
-            datagrid0.ItemsSource = Data.chans_results[id_chan].rezh_num;
-            datagrid1.ItemsSource = Data.chans_results[id_chan].sreda;
-            parametrs_table_build(datagrid2, Data.chans_results[id_chan].rezh_par);
-            parametrs_table_build(datagrid3, Data.chans_results[id_chan].prochie_par);
-            foreach (section sec in Data.chans_results[id_chan].sections)
-            {
-                section_table_build(sec, Data.chans_results[id_chan], sections_cols);
-            }
-
-            datagrid0.RowHeight = Data.chans_results[id_chan].max_travers_points * 40 + 2;
-            datagrid1.RowHeight = Data.chans_results[id_chan].max_travers_points * 40 + 2;
-            datagrid2.RowHeight = Data.chans_results[id_chan].max_travers_points * 40 + 2;
-            datagrid3.RowHeight = Data.chans_results[id_chan].max_travers_points * 40 + 2;
-
-            NpgsqlConnection sqlconn = new NpgsqlConnection(conn_str);
-            sqlconn.Open();
-            NpgsqlCommand comm_id = new NpgsqlCommand($"select \"Id_R_C\" from main_block.\"Realization_channel\" where \"Id$\" = {Data.id_obj} and \"Realization\" = {Data.current_realization} and \"Channel\" = {id_chan + 1}", sqlconn);
-            Data.id_R_C = comm_id.ExecuteScalar().ToString();
-            sqlconn.Close();
-
-        }
 
         private void batt_obr_rez_Click(object sender, RoutedEventArgs e)
         {
-            exp_wind_search.item4.IsSelected = false;
-            exp_wind_search.item5.IsEnabled = true;
-            exp_wind_search.item5.IsSelected = true;
+            //bool f1 = Data.constr[id_chan].rezh_obr_7.Count != 0;       //количество режимных параметров
+            //bool f2 = Data.constr[id_chan].integr_obr.Count != 0;       //количество интегральных параметров
+            //bool f3 = Data.constr[id_chan].sechen.Count != 0;           // количество сечений
+            //bool f4 = true;// число параметров сечений не 0
+            //foreach (Obr_parametrs_sech_7 i in Data.constr[id_chan].obr_params_sech)
+            //{
+            //    if (i.phys_obr_7.Count == 0)
+            //    {
+            //        f4 = false;
+            //        break;
+            //    }
+            //}
+
+            //if (f1 && f2 && f3 && f4)
+            //{
+            //    if (save)
+            //    {
+            //        exp_wind.item5.IsSelected = false;
+            //        exp_wind.item6.IsEnabled = true;
+            //        exp_wind.item6.IsSelected = true;
+            //    }
+            //    else
+            //    {
+            //        messtxt.Text = "Данные изменены! Для продолжения сохраните их!";
+            //        messbar.IsActive = true;
+            //    }
+            //}
+            //else
+            //{
+            //    messtxt.Text = $"Таблица обработки результатов канала №{id_chan + 1} не сконфигурирована! \r\nВернитесь на страницу конфигуратора!";
+            //    messbar.IsActive = true;
+            //}
         }
 
         private void messbut_Click(object sender, RoutedEventArgs e)
         {
             messbar.IsActive = false;
         }
-
-        private void Button_Click(object sender, RoutedEventArgs e)// просмотр результатов моделирования
-        {
-            Button bt = sender as Button;
-            int r = Convert.ToInt32(bt.Tag) - 1;
-            Data.current_mode = Data.chans_results[id_chan].rezh_num[r].BD_num; // номер режима в базе
-
-            exp_wind_search.item4.IsSelected = false;
-            exp_wind_search.item6.IsEnabled = true;
-            exp_wind_search.item6.IsSelected = true;
-        }
-
     }
 }

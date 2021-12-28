@@ -110,7 +110,7 @@
                                    materialDesign:ShadowAssist.ShadowDepth="Depth3"  
                                    materialDesign:ShadowAssist.ShadowEdges="Bottom,Left"
                                    VerticalAlignment="Top" Height="80" >
-            <TextBlock x:Name="page_name" Text="6. Обработка результатов моделирования для канала №" 
+            <TextBlock x:Name="page_name" Text="6. Обработка результатов моделирования" 
                    Background="Transparent" Foreground="#000E99" FontSize="24" 
                    FontFamily="Comic Sans MS" VerticalAlignment="Center" Height="35" Margin="38,8,0,7" HorizontalAlignment="Left"/>
         </materialDesign:Card>
