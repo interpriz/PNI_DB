@@ -38,7 +38,7 @@ namespace БД_НТИ
             frame.Navigate(new_Task_class);
             condition = "step1";
             //item4.IsEnabled = true;
-            item6.IsEnabled = true;
+            //item6.IsEnabled = true;
         }
         private void ButtonCloseMenu_Click(object sender, RoutedEventArgs e)
         {
@@ -280,9 +280,11 @@ namespace БД_НТИ
                     //item3.IsSelected = false;
                     item4.IsSelected = true;
                     break;
-
+                case "step6":
+                    //item3.IsSelected = false;
+                    item5.IsSelected = true;
+                    break;
             }
-
         }
 
         private void Check_id_obj()
@@ -375,6 +377,7 @@ namespace БД_НТИ
         {
             new_Model_result = new Model_result();
             frame.Navigate(new_Model_result);
+            Butt_next.Visibility = Visibility.Hidden;
             //Butt_next.IsEnabled = false;
             //Butt_back.IsEnabled = false;
             condition = "step5";
@@ -390,9 +393,15 @@ namespace БД_НТИ
         {
             new_Model_Obrabotka = new Model_obrabotka();
             frame.Navigate(new_Model_Obrabotka);
-            Butt_next.IsEnabled = false;
-            Butt_back.IsEnabled = false;
+            Butt_next.Visibility = Visibility.Hidden;
+            //Butt_back.IsEnabled = false;
             condition = "step6";
+
+            item1.IsSelected = false;
+            item2.IsSelected = false;
+            item3.IsSelected = false;
+            item4.IsSelected = false;
+            item5.IsSelected = false;
         }
     }
     public class bool_model

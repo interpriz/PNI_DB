@@ -912,168 +912,355 @@ namespace БД_НТИ
             }
         }
 
-        public Obrabotka_of_modeling(Construct constr, int chan) // создание заполненноей структтуры классов по параметрам конструктора
+        public Obrabotka_of_modeling(Construct constr) // создание заполненноей структтуры классов по параметрам конструктора
         {
-            //this.id_chan = chan;
+            ObservableCollection<num_rezh> rezh_num = new ObservableCollection<num_rezh>();
+            num_rezh rezhim = new num_rezh() { BD_num = 1, visual_num = "1", age = "new" };
+            rezh_num.Add(rezhim);
 
-            //ObservableCollection<num_rezh> rezh_num = new ObservableCollection<num_rezh>();
-            //num_rezh rezhim = new num_rezh() { BD_num = 1, visual_num = "1", age = "new" };
-            //rezh_num.Add(rezhim);
+            ObservableCollection<parametr> sreda = new ObservableCollection<parametr>();
+            parametr sreda1 = new parametr() { value = constr.sreda };
+            sreda.Add(sreda1);
 
-            //ObservableCollection<parametr> sreda = new ObservableCollection<parametr>();
-            //parametr sreda1 = new parametr() { value = constr.sreda };
-            //sreda.Add(sreda1);
+            parametrs rezh_par = new parametrs();
+            ObservableCollection<string> rezh_headers = new ObservableCollection<string>();
+            foreach (Rezh r6 in constr.rezh_obr_7)
+            {
+                rezh_headers.Add(r6.rezh);
+            }
+            rezh_par.column_headers = rezh_headers;
+            rezh_par.add_row();
 
-            //parametrs rezh_par = new parametrs();
-            //ObservableCollection<string> rezh_headers = new ObservableCollection<string>();
-            //foreach (Rezh r6 in constr.rezh_obr_7)
-            //{
-            //    rezh_headers.Add(r6.rezh);
-            //}
-            //rezh_par.column_headers = rezh_headers;
-            //rezh_par.add_row();
+            parametrs integr_par = new parametrs();
+            ObservableCollection<string> integr_headers = new ObservableCollection<string>();
+            foreach (Integr p in constr.integr_obr)
+            {
+                integr_headers.Add(p.integr);
+            }
+            integr_par.column_headers = integr_headers;
+            integr_par.add_row();
 
-            //parametrs integr_par = new parametrs();
-            //ObservableCollection<string> integr_headers = new ObservableCollection<string>();
-            //foreach (Integr p in constr.integr_obr)
-            //{
-            //    integr_headers.Add(p.integr);
-            //}
-            //integr_par.column_headers = integr_headers;
-            //integr_par.add_row();
+            ObservableCollection<section> sections = new ObservableCollection<section>();
+            foreach (Obr_parametrs_sech_7 par in constr.obr_params_sech)
+            {
+                int i = constr.obr_params_sech.IndexOf(par); // индекс сечения
+                int id_section = Convert.ToInt32(constr.sechen[i]);// номер сечения
 
-            //ObservableCollection<section> sections = new ObservableCollection<section>();
-            //foreach (Obr_parametrs_sech_7 par in constr.obr_params_sech)
-            //{
-            //    int i = constr.obr_params_sech.IndexOf(par); // индекс сечения
-            //    int id_section = Convert.ToInt32(constr.sechen[i]);// номер сечения
+                ObservableCollection<string> parametrs = new ObservableCollection<string>();
+                foreach (Phys p in constr.obr_params_sech[i].phys_obr_7)
+                {
+                    parametrs.Add(p.phys);
+                }
 
-            //    ObservableCollection<string> parametrs = new ObservableCollection<string>();
-            //    foreach (Phys p in constr.obr_params_sech[i].phys_obr_7)
-            //    {
-            //        parametrs.Add(p.phys);
-            //    }
+                sections.Add(new section(id_section, parametrs, 1, "new"));
+            }
 
-            //    sections.Add(new section(id_section, parametrs, 1, "new"));
-            //}
+            this.rezh_num = rezh_num;
+            this.sreda = sreda;
+            this.rezh_par = rezh_par;
+            this.integr_par = integr_par;
+            this.sections = sections;
 
-            //this.rezh_num = rezh_num;
-            //this.sreda = sreda;
-            //this.rezh_par = rezh_par;
-            //this.integr_par = integr_par;
-            //this.sections = sections;
-
-            //for (int i = 1; i < Convert.ToInt32(constr.rezh_count); i++)
-            //{
-            //    add_rezhim();
-            //}
+            for (int i = 1; i < Convert.ToInt32(constr.rezh_count); i++)
+            {
+                add_rezhim();
+            }
         }
 
-        public void update(Construct constr) // обновление структуры классов по параметрам конструктора
+        public override void update(Construct constr) // обновление структуры классов по параметрам конструктора
         {
-            //foreach (parametr sred in this.sreda)
-            //{
-            //    if (sred.value != constr.sreda)
-            //    {
-            //        sred.mode = "update";
-            //        sred.value = constr.sreda;
-            //    }
-            //}
+            foreach (parametr sred in this.sreda)
+            {
+                if (sred.value != constr.sreda)
+                {
+                    sred.mode = "update";
+                    sred.value = constr.sreda;
+                }
+            }
 
-            //List<string> rezh_par = new List<string>();
-            //foreach (Rezh r6 in constr.rezh_obr_7)
-            //{
-            //    if (this.rezh_par.column_headers.IndexOf(r6.rezh) == -1)
-            //    {
-            //        this.rezh_par.add_parametr(r6.rezh);
-            //    }
-            //    rezh_par.Add(r6.rezh);
-            //}
-            //for (int i = 0; i < this.rezh_par.column_headers.Count; i++)
-            //{
-            //    if (rezh_par.IndexOf(this.rezh_par.column_headers[i]) == -1)
-            //    {
-            //        this.rezh_par.delete_parametr(this.rezh_par.column_headers[i]);
-            //    }
-            //}
+            List<string> rezh_par = new List<string>();
+            foreach (Rezh r6 in constr.rezh_obr_7)
+            {
+                if (this.rezh_par.column_headers.IndexOf(r6.rezh) == -1)
+                {
+                    this.rezh_par.add_parametr(r6.rezh);
+                }
+                rezh_par.Add(r6.rezh);
+            }
+            for (int i = 0; i < this.rezh_par.column_headers.Count; i++)
+            {
+                if (rezh_par.IndexOf(this.rezh_par.column_headers[i]) == -1)
+                {
+                    this.rezh_par.delete_parametr(this.rezh_par.column_headers[i]);
+                }
+            }
 
-            //List<string> integr_par = new List<string>();
-            //foreach (Integr p in constr.integr_obr)
-            //{
-            //    if (this.integr_par.column_headers.IndexOf(p.integr) == -1)
-            //    {
-            //        this.integr_par.add_parametr(p.integr);
-            //    }
-            //    integr_par.Add(p.integr);
-            //}
-            //for (int i = 0; i < this.integr_par.column_headers.Count; i++)
-            //{
-            //    if (integr_par.IndexOf(this.integr_par.column_headers[i]) == -1)
-            //    {
-            //        this.integr_par.delete_parametr(this.integr_par.column_headers[i]);
-            //    }
-            //}
+            List<string> integr_par = new List<string>();
+            foreach (Integr p in constr.integr_obr)
+            {
+                if (this.integr_par.column_headers.IndexOf(p.integr) == -1)
+                {
+                    this.integr_par.add_parametr(p.integr);
+                }
+                integr_par.Add(p.integr);
+            }
+            for (int i = 0; i < this.integr_par.column_headers.Count; i++)
+            {
+                if (integr_par.IndexOf(this.integr_par.column_headers[i]) == -1)
+                {
+                    this.integr_par.delete_parametr(this.integr_par.column_headers[i]);
+                }
+            }
 
 
 
-            //int col_sech = this.sections.Count;
-            //int new_col_sech = Convert.ToInt32(constr.count_sech);
-            //// добавление\удаление новых сечений
-            //if (new_col_sech - col_sech > 0)
-            //{
-            //    for (int i = col_sech; i < new_col_sech; i++)
-            //    {
-            //        int id_section = Convert.ToInt32(constr.sechen[i]);
-            //        ObservableCollection<string> parametrs = new ObservableCollection<string>();
-            //        foreach (Phys p in constr.obr_params_sech[i].phys_obr_7)
-            //        {
-            //            parametrs.Add(p.phys);
-            //        }
-            //        this.sections.Add(new section(id_section, parametrs, this.rezh_num.Count, "new"));
-            //    }
-            //}
-            //else
-            //{
-            //    for (int i = 0; i < (new_col_sech - col_sech) * -1; i++)
-            //    {
-            //        this.sections.RemoveAt(this.sections.Count - 1);
-            //    }
-            //}
+            int col_sech = this.sections.Count;
+            int new_col_sech = Convert.ToInt32(constr.count_sech);
+            // добавление\удаление новых сечений
+            if (new_col_sech - col_sech > 0)
+            {
+                for (int i = col_sech; i < new_col_sech; i++)
+                {
+                    int id_section = Convert.ToInt32(constr.sechen[i]);
+                    ObservableCollection<string> parametrs = new ObservableCollection<string>();
+                    foreach (Phys p in constr.obr_params_sech[i].phys_obr_7)
+                    {
+                        parametrs.Add(p.phys);
+                    }
+                    this.sections.Add(new section(id_section, parametrs, this.rezh_num.Count, "new"));
+                }
+            }
+            else
+            {
+                for (int i = 0; i < (new_col_sech - col_sech) * -1; i++)
+                {
+                    this.sections.RemoveAt(this.sections.Count - 1);
+                }
+            }
 
-            //// обновление старых сечений
-            //foreach (section sec in this.sections)
-            //{
-            //    int sech_id = this.sections.IndexOf(sec);
+            // обновление старых сечений
+            foreach (section sec in this.sections)
+            {
+                int sech_id = this.sections.IndexOf(sec);
 
-            //    List<string> phiz_par = new List<string>();
-            //    foreach (Phys p in constr.obr_params_sech[sech_id].phys_obr_7)
-            //    {
-            //        if (this.sections[sech_id].pars.column_headers.IndexOf(p.phys) == -1)
-            //        {
-            //            this.sections[sech_id].pars.add_parametr(p.phys);
-            //        }
-            //        phiz_par.Add(p.phys);
-            //    }
-            //    for (int i = 0; i < this.sections[sech_id].pars.column_headers.Count; i++)
-            //    {
-            //        if (phiz_par.IndexOf(this.sections[sech_id].pars.column_headers[i]) == -1)
-            //        {
-            //            this.sections[sech_id].pars.delete_parametr(this.sections[sech_id].pars.column_headers[i]);
-            //        }
-            //    }
+                List<string> phiz_par = new List<string>();
+                foreach (Phys p in constr.obr_params_sech[sech_id].phys_obr_7)
+                {
+                    if (this.sections[sech_id].pars.column_headers.IndexOf(p.phys) == -1)
+                    {
+                        this.sections[sech_id].pars.add_parametr(p.phys);
+                    }
+                    phiz_par.Add(p.phys);
+                }
+                for (int i = 0; i < this.sections[sech_id].pars.column_headers.Count; i++)
+                {
+                    if (phiz_par.IndexOf(this.sections[sech_id].pars.column_headers[i]) == -1)
+                    {
+                        this.sections[sech_id].pars.delete_parametr(this.sections[sech_id].pars.column_headers[i]);
+                    }
+                }
 
-            //}
+            }
 
-            //// добавление новых режимов
-            //int col_rezh = this.rezh_num.Count;
-            //int new_col_rezh = Convert.ToInt32(constr.rezh_count);
-            //if (new_col_rezh > col_rezh)
-            //{
-            //    for (int i = 0; i < new_col_rezh - col_rezh; i++)
-            //    {
-            //        this.add_rezhim();
-            //    }
-            //}
+            // добавление новых режимов
+            int col_rezh = this.rezh_num.Count;
+            int new_col_rezh = Convert.ToInt32(constr.rezh_count);
+            if (new_col_rezh > col_rezh)
+            {
+                for (int i = 0; i < new_col_rezh - col_rezh; i++)
+                {
+                    this.add_rezhim();
+                }
+            }
+
+        }
+
+        //подсчет функций 
+        public void func_to_value()
+        {
+            foreach (row r in this.rezh_par.table)
+            {
+                int id_row = this.rezh_par.table.IndexOf(r);
+                foreach (parametr pr in r.cols)
+                {
+                    Dictionary<string, double> arg_value = new Dictionary<string, double>();
+                    List<Dictionary<string, double>> arg_i_value = new List<Dictionary<string, double>>();// список словарей с параметрами(обозначениями) и их значениями для каждой точки траверсирования
+                    //геометрические параметры
+                    foreach (string par in Data.channels[id_chan].column_headers)
+                    {
+                        Param p = Parametrs.geom_pars[par];
+                        string value = Data.channels[id_chan].par_value(par, Data.id_realization);
+                        arg_value.Add(p.short_name, Convert.ToDouble(value));
+                    }
+                    //режимные параметры
+                    foreach (string par in Data.modeling_results.rezh_par.column_headers)
+                    {
+                        Param p = Parametrs.reg_pars[par];
+                        string value = Data.modeling_results.rezh_par.par_value(par, id_row).value;
+                        arg_value.Add(p.short_name, Convert.ToDouble(value));
+                    }
+                    //прочие параметры
+                    foreach (string par in Data.modeling_results.prochie_par.column_headers)
+                    {
+                        Param p = Parametrs.phys_pars[par];
+                        string value = Data.modeling_results.prochie_par.par_value(par, id_row).value;
+                        arg_value.Add(p.short_name, Convert.ToDouble(value));
+                    }
+                    pr.func_to_value(arg_value, arg_i_value);
+                }
+            }
+
+            foreach (section sec in this.sections)
+            {
+                int sec_id = this.sections.IndexOf(sec);
+                foreach (row r in sec.pars.table)
+                {
+                    int id_row = sec.pars.table.IndexOf(r);
+                    foreach (parametr pr in r.cols)
+                    {
+                        Dictionary<string, double> arg_value = new Dictionary<string, double>();
+                        List<Dictionary<string, double>> arg_i_value = new List<Dictionary<string, double>>();// список словарей с параметрами(обозначениями) и их значениями для каждой точки траверсирования
+
+
+                        //параметры сечения
+                        if (Data.modeling_results.sections[sec_id].pars == null)
+                        {
+                            foreach (string par in Data.modeling_results.sections[sec_id].coordinates.column_headers)
+                            {
+                                Param p = new Param() { short_name = par + "_i", unit = "" };
+                                int travers_points_count = Data.modeling_results.sections[sec_id].coordinates.travers_table[id_row].cols[0].Count;
+
+                                for (int i = 0; i < travers_points_count; i++)
+                                {
+                                    if (Data.modeling_results.sections[sec_id].coordinates.column_headers.IndexOf(par) == 0)
+                                    {
+                                        Dictionary<string, double> arg_j_value = new Dictionary<string, double>();
+                                        arg_i_value.Add(arg_j_value);
+                                    }
+                                    string value = Data.modeling_results.sections[sec_id].coordinates.par_value(par, id_row, i).value;
+                                    arg_i_value[i].Add(p.short_name, Convert.ToDouble(value));
+                                }
+                            }
+                            foreach (string par in Data.modeling_results.sections[sec_id].trav_pars.column_headers)
+                            {
+                                Param p = Parametrs.phys_pars[par];
+                                p.short_name += "_i";
+                                int travers_points_count = Data.modeling_results.sections[sec_id].trav_pars.travers_table[id_row].cols[0].Count;
+
+                                for (int i = 0; i < travers_points_count; i++)
+                                {
+                                    //if (Data.modeling_results.sections[sec_id].trav_pars.column_headers.IndexOf(par) == 0)
+                                    //{
+                                    //    Dictionary<string, double> arg_j_value = new Dictionary<string, double>();
+                                    //    arg_i_value.Add(arg_j_value);
+                                    //}
+                                    string value = Data.modeling_results.sections[sec_id].trav_pars.par_value(par, id_row, i).value;
+                                    arg_i_value[i].Add(p.short_name, Convert.ToDouble(value));
+                                }
+                            }
+                        }
+                        else
+                        {
+                            foreach (string par in Data.modeling_results.sections[sec_id].pars.column_headers)
+                            {
+                                Param p = Parametrs.phys_pars[par];
+                                string value = Data.modeling_results.sections[sec_id].pars.par_value(par, id_row).value;
+                                arg_value.Add(p.short_name + $"_sec{sec_id + 1}", Convert.ToDouble(value));
+                            }
+                        }
+                        //геометрические параметры
+                        foreach (string par in Data.channels[id_chan].column_headers)
+                        {
+                            Param p = Parametrs.geom_pars[par];
+
+                            string value = Data.channels[id_chan].par_value(par, Data.id_realization);
+                            arg_value.Add(p.short_name, Convert.ToDouble(value));
+                        }
+                        //режимные параметры
+                        foreach (string par in Data.modeling_results.rezh_par.column_headers)
+                        {
+                            Param p = Parametrs.reg_pars[par];
+
+                            string value = Data.modeling_results.rezh_par.par_value(par, id_row).value;
+                            arg_value.Add(p.short_name, Convert.ToDouble(value));
+                        }
+                        //прочие параметры
+                        foreach (string par in Data.modeling_results.prochie_par.column_headers)
+                        {
+                            Param p = Parametrs.phys_pars[par];
+                            string value = Data.modeling_results.prochie_par.par_value(par, id_row).value;
+                            arg_value.Add(p.short_name, Convert.ToDouble(value));
+                        }
+
+
+                        pr.func_to_value(arg_value, arg_i_value);
+                    }
+                }
+            }
+
+            foreach (row r in this.integr_par.table)
+            {
+                int id_row = this.integr_par.table.IndexOf(r);
+                foreach (parametr pr in r.cols)
+                {
+                    Dictionary<string, double> arg_value = new Dictionary<string, double>();
+                    List<Dictionary<string, double>> arg_i_value = new List<Dictionary<string, double>>();// список словарей с параметрами(обозначениями) и их значениями для каждой точки траверсирования
+
+                    //геометрические параметры
+                    foreach (string par in Data.channels[id_chan].column_headers)
+                    {
+                        Param p = Parametrs.geom_pars[par];
+                        string value = Data.channels[id_chan].par_value(par, Data.id_realization);
+                        arg_value.Add(p.short_name, Convert.ToDouble(value));
+                    }
+                    //режимные параметры
+                    foreach (string par in Data.modeling_results.rezh_par.column_headers)
+                    {
+                        Param p = Parametrs.reg_pars[par];
+                        string value = Data.modeling_results.rezh_par.par_value(par, id_row).value;
+                        arg_value.Add(p.short_name, Convert.ToDouble(value));
+                    }
+                    foreach (string par in Data.modeling_obrabotka.rezh_par.column_headers)
+                    {
+                        Param p = Parametrs.reg_pars[par];
+                        if (!arg_value.ContainsKey(p.short_name))
+                        {
+                            string value = Data.modeling_obrabotka.rezh_par.par_value(par, id_row).value;
+                            if (value != "")
+                            {
+                                arg_value.Add(p.short_name, Convert.ToDouble(value));
+                            }
+                        }
+                    }
+                    //параметры обработки результатов всех сечений 
+                    foreach (section sec in Data.modeling_obrabotka.sections)
+                    {
+                        int id = Data.modeling_obrabotka.sections.IndexOf(sec);
+                        foreach (string par in sec.pars.column_headers)
+                        {
+                            Param p = Parametrs.phys_pars[par];
+
+                            p.short_name += $"_sec{id + 1}";
+
+                            string value = sec.pars.par_value(par, id_row).value;
+                            if (value != "")
+                            {
+                                arg_value.Add(p.short_name, Convert.ToDouble(value));
+                            }
+                        }
+                    }
+                    //прочие параметры
+                    foreach (string par in Data.modeling_results.prochie_par.column_headers)
+                    {
+                        Param p = Parametrs.phys_pars[par];
+                        string value = Data.modeling_results.prochie_par.par_value(par, id_row).value;
+                        arg_value.Add(p.short_name, Convert.ToDouble(value));
+                    }
+
+
+                    pr.func_to_value(arg_value, arg_i_value);
+                }
+            }
 
         }
 

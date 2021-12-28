@@ -1329,7 +1329,7 @@ namespace БД_НТИ
             }
         }
 
-        public void update(Construct constr) // обновление структуры классов по параметрам конструктора
+        public virtual void update(Construct constr) // обновление структуры классов по параметрам конструктора
         {
             foreach (parametr sred in this.sreda)
             {
@@ -1468,7 +1468,7 @@ namespace БД_НТИ
 
         //подсчет функций 
 
-        public void func_to_value(int id_chan)
+        public virtual void func_to_value(int id_chan)
         {
             foreach (row r in this.rezh_par.table)
             {

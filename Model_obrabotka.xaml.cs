@@ -53,6 +53,9 @@ namespace БД_НТИ
 
             //Data.modeling_obrabotka.sections[0].pars.column_headers
 
+            constr_model_obr.rezh_count = Data.modeling_results.rezh_num.Count.ToString();
+            constr_model_obr.sreda = Data.modeling_results.sreda[0].value;
+
             constr_model_obr.integr_obr = new ObservableCollection<Integr>();
             constr_model_obr.integr_all = new ObservableCollection<Integr>();
             constr_model_obr.rezh_obr_7 = new ObservableCollection<Rezh>();
@@ -211,27 +214,6 @@ namespace БД_НТИ
             Dialog_construct.DataContext = constr_model_obr;
 
             Dialog_construct.IsOpen = true;
-            //id_chan = chan;// индекс канала в списке данных обработки каналов
-            //page_name.Text += chan + 1;
-            //batt_.Visibility = Visibility.Hidden;
-
-            //if (Data.chans_obr[id_chan].rezh_par == null)
-            //{
-            //    Data.chans_obr[id_chan] = new Obrabotka_of_fiz_exp(Data.constr[id_chan], id_chan + 1);
-            //}
-            //else
-            //{
-            //    Data.chans_obr[id_chan].update(Data.constr[id_chan]);
-            //}
-            //datagrid0.ItemsSource = Data.chans_obr[id_chan].rezh_num;
-            //datagrid1.ItemsSource = Data.chans_obr[id_chan].sreda;
-            //parametrs_table_build(datagrid2, Data.chans_obr[id_chan].rezh_par);
-            //parametrs_table_build(datagrid3, Data.chans_obr[id_chan].integr_par);
-            //foreach (section sec in Data.chans_obr[id_chan].sections)
-            //{
-            //    section_table_build(sec, Data.chans_obr[id_chan], sections_cols);
-            //}
-            //Data.chans_obr[id_chan].func_to_value(id_chan);
         }
 
         private void batt_save_Click(object sender, RoutedEventArgs e)// сохранение измнений в БД
@@ -512,8 +494,28 @@ namespace БД_НТИ
 
         private void Dialog_construct_DialogClosing(object sender, MaterialDesignThemes.Wpf.DialogClosingEventArgs eventArgs)
         {
+            batt_.Visibility = Visibility.Hidden;
 
+            if (Data.modeling_obrabotka.rezh_num.Count == 0)
+            {
+                Data.modeling_obrabotka = new Obrabotka_of_modeling(constr_model_obr);
+            }
+            else
+            {
+                Data.modeling_obrabotka.update(constr_model_obr);
+            }
+            datagrid0.ItemsSource = Data.modeling_obrabotka.rezh_num;
+            datagrid1.ItemsSource = Data.modeling_obrabotka.sreda;
+            parametrs_table_build(datagrid2, Data.modeling_obrabotka.rezh_par);
+            parametrs_table_build(datagrid3, Data.modeling_obrabotka.integr_par);
+            foreach (section sec in Data.modeling_obrabotka.sections)
+            {
+                section_table_build(sec, Data.modeling_obrabotka, sections_cols);
+            }
+            Data.modeling_obrabotka.func_to_value();
         }
+
+        # region configurator
 
         private void combox_7_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -750,5 +752,7 @@ namespace БД_НТИ
             txt_par_symb.IsEnabled = true;
             txt_par_unit.IsEnabled = true;
         }
+
+        #endregion
     }
 }

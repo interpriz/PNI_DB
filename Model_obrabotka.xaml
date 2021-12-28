@@ -372,7 +372,7 @@
 
                                 <DataGrid x:Name="datagrid0" Grid.Row="0" Grid.Column="0"  Grid.RowSpan="3" BorderBrush="Black" BorderThickness="1,1,1,1"  ColumnHeaderHeight="120" AutoGenerateColumns="False" CanUserAddRows="False" RowHeight="67" IsReadOnly="True" >
                                     <DataGrid.Columns>
-                                        <DataGridTextColumn Header="№Настройка" Binding="{Binding visual_num, Mode=TwoWay}" IsReadOnly="True">
+                                        <DataGridTextColumn Header="№Настройки" Binding="{Binding visual_num, Mode=TwoWay}" IsReadOnly="True">
                                             <DataGridTextColumn.ElementStyle>
                                                 <Style TargetType="TextBlock">
                                                     <Setter Property="HorizontalAlignment" Value="Center" />

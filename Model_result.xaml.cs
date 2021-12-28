@@ -359,38 +359,9 @@ namespace БД_НТИ
 
         private void batt_obr_rez_Click(object sender, RoutedEventArgs e)
         {
-            //bool f1 = Data.constr[id_chan].rezh_obr_7.Count != 0;       //количество режимных параметров
-            //bool f2 = Data.constr[id_chan].integr_obr.Count != 0;       //количество интегральных параметров
-            //bool f3 = Data.constr[id_chan].sechen.Count != 0;           // количество сечений
-            //bool f4 = true;// число параметров сечений не 0
-            //foreach (Obr_parametrs_sech_7 i in Data.constr[id_chan].obr_params_sech)
-            //{
-            //    if (i.phys_obr_7.Count == 0)
-            //    {
-            //        f4 = false;
-            //        break;
-            //    }
-            //}
-
-            //if (f1 && f2 && f3 && f4)
-            //{
-            //    if (save)
-            //    {
-            //        exp_wind.item5.IsSelected = false;
-            //        exp_wind.item6.IsEnabled = true;
-            //        exp_wind.item6.IsSelected = true;
-            //    }
-            //    else
-            //    {
-            //        messtxt.Text = "Данные изменены! Для продолжения сохраните их!";
-            //        messbar.IsActive = true;
-            //    }
-            //}
-            //else
-            //{
-            //    messtxt.Text = $"Таблица обработки результатов канала №{id_chan + 1} не сконфигурирована! \r\nВернитесь на страницу конфигуратора!";
-            //    messbar.IsActive = true;
-            //}
+            model_wind.item5.IsSelected = false;
+            model_wind.item6.IsEnabled = true;
+            model_wind.item6.IsSelected = true;
         }
 
         private void messbut_Click(object sender, RoutedEventArgs e)
