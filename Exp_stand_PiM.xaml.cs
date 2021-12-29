@@ -42,7 +42,7 @@ namespace БД_НТИ
                 case "search":
                     //exp_search.Butt_next.IsEnabled = false;
                     Butt_Save.Visibility = Visibility.Hidden;
-                    page_name.Text = "Просмотр информации о стенде и ПиМ";
+                    page_name.Text = "3. Просмотр информации о стенде и ПиМ";
                     Combox_stand.IsEnabled = false;
                     Txt_namestand.IsEnabled = false;
                     Txt_stand.IsEnabled = false;

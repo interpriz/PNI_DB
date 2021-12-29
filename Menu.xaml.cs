@@ -58,6 +58,7 @@ namespace БД_НТИ
                     break;
 
                 case "ExpSearch":
+                case "ModelSearch":
                     this.Hide();
                     Window newin4 = new Experiment_search();
                     newin4.ShowDialog();

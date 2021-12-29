@@ -57,7 +57,7 @@
                 </MenuItem>
                 <MenuItem
                  Header="Численное моделирование" Width="225" Background="LightCyan" Padding="16,0,-200,0" Margin="0,0,0,20" BorderBrush="#FF000E99" BorderThickness="1">
-                    <MenuItem Header="Поиск результатов моделирования" x:Name="ModelSearch" FontSize="12"/>
+                    <MenuItem Header="Поиск результатов моделирования" x:Name="ModelSearch" FontSize="12" Click="MenuItem_Click"/>
                     <MenuItem Header="Добавление результатов моделирования" FontSize="12" >
                         <MenuItem Header="Существующий класс задачи" x:Name="ModelOldTask" FontSize="12" Click="MenuItem_Click"/>
                         <MenuItem Header="Новый класс задачи" x:Name="ModelNewTask" FontSize="12" Click="MenuItem_Click"/>
