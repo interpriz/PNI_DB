@@ -242,6 +242,7 @@ namespace БД_НТИ
                     //item2.IsSelected = false;
                     if (new_Model_rezh.check_rezh_pars())
                     {
+                        new_Model_rezh.save_in_DB();
                         item4.IsEnabled = true;
                         item4.IsSelected = true;
                     }

@@ -10,8 +10,6 @@ namespace БД_НТИ
 {
     class Results_of_modeling : Results_of_fiz_exp
     {
-       
-
         public Results_of_modeling(ObservableCollection<num_rezh> rezh_num,
             ObservableCollection<parametr> sreda,
             parametrs rezh_par,

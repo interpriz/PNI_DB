@@ -226,14 +226,14 @@
                             </Button>
                         </StackPanel>
                         <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="35,143,37,193" Height="74" Width="33">
-                            <Button x:Name="add" Content=">>" Margin="0,0,0,5" Padding="4" FontSize="15" Click="butt_rezh_add_Click" />
-                            <Button x:Name="del" Content="&lt;&lt;" Margin="0,5,0,0" Padding="4" FontSize="15" Click="butt_rezh_del_Click" />
+                            <Button x:Name="add" Content=">>" Margin="0,0,0,5" Padding="4" FontSize="15" Click="butt_rezh_add_Click" IsEnabled="False" />
+                            <Button x:Name="del" Content="&lt;&lt;" Margin="0,5,0,0" Padding="4" FontSize="15" Click="butt_rezh_del_Click" IsEnabled="False" />
                         </StackPanel>
                         <StackPanel Grid.Column="2" Margin="0,0,25,0">
                             <DataGrid x:Name="datagrid_rezh_izm" HorizontalScrollBarVisibility="Auto" Height="300" Margin="0,20,10,0" BorderThickness="1" 
                                               FontSize="10"
                                               CanUserDeleteRows="False" CanUserAddRows="False" CanUserResizeColumns="False" 
-                                                  CanUserReorderColumns="False" CanUserResizeRows="False" CanUserSortColumns="False" AutoGenerateColumns="False">
+                                                  CanUserReorderColumns="False" CanUserResizeRows="False" CanUserSortColumns="False" AutoGenerateColumns="False" CellEditEnding="datagrid_rezh_izm_CellEditEnding">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn IsReadOnly="True" Binding="{Binding rezh, Mode=TwoWay}">
                                         <DataGridTextColumn.Header>

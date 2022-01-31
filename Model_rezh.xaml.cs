@@ -37,12 +37,14 @@ namespace БД_НТИ
             public string rezh { get; set; }
             public string value { get; set; }
             public string age { get; set; }
+            public int reg_number { get; set; }// номер режима для режимных параметров из БД моделирования
         }
         
         class Rezh_list
         {
             public ObservableCollection<Rezh_value> rezh_all = new ObservableCollection<Rezh_value>();
             public ObservableCollection<Rezh_value> rezh_izm = new ObservableCollection<Rezh_value>();
+            public ObservableCollection<Rezh_value> Reg_pars = new ObservableCollection<Rezh_value>();
         }
 
         ObservableCollection<Rezh_list> rezh_list = new ObservableCollection<Rezh_list>();  //список по каналам
@@ -132,15 +134,40 @@ namespace БД_НТИ
                     rezh_list_exmp.rezh_izm.Add(rez);
                 }
 
+                #region запрос из бд дополнительных режимных параметров моделирования
+
+                NpgsqlCommand com_params1 = new NpgsqlCommand($"select* from main_block.select_Reg_pars({Id_r_c})", sqlconn);
+                NpgsqlDataReader reader_par1 = com_params1.ExecuteReader();
+
+                ObservableCollection<Rezh_value> Reg_pars = new ObservableCollection<Rezh_value>();
+
+
+                while (reader_par1.Read())
+                {
+                    int id_mode = (int)reader_par1[0]; //номер режима в БД 
+                    string name_par = reader_par1[1].ToString();
+                    string value_par = Convert.ToDouble(reader_par1[2].ToString().Replace('.', ',')).ToString();
+
+                    Rezh_value par = new Rezh_value { rezh = name_par, value = value_par, age = "old", reg_number = id_mode };
+
+                    Reg_pars.Add(par);
+                }
+                reader_par1.Close();
+
+                rezh_list_exmp.Reg_pars = Reg_pars;
+
+                #endregion
+
+
                 #region заполнение всех режимных параметров
 
                 NpgsqlCommand com_rezh_params = new NpgsqlCommand($"select * from main_block.select_parametrs('Режимные параметры') order by name_param;", sqlconn);
-                NpgsqlDataReader reader_par1 = com_rezh_params.ExecuteReader();
+                NpgsqlDataReader reader_par2 = com_rezh_params.ExecuteReader();
                 Parametrs.geom_pars = new Dictionary<string, Param>();
-                while (reader_par1.Read())
+                while (reader_par2.Read())
                 {
                     Rezh_value str = new Rezh_value();
-                    str.rezh = reader_par1[0].ToString();
+                    str.rezh = reader_par2[0].ToString();
                     bool flag = true;
                     for (int i = 0; i < rezh_list_exmp.rezh_izm.Count; i++)
                     {
@@ -158,10 +185,10 @@ namespace БД_НТИ
                         rezh_list_exmp.rezh_all.Add(str);
                     }
                         
-                    Param p = new Param() { short_name = reader_par1[1].ToString(), unit = reader_par1[2].ToString() };
-                    Parametrs.geom_pars.Add(reader_par1[0].ToString(), p);
+                    Param p = new Param() { short_name = reader_par2[1].ToString(), unit = reader_par2[2].ToString() };
+                    Parametrs.geom_pars.Add(reader_par2[0].ToString(), p);
                 }
-                reader_par1.Close();
+                reader_par2.Close();
 
                 #endregion
 
@@ -175,14 +202,17 @@ namespace БД_НТИ
             radiobut_chan1.IsChecked = true;
         }
 
+        ObservableCollection<Rezh_value> Reg_izm = new ObservableCollection<Rezh_value>();
         private void RadioButton_Checked(object sender, RoutedEventArgs e)  //переключение по каналам
         {
             var radio = sender as RadioButton;
             string[] names = radio.Content.ToString().Split(' ');
             chan = Convert.ToInt32(names[1]) - 1; //номер канала (начиная с 0 (т.е. №-1))
 
+            Reg_izm = rezh_list[chan].rezh_izm;
+
             datagrid_rezh_all.ItemsSource = rezh_list[chan].rezh_all;
-            datagrid_rezh_izm.ItemsSource = rezh_list[chan].rezh_izm;
+            datagrid_rezh_izm.ItemsSource = Reg_izm;
 
             exp_rezh_params.Columns.Clear();
             column_rezh_numbers.ItemsSource = exp_rezh_numbers_list[chan];
@@ -193,26 +223,61 @@ namespace БД_НТИ
             NpgsqlConnection sqlconn = new NpgsqlConnection(conn_str);
             sqlconn.Open();
             NpgsqlCommand comm_id = new NpgsqlCommand($"select \"Id_R_C\" from main_block.\"Realization_channel\" where \"Id$\" = {Data.id_obj} and \"Realization\" = {Data.current_realization} and \"Channel\" = {chan + 1}", sqlconn);
-            Data.id_R_C = comm_id.ExecuteScalar().ToString();
+            Data. id_R_C = comm_id.ExecuteScalar().ToString();
             sqlconn.Close();
 
         }
 
         bool rezh_select = false;
+        
         private void RadioButton_Checked_rezh(object sender, RoutedEventArgs e)// выбор режима
         {
+            //активация кнопок переноса параметров
+            add.IsEnabled = true;
+            del.IsEnabled = true;
+
             rezh_select = true;
             var radio = sender as RadioButton;
             int rezh = Convert.ToInt32(radio.Content.ToString()) - 1;
+
+            Data.current_mode = exp_rezh_numbers_list[Data.current_channel - 1][rezh].db_number;
+
             for (int i = 0; i < rezh_pars_list[chan].column_headers.Count; i++)
             {
                 rezh_list[chan].rezh_izm[i].value = rezh_pars_list[chan].par_value(rezh_list[chan].rezh_izm[i].rezh, rezh).value;
                 rezh_list[chan].rezh_izm[i].age = "old";
             }
-            datagrid_rezh_izm.ItemsSource = null;
-            datagrid_rezh_izm.ItemsSource = rezh_list[chan].rezh_izm;
 
-            Data.current_mode = exp_rezh_numbers_list[Data.current_channel - 1][rezh].db_number;
+            Reg_izm = rezh_list[chan].rezh_izm;
+
+            foreach (Rezh_value par in rezh_list[chan].Reg_pars)
+            {
+                if(rezh+1 == par.reg_number)
+                {
+                    par.reg_number = Data.current_mode;
+                    Reg_izm.Add(par);
+                    //удаление параметров из левой таблицы (тех, что загрузились из базы)
+                    for(int i = 0; i< rezh_list[chan].rezh_all.Count; i++)
+                    {
+                        if (rezh_list[chan].rezh_all[i].rezh == par.rezh) 
+                        {
+                            rezh_list[chan].rezh_all.Remove(rezh_list[chan].rezh_all[i]);
+                            i--;
+                        }
+                        
+                    }
+                }
+                
+            }
+
+            
+
+
+
+            datagrid_rezh_izm.ItemsSource = null;
+            datagrid_rezh_izm.ItemsSource = Reg_izm;
+
+            
 
         }
 
@@ -224,7 +289,10 @@ namespace БД_НТИ
                 {
                     Rezh_value rezh = datagrid_rezh_all.SelectedItems[i] as Rezh_value;
                     rezh_list[chan].rezh_all.Remove(rezh);
-                    rezh_list[chan].rezh_izm.Add(rezh);
+                    rezh.age = "new";
+                    rezh.reg_number = Data.current_mode;
+                    rezh_list[chan].Reg_pars.Add(rezh);
+                    Reg_izm.Add(rezh);
                 }
             }
         }
@@ -251,7 +319,10 @@ namespace БД_НТИ
                     }
                     if (!flag)
                     {
-                        rezh_list[chan].rezh_izm.Remove(rezh);
+                        rezh_list[chan].Reg_pars.Remove(rezh);
+                        Reg_izm.Remove(rezh);
+                        if (rezh.age =="old")
+                        rezh.age = "del";
                         rezh_list[chan].rezh_all.Add(rezh);
                     }
                     
@@ -363,6 +434,62 @@ namespace БД_НТИ
             }
             
             return check;
+        }
+
+        private void datagrid_rezh_izm_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            if (e.EditAction == DataGridEditAction.Commit)
+            {
+                var column = e.Column as DataGridBoundColumn;
+                if (column != null)
+                {
+                    var el = e.EditingElement as TextBox;
+                    int rowIndex = e.Row.GetIndex();
+                    int columnIndex = e.Column.DisplayIndex;
+                    Rezh_value data = (Rezh_value)e.Row.DataContext;
+                    if (el.Text != data.value && data.age == "old")
+                    {
+                        try
+                        {
+                            double d = Convert.ToDouble(el.Text);
+                            data.age = "update";
+                            //changes++;
+                            //batt_obr_rez.IsEnabled = false;
+                        }
+                        catch
+                        {
+                            messtxt.Text = $"Ошибка ввода!";
+                            messbar.IsActive = true;
+                            el.Text = data.value;
+                        }
+                    }
+                }
+            }
+        }
+
+        public void save_in_DB()
+        {
+            foreach(Rezh_value par in rezh_list[chan].Reg_pars)
+            {
+                if (Data.current_mode == par.reg_number)
+                {
+                    switch (par.age)
+                    {
+                        case "new":
+                            DB_proc_func.insert_Reg_pars(par.rezh, null, par.value);
+                            break;
+
+                        case "update":
+                            DB_proc_func.update_Reg_pars(par.rezh, null, par.value);
+                            break;
+                    }
+
+                    par.age = "old";
+                    
+                }
+            }
+
+
         }
     }
 }

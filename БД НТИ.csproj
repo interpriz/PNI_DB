@@ -190,6 +190,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Calculator.cs" />
+    <Compile Include="DB_proc_func.cs" />
     <Compile Include="Experiment_search.xaml.cs">
       <DependentUpon>Experiment_search.xaml</DependentUpon>
     </Compile>
