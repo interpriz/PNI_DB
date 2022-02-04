@@ -203,15 +203,26 @@ namespace БД_НТИ
         }
 
         ObservableCollection<Rezh_value> Reg_izm = new ObservableCollection<Rezh_value>();
+        ObservableCollection<Rezh_value> Reg_all = new ObservableCollection<Rezh_value>();
         private void RadioButton_Checked(object sender, RoutedEventArgs e)  //переключение по каналам
         {
             var radio = sender as RadioButton;
             string[] names = radio.Content.ToString().Split(' ');
             chan = Convert.ToInt32(names[1]) - 1; //номер канала (начиная с 0 (т.е. №-1))
 
-            Reg_izm = rezh_list[chan].rezh_izm;
+            Reg_izm.Clear();
+            foreach (Rezh_value r in rezh_list[chan].rezh_izm)
+            {
+                Reg_izm.Add(r);
+            }
 
-            datagrid_rezh_all.ItemsSource = rezh_list[chan].rezh_all;
+            Reg_all.Clear();
+            foreach (Rezh_value r in rezh_list[chan].rezh_all)
+            {
+                Reg_all.Add(r);
+            }
+
+            datagrid_rezh_all.ItemsSource = Reg_all;
             datagrid_rezh_izm.ItemsSource = Reg_izm;
 
             exp_rezh_params.Columns.Clear();
@@ -248,7 +259,17 @@ namespace БД_НТИ
                 rezh_list[chan].rezh_izm[i].age = "old";
             }
 
-            Reg_izm = rezh_list[chan].rezh_izm;
+            Reg_izm.Clear();
+            foreach(Rezh_value r in rezh_list[chan].rezh_izm)
+            {
+                Reg_izm.Add(r);
+            }
+
+            Reg_all.Clear();
+            foreach (Rezh_value r in rezh_list[chan].rezh_all)
+            {
+                Reg_all.Add(r);
+            }
 
             foreach (Rezh_value par in rezh_list[chan].Reg_pars)
             {
@@ -257,11 +278,11 @@ namespace БД_НТИ
                     par.reg_number = Data.current_mode;
                     Reg_izm.Add(par);
                     //удаление параметров из левой таблицы (тех, что загрузились из базы)
-                    for(int i = 0; i< rezh_list[chan].rezh_all.Count; i++)
+                    for(int i = 0; i< Reg_all.Count; i++)
                     {
-                        if (rezh_list[chan].rezh_all[i].rezh == par.rezh) 
+                        if (Reg_all[i].rezh == par.rezh) 
                         {
-                            rezh_list[chan].rezh_all.Remove(rezh_list[chan].rezh_all[i]);
+                            Reg_all.Remove(Reg_all[i]);
                             i--;
                         }
                         
@@ -270,14 +291,12 @@ namespace БД_НТИ
                 
             }
 
-            
-
+            datagrid_rezh_all.ItemsSource = null;
+            datagrid_rezh_all.ItemsSource = Reg_all;
 
 
             datagrid_rezh_izm.ItemsSource = null;
             datagrid_rezh_izm.ItemsSource = Reg_izm;
-
-            
 
         }
 

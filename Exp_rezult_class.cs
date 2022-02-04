@@ -2055,7 +2055,7 @@ namespace БД_НТИ
                 {
                     parametr p = new parametr();
                     p.mode = "old";
-                    p.value = pars[i];
+                    p.value = pars[i].Replace('.',',');
                     table[i].cols.Add(p);
                 }
             }
@@ -2065,7 +2065,7 @@ namespace БД_НТИ
                 {
                     parametr p = new parametr();
                     p.mode = "old";
-                    p.value = pars[i];
+                    p.value = pars[i].Replace('.', ','); ;
 
                     row r = new row();
                     r.cols.Add(p);

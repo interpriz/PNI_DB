@@ -26,12 +26,14 @@ namespace БД_НТИ
     {
         public string number { get; set; }      //отображаемый номер режима
         public int db_number { get; set; }    // номер режима в базе данных
+        public string age { get; set; }       // new old
 
         // конструктор заголовка
-        public setting_number(string number, int db_number)
+        public setting_number(string number, int db_number, string age)
         {
             this.number = number;
             this.db_number = db_number;
+            this.age = age;
         }
     }
 
@@ -53,6 +55,8 @@ namespace БД_НТИ
         public Model_settings() 
         {
             InitializeComponent();
+
+            butt_save.Visibility = Visibility.Hidden;
 
             // окошко добавления нового параметра
             bool_exp.geom = true;
@@ -133,7 +137,7 @@ namespace БД_НТИ
 
             for(int i = 0; i< setting_numbers.Count; i++)
             {
-                setting_Numbers.Add(new setting_number((i+1).ToString(),Convert.ToInt32(setting_numbers[i])));
+                setting_Numbers.Add(new setting_number((i+1).ToString(),Convert.ToInt32(setting_numbers[i]), "old"));
             }
 
             datagrid0.ItemsSource = setting_Numbers;
@@ -275,6 +279,7 @@ namespace БД_НТИ
                 values_list.Add(new_value.Text);
                 listbox_values.ItemsSource = null;
                 listbox_values.ItemsSource = values_list;
+                DB_proc_func.insert_string_values(name_param, new_value.Text);
             }
         }
 
@@ -418,16 +423,175 @@ namespace БД_НТИ
             setka_pars.add_row();
             if (setting_Numbers.Count != 0)
             {
-                setting_Numbers.Add(new setting_number((setting_Numbers.Count + 1).ToString(), setting_Numbers[setting_Numbers.Count - 1].db_number + 1));
+                setting_Numbers.Add(new setting_number((setting_Numbers.Count + 1).ToString(), setting_Numbers[setting_Numbers.Count - 1].db_number + 1,"new"));
             }
             else
             {
-                setting_Numbers.Add(new setting_number("1",1));
+                setting_Numbers.Add(new setting_number("1",1,"new"));
             }
             
         }
 
+        #region проверка, сохранение и обновление данных
 
+        public bool save_in_DB()
+        {
+            bool check = true;
+
+            foreach (setting_number setting in this.setting_Numbers)
+            {
+                if (!check) break;
+
+                int row_ind = Convert.ToInt32(setting.number)-1;
+                if (setting.age == "new") 
+                {
+                    DB_proc_func.insert_Settings_number(setting.db_number.ToString());
+                    setting.age = "old";
+                }
+
+
+                foreach (parametr par_setting in this.reshatel_pars.table[row_ind].cols.Concat(this.setka_pars.table[row_ind].cols)  )
+                {
+
+                    if (par_setting.value == "")
+                    {
+                        check = false;
+                        messtxt2.Text = "Не все поля заполнены!";
+                        messbar2.IsActive = true;
+                        break;
+                    }
+                    else
+                    {
+                        string name = "";
+                        int id_par = 0;// номер параметра в списке заголовков(и не только)
+                        int drop_list_count = 0;
+                        if ((id_par = this.reshatel_pars.table[row_ind].cols.IndexOf(par_setting)) != -1)
+                        {
+                            name = this.reshatel_pars.column_headers[id_par];// название параметра
+                            drop_list_count = this.reshatel_pars.column_drop_lists[id_par].Count;
+                        }
+                        else
+                        {
+                            id_par = this.setka_pars.table[row_ind].cols.IndexOf(par_setting);
+                            name = this.setka_pars.column_headers[id_par];// название параметра
+                            drop_list_count = this.setka_pars.column_drop_lists[id_par].Count;
+                        }
+
+                        string val_number = null;
+                        string val_string = null;
+                        if (drop_list_count == 0)
+                        {
+                            try
+                            {
+                                double d = Convert.ToDouble(par_setting.value);
+                                val_number = par_setting.value.Replace(',', '.'); ;
+                            }
+                            catch
+                            {
+                                check = false;
+                                messtxt2.Text = $"Ошибка ввода!";
+                                messbar2.IsActive = true;
+                                break;
+                            }
+                        }
+                        else 
+                        {
+                            val_string = par_setting.value;
+                        }
+                        
+
+                        switch (par_setting.mode)
+                        {
+                            case "new":
+                                // добавить запись в таблице Settings_values
+                                DB_proc_func.insert_Settings_values(name, val_string, val_number, setting.db_number.ToString());
+                                par_setting.mode = "old";
+                                break;
+
+                            case "update":
+                                // обновить запись в таблице Settings_values
+                                DB_proc_func.update_Settings_values(name, val_string, val_number, setting.db_number.ToString());
+                                par_setting.mode = "old";
+                                break;
+                        }
+                        id_par++;
+                    }
+                    
+                }
+
+                //if (!check) break;
+
+                //id_par = 0;
+                //foreach (parametr setka_par in this.setka_pars.table[row_ind].cols)
+                //{
+                //    string name = this.setka_pars.column_headers[id_par];// название параметра
+                //    if (setka_par.value == null)
+                //    {
+                //        check = false;
+                //        messtxt2.Text = "Не все поля заполнены!";
+                //        messbar2.IsActive = true;
+                //        break;
+                //    }
+                //    else
+                //    {
+                //        switch (setka_par.mode)
+                //        {
+                //            case "new":
+                //                // добавить запись в таблице Settings_values
+                //                DB_proc_func.insert_Settings_values(name, setka_par.value, null, setting.db_number.ToString());
+                //                setka_par.mode = "old";
+                //                break;
+
+                //            case "update":
+                //                // обновить запись в таблице Settings_values
+                //                DB_proc_func.update_Settings_values(name, setka_par.value, null, setting.db_number.ToString());
+                //                setka_par.mode = "old";
+                //                break;
+                //        }
+                //        id_par++;
+                //    }
+                        
+                //}
+            }
+
+            return check;
+        }
+        private void Par_settigs_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            if (e.EditAction == DataGridEditAction.Commit)
+            {
+                var column = e.Column as DataGridBoundColumn;
+                if (column != null)
+                {
+                    var el = e.EditingElement as TextBox;
+                    int rowIndex = e.Row.GetIndex();
+                    int columnIndex = e.Column.DisplayIndex;
+                    row data = (row)e.Row.DataContext;
+                    if (el.Text != data.cols[columnIndex].value && data.cols[columnIndex].mode == "old")
+                    {
+                        data.cols[columnIndex].mode = "update";
+                    }
+                }
+                else
+                {
+                    var column1 = e.Column as DataGridComboBoxColumn;
+                    if (column1 != null)
+                    {
+                        var el = e.EditingElement as ComboBox;
+                        int rowIndex = e.Row.GetIndex();
+                        int columnIndex = e.Column.DisplayIndex;
+                        row data = (row)e.Row.DataContext;
+                        if (el.Text != data.cols[columnIndex].value && data.cols[columnIndex].mode == "old")
+                        {
+                            data.cols[columnIndex].mode = "update";
+                        }
+                    }
+                }
+            }
+        }
+
+
+        #endregion
 
         private void batt_save_Click(object sender, RoutedEventArgs e)//сохранить изменения
         {
@@ -467,6 +631,11 @@ namespace БД_НТИ
             txt_par_name.IsEnabled = true;
             txt_par_symb.IsEnabled = true;
             txt_par_unit.IsEnabled = true;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)//удалить выбранные настройки
+        {
+
         }
 
         

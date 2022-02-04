@@ -250,8 +250,11 @@ namespace БД_НТИ
                     break;
                 case "step4":
                     //item2.IsSelected = false;
-                    item5.IsEnabled = true;
-                    item5.IsSelected = true;
+                    if (new_Model_settings.save_in_DB())
+                    {
+                        item5.IsEnabled = true;
+                        item5.IsSelected = true;
+                    }
                     break;
             }
         }

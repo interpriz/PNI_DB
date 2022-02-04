@@ -89,7 +89,7 @@ namespace БД_НТИ
 
             for (int i = 0; i < setting_numbers.Count; i++)
             {
-                setting_Numbers.Add(new setting_number((i + 1).ToString(), Convert.ToInt32(setting_numbers[i])));
+                setting_Numbers.Add(new setting_number((i + 1).ToString(), Convert.ToInt32(setting_numbers[i]),"view"));
             }
 
             datagrid0.ItemsSource = setting_Numbers;

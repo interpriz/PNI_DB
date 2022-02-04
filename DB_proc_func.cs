@@ -92,6 +92,53 @@ namespace БД_НТИ
             sqlconn.Close();
         }
 
+        static public void insert_Settings_number(string Id_setting)
+        {
+            NpgsqlConnection sqlconn = new NpgsqlConnection(User.Connection_string);
+            sqlconn.Open();
+
+            NpgsqlCommand com_add1 = new NpgsqlCommand($"INSERT INTO main_block.\"Settings_number\"(\"Id_rcm\", \"Id_setting\") VALUES((select \"Id_rcm\" from main_block.\"Mode\" where \"Id_R_C\"={Data.id_R_C} and \"Id_mode\"={Data.current_mode}), {Id_setting}); ", sqlconn);com_add1.ExecuteNonQuery();
+
+            sqlconn.Close();
+        }
+
+        static public void insert_Settings_values(string name_, string value_string, string value_number, string id_setting)
+        {
+            NpgsqlConnection sqlconn = new NpgsqlConnection(User.Connection_string);
+            sqlconn.Open();
+            if (value_number == null) value_number = "Null";
+            if (value_string == null) value_string = "Null"; else value_string = $"'{value_string}'";
+
+            NpgsqlCommand com_add1 = new NpgsqlCommand($"INSERT INTO main_block.\"Settings_values\"(\"Id_ms\", \"Id_param\", value_string, value_number) VALUES ( (select \"Id_ms\" from main_block.\"Settings_number\" where \"Id_setting\" = {id_setting} and \"Id_rcm\" = (select \"Id_rcm\" from main_block.\"Mode\" where \"Id_R_C\"={Data.id_R_C} and \"Id_mode\"={Data.current_mode})), (select id_param from main_block.\"Parametrs\" where \"name_param\" = '{name_}'), {value_string}, {value_number}); ", sqlconn);
+            com_add1.ExecuteNonQuery();
+
+            sqlconn.Close();
+        }
+
+        static public void update_Settings_values(string name_, string value_string, string value_number, string id_setting)
+        {
+            NpgsqlConnection sqlconn = new NpgsqlConnection(User.Connection_string);
+            sqlconn.Open();
+            if (value_number == null) value_number = "Null";
+            if (value_string == null) value_string = "Null"; else value_string = $"'{value_string}'";
+
+            NpgsqlCommand com_add1 = new NpgsqlCommand($"UPDATE main_block.\"Settings_values\" SET value_string = {value_string}, value_number =  {value_number} WHERE \"Id_ms\" = (select \"Id_ms\" from main_block.\"Settings_number\" where \"Id_setting\" = {id_setting} and \"Id_rcm\" = (select \"Id_rcm\" from main_block.\"Mode\" where \"Id_R_C\"={Data.id_R_C} and \"Id_mode\"={Data.current_mode}))  and \"Id_param\" = (select id_param from main_block.\"Parametrs\" where \"name_param\" = '{name_}'); ", sqlconn);
+            com_add1.ExecuteNonQuery();
+
+            sqlconn.Close();
+        }
+
+        static public void insert_string_values(string name_, string value_string)
+        {
+            NpgsqlConnection sqlconn = new NpgsqlConnection(User.Connection_string);
+            sqlconn.Open();
+
+            NpgsqlCommand com_add1 = new NpgsqlCommand($"CALL main_block.insert_string_values('{name_}', '{value_string}')", sqlconn);
+            com_add1.ExecuteNonQuery();
+
+            sqlconn.Close();
+        }
+
 
 
     }

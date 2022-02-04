@@ -269,7 +269,7 @@
 
                         <DataGrid x:Name="reshatel" AutoGenerateColumns="False" Grid.Row="1" Grid.Column="1" BorderThickness="1,1,1,1" 
                                           ScrollViewer.CanContentScroll="False" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserReorderColumns="False" CanUserAddRows="False"
-                                          RowHeight="67" ColumnHeaderHeight="40" Foreground="#FF000E99" BorderBrush="#FF000E99">
+                                          RowHeight="67" ColumnHeaderHeight="40" Foreground="#FF000E99" BorderBrush="#FF000E99" CellEditEnding="Par_settigs_CellEditEnding">
 
                         </DataGrid>
 
@@ -295,7 +295,7 @@
 
                         <DataGrid x:Name="setka" AutoGenerateColumns="False" Grid.Row="1" Grid.Column="2" BorderThickness="1,1,1,1" 
                                           ScrollViewer.CanContentScroll="False" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserReorderColumns="False" CanUserAddRows="False"
-                                          RowHeight="67" ColumnHeaderHeight="40" Foreground="#FF000E99" BorderBrush="#FF000E99">
+                                          RowHeight="67" ColumnHeaderHeight="40" Foreground="#FF000E99" BorderBrush="#FF000E99" CellEditEnding="Par_settigs_CellEditEnding">
 
                         </DataGrid>
                     </Grid>
@@ -312,15 +312,14 @@
                             Style="{StaticResource MaterialDesignRaisedButton}"
                             materialDesign:RippleAssist.Feedback="#FF86E2FD"
                             Background="LightCyan" 
-                            BorderBrush="#FF000E99" BorderThickness="1" Width="264"
+                            BorderBrush="#FF000E99" BorderThickness="1" Width="264" Click="Button_Click"
                             />
-                <Button  Grid.Row="1" x:Name="batt_save"  Content="Сохранить изменения"
+                <Button  Grid.Row="1" x:Name="butt_save"  Content="Сохранить изменения"
                         VerticalAlignment="Center" HorizontalAlignment="Center" 
                         Style="{StaticResource MaterialDesignRaisedButton}"
                         materialDesign:RippleAssist.Feedback="#FF86E2FD"
                         Background="LightCyan" BorderBrush="#FF000E99" BorderThickness="1" 
-                        Width="180" Click="batt_save_Click" RenderTransformOrigin="3.173,12.625"  Height="32" Margin="885,16,37,14">
-                </Button>
+                        Width="180" Click="batt_save_Click" RenderTransformOrigin="3.173,12.625"  Height="32" Margin="885,16,37,14"/>
 
             </Grid>
         </materialDesign:DialogHost>
