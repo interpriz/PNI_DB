@@ -9,6 +9,7 @@ namespace БД_НТИ
 {
     static class DB_proc_func
     {
+        #region синхронизация параметров эксперимента
         //параметры процедуры по порядку: (обработка/результат), (режим), (сечение), (id_r_c_), (тип данных), (название параметра), (траверсирование), (значение), (строка)
         static public void insert_values_exp(int obr0_rez1_, int rezh_, int sec_, string id_r_c_, int id_data_, string par_name_, int traver_, string value_n_, string value_s_)
         {
@@ -64,6 +65,10 @@ namespace БД_НТИ
 
             sqlconn.Close();
         }
+
+        #endregion
+
+        #region синхронизация параметров моделирования
 
         //добавить значение режимного параметра в таблицу Reg_pars
         static public void insert_Reg_pars(string name_, string value_string, string value_number)
@@ -128,6 +133,63 @@ namespace БД_НТИ
             sqlconn.Close();
         }
 
+        //параметры процедуры по порядку: (обработка/результат), (режим), (сечение), (id_r_c_), (тип данных), (название параметра), (траверсирование), (значение), (строка)
+        static public void insert_values_mod(int obr0_rez1_, int rezh_, int sett_, int sec_, string id_r_c_, int id_data_, string par_name_, int traver_, string value_n_, string value_s_)
+        {
+            NpgsqlConnection sqlconn = new NpgsqlConnection(User.Connection_string);
+            sqlconn.Open();
+            if (value_n_ == null) value_n_ = "Null";
+            if (value_s_ == null) value_s_ = "Null"; else value_s_ = $"'{value_s_}'";
+            //параметры процедуры по порядку: (обработка/результат), (режим), (сечение), (id_r_c_), (тип данных), (название параметра), (траверсирование), (значение), (строка)
+            NpgsqlCommand com_add = new NpgsqlCommand($"call main_block.insert_values_mod({obr0_rez1_},{rezh_},{sett_},{sec_}, {id_r_c_}, {id_data_}, '{par_name_}',{traver_},{ value_n_} ,{value_s_});", sqlconn);
+            com_add.ExecuteNonQuery();
+
+            sqlconn.Close();
+        }
+
+        static public void update_values_mod(int obr0_rez1_, int rezh_, int sett_, int sec_, string id_r_c_, int id_data_, string par_name_, int traver_, string value_n_, string value_s_)
+        {
+            NpgsqlConnection sqlconn = new NpgsqlConnection(User.Connection_string);
+            sqlconn.Open();
+            if (value_n_ == null) value_n_ = "Null";
+            if (value_s_ == null) value_s_ = "Null"; else value_s_ = $"'{value_s_}'";
+            //параметры процедуры по порядку: (обработка/результат), (режим), (сечение), (id_r_c_), (тип данных), (название параметра), (траверсирование), (значение), (строка)
+            NpgsqlCommand com_add = new NpgsqlCommand($"call main_block.update_values_mod({obr0_rez1_},{rezh_},{sett_},{sec_}, {id_r_c_}, {id_data_}, '{par_name_}',{traver_},{ value_n_} ,{value_s_});", sqlconn);
+            com_add.ExecuteNonQuery();
+
+            sqlconn.Close();
+        }
+
+        static public void insert_setting_cros_section(int id_setting_, int sec_)
+        {
+            NpgsqlConnection sqlconn = new NpgsqlConnection(User.Connection_string);
+            sqlconn.Open();
+            //добавить в mode_cros_section запись c сечением 0 mode
+            //NpgsqlCommand comm = new NpgsqlCommand($"select count(\"Id_ms\") from main_block.\"Setting_number\" where \"Id_rcm\" = (select \"Id_rcm\" from main_block.\"Mode\" where \"Id_R_C\"={Data.id_R_C} and \"Id_mode\"={Data.current_mode})", sqlconn);
+            //string number_of_settings = comm.ExecuteScalar().ToString();
+            //if (number_of_settings == "0")
+            //{
+                
+            //}
+            NpgsqlCommand com_add2 = new NpgsqlCommand($"INSERT INTO main_block.\"Setting_cros_section\" (\"Id_ms\", id_cros_section) VALUES( (select \"Id_ms\" from main_block.\"Settings_number\" where \"Id_setting\" = {id_setting_} and \"Id_rcm\" = (select \"Id_rcm\" from main_block.\"Mode\" where \"Id_R_C\"={Data.id_R_C} and \"Id_mode\"={Data.current_mode})) ,{sec_}); ", sqlconn);
+            com_add2.ExecuteNonQuery();
+
+            sqlconn.Close();
+        }
+
+        static public void insert_parametrs_modelling(string name_, int id_data_)
+        {
+            NpgsqlConnection sqlconn = new NpgsqlConnection(User.Connection_string);
+            sqlconn.Open();
+            //добавить параметр среда в таблицу parametrs_experiment
+            NpgsqlCommand com_add1 = new NpgsqlCommand($"INSERT INTO main_block.\"Parametrs_modelling\"(\"Id_R_C\", \"Id_param\", id_data) VALUES ({Data.id_R_C} , (select id_param from main_block.\"Parametrs\" where \"name_param\" = '{name_}'),{id_data_}); ", sqlconn);
+            com_add1.ExecuteNonQuery();
+
+            sqlconn.Close();
+        }
+
+        #endregion
+
         static public void insert_string_values(string name_, string value_string)
         {
             NpgsqlConnection sqlconn = new NpgsqlConnection(User.Connection_string);
@@ -138,8 +200,6 @@ namespace БД_НТИ
 
             sqlconn.Close();
         }
-
-
 
     }
 }

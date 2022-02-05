@@ -770,7 +770,6 @@ namespace БД_НТИ
                         //NpgsqlCommand com_add = new NpgsqlCommand($"INSERT INTO main_block.\"Mode_cros_section\" (\"Id_R_C\", \"Id_mode\", id_cros_section) VALUES( {Id_r_c},{rezh.BD_num},0); ", sqlconn);
                         //com_add.ExecuteNonQuery();
                         DB_proc_func.insert_mode_cros_section(Id_r_c, rezh.BD_num, 0);
-                        rezh.age = "old";
                         if (rezh.visual_num == "1")
                         {
                             //добавить параметр среда в таблицу parametrs_experiment
@@ -886,7 +885,7 @@ namespace БД_НТИ
                     int id_cros_section = 1; // индекс ceчения (1, 2, 3 ...)
                     foreach (section sec in this.sections)
                     {
-                        if (sec.age == "new")
+                        if (sec.age == "new" && rezh.age == "new")
                         {
                             // добавить запись в таблицу mode_cros_section
                             //NpgsqlCommand com_add = new NpgsqlCommand($"INSERT INTO main_block.\"Mode_cros_section\" (\"Id_R_C\", \"Id_mode\", id_cros_section) VALUES( {Id_r_c},{rezh.BD_num},{id_cros_section}); ", sqlconn);
@@ -894,6 +893,8 @@ namespace БД_НТИ
                             DB_proc_func.insert_mode_cros_section(Id_r_c, rezh.BD_num, id_cros_section);
                             if (rezh.visual_num == this.rezh_num.Count.ToString())
                                 sec.age = "old";
+                            if (id_cros_section == this.sections.Count)
+                                rezh.age = "old";
                         }
                         if (sec.pars != null)
                         {
@@ -1048,9 +1049,7 @@ namespace БД_НТИ
         public ObservableCollection<parametr> sreda { get; set; }   // список значений параметра среда
         public parametrs rezh_par { get; set; }                     // режимные параметры
         public ObservableCollection<section> sections { get; set; } // список сечений
-
-        public parametrs integr_par { get; set; }                     // интегральные параметры
-
+        public parametrs integr_par { get; set; }                   // интегральные параметры
         public int id_chan { get; set; }                            // номер канала
 
         public Obrabotka_of_fiz_exp() { }

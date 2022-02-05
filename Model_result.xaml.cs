@@ -338,23 +338,23 @@ namespace БД_НТИ
 
         private void batt_save_Click(object sender, RoutedEventArgs e)// сохранение измнений в БД
         {
-            //if (Data.modeling_results.save_in_DB(id_chan + 1))
-            //{
-            //    //changes = 0;
-            //    //batt_obr_rez.IsEnabled = true;
-            //    messtxt.Text = "Данные сохранены успешно!";
-            //    messbar.IsActive = true;
-            //    save = true;
-            //    //Data.constr.Clear();
-            //    DB_constr.Del();
-            //    DB_constr.Create();
-            //    //exp_wind.new_Construct = new Exp_construct();
-            //}
-            //else
-            //{
-            //    messtxt.Text = "Не все поля заполнены!";
-            //    messbar.IsActive = true;
-            //}
+            if (Data.modeling_results.save_in_DB())
+            {
+                //changes = 0;
+                //batt_obr_rez.IsEnabled = true;
+                messtxt.Text = "Данные сохранены успешно!";
+                messbar.IsActive = true;
+                save = true;
+                //Data.constr.Clear();
+                //DB_constr.Del();
+                //DB_constr.Create();
+                //exp_wind.new_Construct = new Exp_construct();
+            }
+            else
+            {
+                messtxt.Text = "Не все поля заполнены!";
+                messbar.IsActive = true;
+            }
         }
 
         private void batt_obr_rez_Click(object sender, RoutedEventArgs e)
