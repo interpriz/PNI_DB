@@ -1313,13 +1313,13 @@ namespace БД_НТИ
                                 }
                             }
                             // добавить строку в таблицу values_modelling
-                            DB_proc_func.insert_values_mod(0, Data.current_mode, setting.BD_num, 0, Id_r_c, 4, name, 0, null, integr_par.function_value);
+                            DB_proc_func.insert_values_mod(0, Data.current_mode, setting.BD_num, 0, Id_r_c, 4, name, 0, integr_par.DB_value(), integr_par.function_value);
                             integr_par.mode = "old";
                             break;
 
                         case "update":
                             // обновить запись в таблице values_modelling
-                            DB_proc_func.update_values_mod(0, Data.current_mode, setting.BD_num, 0, Id_r_c, 4, name, 0, null, integr_par.function_value);
+                            DB_proc_func.update_values_mod(0, Data.current_mode, setting.BD_num, 0, Id_r_c, 4, name, 0, integr_par.DB_value(), integr_par.function_value);
                             integr_par.mode = "old";
                             break;
                     }
@@ -1354,13 +1354,13 @@ namespace БД_НТИ
                                         }
                                     }
                                     // добавить строку в таблицу values_modelling
-                                    DB_proc_func.insert_values_mod(0, Data.current_mode, setting.BD_num, id_cros_section, Id_r_c, 4, name, 0, null, par.function_value);
+                                    DB_proc_func.insert_values_mod(0, Data.current_mode, setting.BD_num, id_cros_section, Id_r_c, 4, name, 0, par.DB_value(), par.function_value);
                                     par.mode = "old";
                                     break;
 
                                 case "update":
                                     // обновить запись в таблице values_modelling
-                                    DB_proc_func.update_values_mod(0, Data.current_mode, setting.BD_num, id_cros_section, Id_r_c, 4, name, 0, null, par.function_value);
+                                    DB_proc_func.update_values_mod(0, Data.current_mode, setting.BD_num, id_cros_section, Id_r_c, 4, name, 0, par.DB_value(), par.function_value);
                                     par.mode = "old";
                                     break;
                             }

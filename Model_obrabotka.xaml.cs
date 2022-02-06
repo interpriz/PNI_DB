@@ -168,7 +168,7 @@ namespace БД_НТИ
                     for (int k = 0; k < Data.modeling_obrabotka.sections[i].pars.column_headers.Count; k++)
                     {
                         Phys par = new Phys();
-                        par.phys = Data.modeling_obrabotka.integr_par.column_headers[k];
+                        par.phys = Data.modeling_obrabotka.sections[i].pars.column_headers[k];
                         phys_pars.phys_obr_7.Add(par);
                     }
                     phys_db.Add(phys_pars.phys_obr_7);
