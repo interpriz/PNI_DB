@@ -205,7 +205,7 @@ namespace БД_НТИ
                     string check = par.func_to_value(arg_value, arg_i_value);
                     if (check == "")
                     {
-                        par.mode = "update";
+                        if(par.mode == "old") par.mode = "update";
                         switch (work_mode)
                         {
                             case "experiment":

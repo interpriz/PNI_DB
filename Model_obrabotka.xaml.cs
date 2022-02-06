@@ -218,9 +218,9 @@ namespace БД_НТИ
 
         private void batt_save_Click(object sender, RoutedEventArgs e)// сохранение измнений в БД
         {
-            //Data.chans_obr[id_chan].save_in_DB(id_chan + 1);
-            //messtxt.Text = "Данные сохранены успешно!";
-            //messbar.IsActive = true;
+            Data.modeling_obrabotka.save_in_DB();
+            messtxt.Text = "Данные сохранены успешно!";
+            messbar.IsActive = true;
         }
 
         private void messbut_Click(object sender, RoutedEventArgs e)
