@@ -217,7 +217,10 @@ namespace БД_НТИ
 
                             case "modeling":
                                 Modeling_add modeling_wind = (Modeling_add)Application.Current.Windows.OfType<Window>().Where(x => x.Name == "Modeling_wind").FirstOrDefault();
-                                modeling_wind.new_Model_Obrabotka.update_table();
+                                //modeling_wind.new_Model_Obrabotka.update_table();
+                                modeling_wind.obr_constr = false;
+                                modeling_wind.item6.IsSelected = false;
+                                modeling_wind.item6.IsSelected = true;
                                 break;
                         }
                         

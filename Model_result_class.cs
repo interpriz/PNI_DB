@@ -360,7 +360,7 @@ namespace БД_НТИ
                             {
                                 if (sections.Count < id_section)
                                 {
-                                    section sec = new section(true, id_section, "old");
+                                    section sec = new section(true, id_section, "new");
                                     sections.Add(sec);
                                 }
                                 travers_parametrs tr_pr = new travers_parametrs();

@@ -28,6 +28,8 @@ namespace БД_НТИ
         public Model_settings new_Model_settings;
         Page new_Model_result;
         public Model_rezh new_Model_rezh;
+
+        public bool obr_constr;
         public Model_obrabotka new_Model_Obrabotka;
 
         public Modeling_add(string zadacha)
@@ -395,7 +397,7 @@ namespace БД_НТИ
 
         private void item6_Selected(object sender, RoutedEventArgs e)
         {
-            new_Model_Obrabotka = new Model_obrabotka();
+            new_Model_Obrabotka = new Model_obrabotka(obr_constr);
             frame.Navigate(new_Model_Obrabotka);
             Butt_next.Visibility = Visibility.Hidden;
             //Butt_back.IsEnabled = false;

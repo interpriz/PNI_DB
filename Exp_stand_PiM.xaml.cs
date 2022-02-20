@@ -268,18 +268,19 @@ namespace БД_НТИ
 
         public static void ins_stan_upd_id(string id_, string st_name, string st_desc) //добавление нового стенда и обновление id
         {
+            NpgsqlConnection sqlconn = new NpgsqlConnection(conn_str);
+            sqlconn.Open();
+
+            NpgsqlCommand comm_ins_stan = new NpgsqlCommand($"insert into main_block.\"Stands\"(\"name\", \"description\") values ('{st_name}', '{st_desc}');", sqlconn);  //добавление стенда
+            comm_ins_stan.ExecuteNonQuery();
+
+            NpgsqlCommand comm_upd_id = new NpgsqlCommand($"update main_block.\"Stand_ID*\" set \"Stand_id\" = (select \"Stand_id\" from main_block.\"Stands\" where \"name\" = '{st_name}') where \"ID*\" = {id_};", sqlconn);  //обновление id
+            comm_upd_id.ExecuteNonQuery();
+            sqlconn.Close();
+            flag = true;
             try
             {
-                NpgsqlConnection sqlconn = new NpgsqlConnection(conn_str);
-                sqlconn.Open();
-
-                NpgsqlCommand comm_ins_stan = new NpgsqlCommand($"insert into main_block.\"Stands\"(\"name\", \"description\") values ('{st_name}', '{st_desc}');", sqlconn);  //добавление стенда
-                comm_ins_stan.ExecuteNonQuery();
-
-                NpgsqlCommand comm_upd_id = new NpgsqlCommand($"update main_block.\"Stand_ID*\" set \"Stand_id\" = (select \"Stand_id\" from main_block.\"Stands\" where \"name\" = '{st_name}') where \"ID*\" = {id_};", sqlconn);  //обновление id
-                comm_upd_id.ExecuteNonQuery();
-                sqlconn.Close();
-                flag = true;
+               
             }
             catch
             {

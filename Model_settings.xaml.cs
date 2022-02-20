@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -187,6 +188,7 @@ namespace БД_НТИ
             ComboBox cmb = sender as ComboBox;
             parametrs pars = new parametrs();
             DataGrid gr = new DataGrid();
+            ToggleButton tog = new ToggleButton();
 
             if (cmb == cmb_reshatel_params)
                 type_of_param = "Настройки решателя";
@@ -198,11 +200,13 @@ namespace БД_НТИ
                 case "Настройки решателя":
                     pars = reshatel_pars;
                     gr = reshatel;
+                    tog = tog_reshatel;
                     break;
 
                 case "Параметры сетки":
                     pars = setka_pars;
                     gr = setka;
+                    tog = tog_setka;
                     break;
             }
 
@@ -210,7 +214,7 @@ namespace БД_НТИ
             {
                 string select = cmb.SelectedItem.ToString();
                 cmb.SelectedItem = null;
-                if (tog_reshatel.IsChecked == false)//добавить столбец
+                if (tog.IsChecked == false)//добавить столбец
                 {
                     values_list = new List<string>();
                     if (select == "Новый параметр")

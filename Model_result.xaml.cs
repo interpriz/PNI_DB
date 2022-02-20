@@ -360,6 +360,7 @@ namespace БД_НТИ
         private void batt_obr_rez_Click(object sender, RoutedEventArgs e)
         {
             model_wind.item5.IsSelected = false;
+            model_wind.obr_constr = true;
             model_wind.item6.IsEnabled = true;
             model_wind.item6.IsSelected = true;
         }

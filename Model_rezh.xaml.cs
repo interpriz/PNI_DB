@@ -206,6 +206,12 @@ namespace БД_НТИ
         ObservableCollection<Rezh_value> Reg_all = new ObservableCollection<Rezh_value>();
         private void RadioButton_Checked(object sender, RoutedEventArgs e)  //переключение по каналам
         {
+            rezh_select = false;
+
+            add.IsEnabled = false;
+            del.IsEnabled = false;
+
+
             var radio = sender as RadioButton;
             string[] names = radio.Content.ToString().Split(' ');
             chan = Convert.ToInt32(names[1]) - 1; //номер канала (начиная с 0 (т.е. №-1))
@@ -384,6 +390,12 @@ namespace БД_НТИ
                     for (int i = 0; i < Data.channels.Count; i++)
                     {
                         rezh_list[i].rezh_all.Add(newparrezh);
+                    }
+
+                    Reg_all.Clear();
+                    foreach (Rezh_value r in rezh_list[chan].rezh_all)
+                    {
+                        Reg_all.Add(r);
                     }
 
                     dialog_add_param.IsOpen = false;

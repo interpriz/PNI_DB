@@ -24,7 +24,7 @@ namespace БД_НТИ
 
             set
             {
-                connection_string = $"Server= localhost; Port=5432; User Id={login}; Password={password}; Database= \"postgres\";";
+                connection_string = $"Server= localhost; Port=5432; User Id={login}; Password={password}; Database= \"test\";";
             }
         }
 
