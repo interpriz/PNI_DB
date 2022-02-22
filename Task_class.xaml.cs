@@ -76,7 +76,7 @@ namespace БД_НТИ
 
                 case "ExpNewTask":
                 case "ModelNewTask":
-                    if (contrpar == "ExpOldTask")
+                    if (contrpar == "ExpNewTask")
                     {
                         exp_wind_add = (Experiment_add)Application.Current.Windows.OfType<Window>().Where(x => x.Name == "Experiment_wind").FirstOrDefault();
                         Txtblock_obj_or_pc.Text = "3. Выбор экспериментального объекта";
