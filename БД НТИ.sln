@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.30320.27
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "БД НТИ", "БД НТИ.csproj", "{7E09AF2D-3383-449E-8C26-DFEE5178110B}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Установка БД экспериментов", "..\Установка БД экспериментов\Установка БД экспериментов.vdproj", "{236A1491-4D2B-4A85-B6AB-E5A6FAE563A8}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0282D604-0E8A-45C6-9A9B-3BA4F97758D8}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup DB PNI", "..\Setup DB PNI\Setup DB PNI.vdproj", "{75083EC6-3F55-4A53-8630-1B4DE7A3D5D3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,8 +19,8 @@ Global
 		{7E09AF2D-3383-449E-8C26-DFEE5178110B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E09AF2D-3383-449E-8C26-DFEE5178110B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7E09AF2D-3383-449E-8C26-DFEE5178110B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{236A1491-4D2B-4A85-B6AB-E5A6FAE563A8}.Debug|Any CPU.ActiveCfg = Debug
-		{236A1491-4D2B-4A85-B6AB-E5A6FAE563A8}.Release|Any CPU.ActiveCfg = Release
+		{75083EC6-3F55-4A53-8630-1B4DE7A3D5D3}.Debug|Any CPU.ActiveCfg = Debug
+		{75083EC6-3F55-4A53-8630-1B4DE7A3D5D3}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

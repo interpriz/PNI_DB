@@ -121,8 +121,7 @@
                 TextWrapping="Wrap"
                 materialDesign:TextFieldAssist.HasClearButton="True" 
                 materialDesign:HintAssist.Hint="Логин" Foreground="#FF000E99" BorderBrush="#FF000E99" 
-                Margin="0,15,32,0" CaretBrush="#FF000E99" Background="#FF86E2FD" UseLayoutRounding="False" Grid.Column="1" Grid.Row="1" GotFocus="Text_GotFocus" 
-            Text="postgres" />
+                Margin="0,15,32,0" CaretBrush="#FF000E99" Background="#FF86E2FD" UseLayoutRounding="False" Grid.Column="1" Grid.Row="1" GotFocus="Text_GotFocus"  />
 
         <PasswordBox
             Name="PassBox"
@@ -132,8 +131,7 @@
                 materialDesign:TextFieldAssist.HasClearButton="True" 
                 materialDesign:HintAssist.Hint="Пароль" Height="65" Foreground="#FF000E99" BorderBrush="#FF000E99"  
             ScrollViewer.CanContentScroll="True" Background="#FF86E2FD" Margin="0,25,32,0" Grid.Column="1" Grid.Row="2" 
-            GotFocus="Text_GotFocus" 
-            Password="7723" />
+            GotFocus="Text_GotFocus" />
         <materialDesign:Snackbar x:Name="messbar" Grid.ColumnSpan="2" Margin="0,0,22,0" Grid.Row="3" Width="595" Background="#000175" IsActive="False" OpacityMask="Black" Foreground="LightCyan" >
             <materialDesign:SnackbarMessage Height="67">
                 <StackPanel Orientation="Horizontal" Width="535" Margin="0,-13,0,-14">
