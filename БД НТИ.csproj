@@ -229,6 +229,12 @@
     <Compile Include="Model_settings_view.xaml.cs">
       <DependentUpon>Model_settings_view.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Verification.xaml.cs">
+      <DependentUpon>Verification.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Verif_model.xaml.cs">
+      <DependentUpon>Verif_model.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Vvod_func.xaml.cs">
       <DependentUpon>Vvod_func.xaml</DependentUpon>
     </Compile>
@@ -311,6 +317,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Model_settings_view.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Verification.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Verif_model.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

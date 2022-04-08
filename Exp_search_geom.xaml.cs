@@ -25,7 +25,9 @@ namespace БД_НТИ
     /// </summary>
     public partial class Exp_search_geom : Page
     {
-        Experiment_search exp_wind_search = (Experiment_search) Application.Current.Windows.OfType<Window>().Where(x => x.Name == "Experiment_search_wind").FirstOrDefault();
+        Experiment_search exp_wind_search;
+        Verification verif_wind;
+        string param_exp_verif;
         
         List<double> par0_values = new List<double>();  //список возможных значений для параметра 1
         //List<RadioButton> radio_list = new List<RadioButton>();
@@ -35,10 +37,23 @@ namespace БД_НТИ
         string conn_str = User.Connection_string;
         public static int count = 0;    // количество каналов
         int chan;
-        public Exp_search_geom(string chan_count)
+        public Exp_search_geom(string chan_count, string exp_or_verif)
         {
             InitializeComponent();
-            exp_wind_search.Butt_next.IsEnabled = false;
+            param_exp_verif = exp_or_verif;
+            switch (param_exp_verif)
+            {
+                case "Exp_search":
+                    exp_wind_search = (Experiment_search)Application.Current.Windows.OfType<Window>().Where(x => x.Name == "Experiment_search_wind").FirstOrDefault();
+                    exp_wind_search.Butt_next.IsEnabled = false;
+                    break;
+                case "Verification":
+                    verif_wind = (Verification)Application.Current.Windows.OfType<Window>().Where(x => x.Name == "Verification_wind").FirstOrDefault();
+                    verif_wind.Butt_next.IsEnabled = false;
+                    break;
+            }
+
+            
 
             count = Convert.ToInt32(chan_count);
             NpgsqlConnection sqlconn = new NpgsqlConnection(conn_str);
@@ -122,7 +137,15 @@ namespace БД_НТИ
 
         private void datagrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
-            exp_wind_search.Butt_next.IsEnabled = false;
+            switch (param_exp_verif)
+            {
+                case "Exp_search":
+                    exp_wind_search.Butt_next.IsEnabled = false;
+                    break;
+                case "Verification":
+                    verif_wind.Butt_next.IsEnabled = false;
+                    break;
+            }
             int row = e.Row.GetIndex();// индекс текущего параметра
 
             // 
@@ -281,7 +304,15 @@ namespace БД_НТИ
                     // конечная фильтрация (поиск необходимого исполнения)
                     if (fl)
                     {
-                        exp_wind_search.Butt_next.IsEnabled = true;
+                        switch (param_exp_verif)
+                        {
+                            case "Exp_search":
+                                exp_wind_search.Butt_next.IsEnabled = true;
+                                break;
+                            case "Verification":
+                                verif_wind.Butt_next.IsEnabled = true;
+                                break;
+                        }
                         string spisok = "";
 
                         for (int i = 0; i < chan_params[chan].realization[chan_params[chan].realization.Count - 1].Count; i++)

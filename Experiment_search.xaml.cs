@@ -76,7 +76,7 @@ namespace БД_НТИ
                         {
                             rdr_chan_count.Close();
                             chan_count = comm_chan_count.ExecuteScalar().ToString();
-                            new_Geom = new Exp_search_geom(chan_count);
+                            new_Geom = new Exp_search_geom(chan_count, "Exp_search");
                             item1.IsSelected = false;
                             item2.IsEnabled = true;
                             item2.IsSelected = true;

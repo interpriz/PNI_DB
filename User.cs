@@ -24,7 +24,7 @@ namespace БД_НТИ
 
             set
             {
-                connection_string = $"Server= 193.233.67.10; Port=5432; User Id={login}; Password={password}; Database= \"DB_PNI\";";
+                connection_string = $"Server= localhost; Port=5432; User Id={login}; Password={password}; Database= \"test\";"; //Server= 193.233.67.10
             }
         }
 

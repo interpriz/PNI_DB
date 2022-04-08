@@ -31,6 +31,7 @@ namespace БД_НТИ
         //Experiment exp_wind = (Experiment)Application.Current.Windows.OfType<Window>().ToList()[2];
         Experiment_add exp_wind_add;
         Experiment_search exp_wind_search;
+        Verification verif_wind;
 
         Modeling_add model_wind_add;
         public Task_class(string contr)
@@ -127,11 +128,20 @@ namespace БД_НТИ
                     break;
 
                 case "ExpSearch":
+                case "Verification":
                     //exp_wind_search = (Experiment_search)Application.Current.Windows[5];
-
-                    exp_wind_search = (Experiment_search)Application.Current.Windows.OfType<Window>().Where(x => x.Name == "Experiment_search_wind").FirstOrDefault();
+                    if (contrpar == "ExpSearch")
+                    {
+                        exp_wind_search = (Experiment_search)Application.Current.Windows.OfType<Window>().Where(x => x.Name == "Experiment_search_wind").FirstOrDefault();
+                        Txtblock_obj_or_pc.Text = "3. Выбор экспериментального объекта";
+                    }
+                    else
+                    {
+                        verif_wind = (Verification)Application.Current.Windows.OfType<Window>().Where(x => x.Name == "Verification_wind").FirstOrDefault();
+                        Txtblock_obj_or_pc.Text = "3. Выбор объекта моделирования";
+                    }
                     
-                    Txtblock_obj_or_pc.Text = "3. Выбор экспериментального объекта";
+                    
                     Combox_exp_obj.IsEditable = false;
                     Combox_phys_proc.IsEditable = false;
                     Combox_type_equip.IsEditable = false;
@@ -250,6 +260,7 @@ namespace БД_НТИ
                     break;
 
                 case "ExpSearch":
+                case "Verification":
                     ComboBoxItem comitem2 = new ComboBoxItem();
                     comitem2 = (ComboBoxItem)Combox_phys_proc.SelectedItem;
                     if (comitem2 != null)
@@ -264,11 +275,18 @@ namespace БД_НТИ
                     Combox_type_equip.Items.Clear();
                     Combox_exp_obj.Items.Clear();
                     Butt_image.IsEnabled = false;
-                    exp_wind_search.Butt_next.IsEnabled = false;
-                    exp_wind_search.item2.IsEnabled = false;
-                    exp_wind_search.item3.IsEnabled = false;
-                    exp_wind_search.item4.IsEnabled = false;
-                    exp_wind_search.item5.IsEnabled = false;
+                    if(contrpar == "ExpSearch")
+                    {
+                        exp_wind_search.Butt_next.IsEnabled = false;
+                        exp_wind_search.item2.IsEnabled = false;
+                        exp_wind_search.item3.IsEnabled = false;
+                        exp_wind_search.item4.IsEnabled = false;
+                        exp_wind_search.item5.IsEnabled = false;
+                    }
+                    else
+                    {
+                        verif_wind.Butt_next.IsEnabled = false;
+                    }
                     Data.id = null;
                     Data.id_obj = null;
 
@@ -392,6 +410,7 @@ namespace БД_НТИ
                     break;
 
                 case "ExpSearch":
+                case "Verification":
                     ComboBoxItem comitem2 = new ComboBoxItem();
                     comitem2 = (ComboBoxItem)Combox_type_equip.SelectedItem;
                     if (comitem2 != null)
@@ -406,11 +425,19 @@ namespace БД_НТИ
 
                     Combox_exp_obj.Items.Clear();
                     Butt_image.IsEnabled = false;
-                    exp_wind_search.Butt_next.IsEnabled = false;
-                    exp_wind_search.item2.IsEnabled = false;
-                    exp_wind_search.item3.IsEnabled = false;
-                    exp_wind_search.item4.IsEnabled = false;
-                    exp_wind_search.item5.IsEnabled = false;
+                    if (contrpar == "ExpSearch")
+                    {
+                        exp_wind_search.Butt_next.IsEnabled = false;
+                        exp_wind_search.item2.IsEnabled = false;
+                        exp_wind_search.item3.IsEnabled = false;
+                        exp_wind_search.item4.IsEnabled = false;
+                        exp_wind_search.item5.IsEnabled = false;
+                    }
+                    else
+                    {
+                        verif_wind.Butt_next.IsEnabled = false;
+                    }
+
                     Data.id = null;
                     Data.id_obj = null;
 
@@ -513,6 +540,7 @@ namespace БД_НТИ
                     break;
 
                 case "ExpSearch":
+                case "Verification":
                     Data.id = null;
                     Data.id_obj = null;
                     Butt_image.IsEnabled = true;
@@ -533,7 +561,14 @@ namespace БД_НТИ
                     sqlconn.Close();
 
                     bool_exp_search_update.bool_obj = true;
-                    exp_wind_search.Butt_next.IsEnabled = true;
+                    if (contrpar == "ExpSearch")
+                    {
+                        exp_wind_search.Butt_next.IsEnabled = true;
+                    }
+                    else
+                    {
+                        verif_wind.Butt_next.IsEnabled = true;
+                    }
                     break;
 
             }

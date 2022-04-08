@@ -64,7 +64,7 @@
                     </MenuItem>
                 </MenuItem>
                 <MenuItem
-                 Header="Верификация" Background="LightCyan" Margin="0,0,-5,0" BorderBrush="#FF000E99" BorderThickness="1"/>
+                 Header="Верификация" x:Name="Verification" Background="LightCyan" Margin="0,0,-5,0" BorderBrush="#FF000E99" BorderThickness="1" Click="MenuItem_Click"/>
             </Menu>
             <Menu HorizontalAlignment="Left" Height="125" Margin="420,75,0,0" VerticalAlignment="Top" Width="195" FontFamily="Comic Sans MS" Background="LightCyan">
                 <MenuItem

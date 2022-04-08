@@ -89,7 +89,7 @@ namespace БД_НТИ
                         Txt_stand.IsEnabled = true;
                         Txt_namestand.IsEnabled = true;
 
-                        NpgsqlCommand comm_nam = new NpgsqlCommand($"select \"name\" from main_block.\"Stands\" where \"Stand_id\"!={sear}", sqlconn);  //заполнить комбобокс остальными названиями стендов
+                        NpgsqlCommand comm_nam = new NpgsqlCommand($"select \"name\" from main_block.\"Stands\" where \"Stand_id\"!={sear} and name!='null'", sqlconn);  //заполнить комбобокс остальными названиями стендов
                         NpgsqlDataReader reader_nam = comm_nam.ExecuteReader();
                         while (reader_nam.Read())
                         {
@@ -117,7 +117,7 @@ namespace БД_НТИ
             else //если привязанных стендов нет, то считать все названия стендов в комбобокс
             {
                 Data.id_obj = null;
-                NpgsqlCommand comm_nam = new NpgsqlCommand("select \"name\" from main_block.\"Stands\"", sqlconn);
+                NpgsqlCommand comm_nam = new NpgsqlCommand("select \"name\" from main_block.\"Stands\" where name!='null'", sqlconn);
                 NpgsqlDataReader reader_nam = comm_nam.ExecuteReader();
                 //заполнение комбобокса со стендами
                 while (reader_nam.Read())
@@ -205,6 +205,13 @@ namespace БД_НТИ
                 Data.id_obj = comm_try.ExecuteScalar().ToString();
                 messtxt.Text = "Сохранение данных произошло успешно!";
                 messbar.IsActive = true;
+                
+
+                ComboBoxItem item = new ComboBoxItem();
+                item.Content = $"{Txt_namestand.Text}";
+                Combox_stand.Items.Add(item);
+                Combox_stand.SelectedItem = item;
+
                 exp_add.Butt_next.IsEnabled = true;
                 bool_exp.stand = true;
                 exp_add.item3.IsEnabled = true;

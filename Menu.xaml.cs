@@ -70,6 +70,12 @@ namespace БД_НТИ
                     Window newin5 = new Modeling_add(item.Name);
                     newin5.ShowDialog();
                     break;
+
+                case "Verification":
+                    this.Hide();
+                    Window newin6 = new Verification();
+                    newin6.ShowDialog();
+                    break;
             }
             
         }
