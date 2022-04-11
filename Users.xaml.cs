@@ -65,7 +65,7 @@ namespace БД_НТИ
 
         private void Window_Closed(object sender, EventArgs e)// обаботчик закрытия окна
         {
-            User.LogOUT($"Update_users");
+            //User.LogOUT($"Update_users");
             //Application.Current.Windows.OfType<Window>().Where(x => x.Name == "Menu").FirstOrDefault().Show();
             Application.Current.Windows[2].Show();
         }

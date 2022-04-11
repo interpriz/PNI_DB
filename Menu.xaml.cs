@@ -29,7 +29,7 @@ namespace БД_НТИ
         {
             if (close)
             {
-                User.LogOUT($"{User.login}_online");
+                //User.LogOUT($"{User.login}_online");
                 Application.Current.Shutdown();
             }
             
