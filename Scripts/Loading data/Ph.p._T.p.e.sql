@@ -1,0 +1,1 @@
+copy main_block."Ph.p._T.p.e." ("id_Ph.p.", "id_T.p.e.") FROM 'C:/51705~1/38D5~1/4D47~1/5EA4~1/PHP_TP~1.TXT' DELIMITER E'\t' ENCODING 'UTF8';

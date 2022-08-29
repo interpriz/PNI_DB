@@ -1,0 +1,1 @@
+copy main_block."Experiment_class" ("id_Ph.p._T.p.e.", id_subarea) FROM 'C:/51705~1/38D5~1/4D47~1/5EA4~1/EXPERI~2.TXT' DELIMITER E'\t' ENCODING 'UTF8';

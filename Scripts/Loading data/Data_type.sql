@@ -1,0 +1,1 @@
+copy main_block."Data_type" (name_data) FROM 'C:\5 semestr\DB project\Scripts\Loading data\data_type.txt' DELIMITER E'\t' ENCODING 'UTF8';

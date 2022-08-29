@@ -1,0 +1,11 @@
+1	1	1_main.jpg	1_geom.jpg	1_reg.jpg	1_tepl.jpg
+1	2	2_main.jpg	2_geom.jpg	2_reg.jpg	2_tepl.jpg
+1	3	3_main.jpg	3_geom.jpg	3_reg.jpg	3_tepl.jpg
+1	4	\N	\N	\N	\N
+1	5	5_main.jpg	5_geom.jpg	5_reg.jpg	5_tepl.jpg
+2	6	\N	\N	\N	\N
+3	7	\N	\N	\N	\N
+3	8	\N	\N	\N	\N
+3	9	9_main.jpg	9_geom.jpg	9_reg.jpg	9_tepl.jpg
+3	10	\N	\N	\N	\N
+3	11	11_main.jpg	11_geom.jpg	11_reg.jpg	11_tepl.jpg

@@ -1,0 +1,1 @@
+copy main_block."Type_of_power_equipment" (name) FROM 'C:/51705~1/38D5~1/4D47~1/5EA4~1/TYPE_O~1.TXT' DELIMITER E'\t' ENCODING 'UTF8';

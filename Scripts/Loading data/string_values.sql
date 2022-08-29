@@ -1,0 +1,1 @@
+copy main_block."String_values" (id_param, value) FROM 'C:\5 semestr\DB project\Scripts\Loading data\string_values.txt' DELIMITER E'\t' ENCODING 'UTF8';

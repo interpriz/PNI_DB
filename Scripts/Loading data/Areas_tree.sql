@@ -1,0 +1,1 @@
+copy main_block."Areas_tree" (id_area, name_subarea, id_parent_area) FROM 'C:/51705~1/38D5~1/4D47~1/5EA4~1/AREAS_~1.TXT' DELIMITER E'\t' ENCODING 'UTF8';

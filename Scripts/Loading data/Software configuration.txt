@@ -1,0 +1,14 @@
+ANSYS	ICEM CFD	CFX SOLVER	коммерческая	бессрочная	1	2000000
+ANSYS	ICEM CFD	FLUENT SOLVER	коммерческая	бессрочная	1	2000000
+ANSYS	TURBOGRID	CFX SOLVER	коммерческая	бессрочная	1	2000000
+ANSYS	TURBOGRID	FLUENT SOLVER	коммерческая	бессрочная	1	2000000
+ANSYS	ICEM CFD	CFX SOLVER	академическая	бессрочная	5	639000
+ANSYS	ICEM CFD	FLUENT SOLVER	академическая	бессрочная	5	639000
+ANSYS	TURBOGRID	CFX SOLVER	академическая	бессрочная	5	639000
+ANSYS	TURBOGRID	FLUENT SOLVER	академическая	бессрочная	5	639000
+ANSYS	ICEM CFD	CFX SOLVER	академическая	бессрочная	25	329000
+AUTODESK CFD	AUTODESK MESHING	CFD\CFD2	коммерческая	годовая	1	462000
+COMSOL	COMSOL	МОДУЛЬ CFD	коммерческая	бессрочная	1	260000
+COMSOL	COMSOL	МОДУЛЬ CFD	учебная	бессрочная	30	530000
+STAR-CCM+	STAR-CCM+ MESHING.	STAR-CCM+	коммерческая	бессрочная	5	20000000
+SOLIDWORKS	SOLIDWORKS	SOLIDWORKS SIMULATION	коммерческая	годовая	1	1000000

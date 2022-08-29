@@ -1,0 +1,1 @@
+copy main_block."Physical_process" (name) FROM 'C:/51705~1/38D5~1/4D47~1/5EA4~1/PHYSIC~1.TXT' DELIMITER E'\t' ENCODING 'UTF8';

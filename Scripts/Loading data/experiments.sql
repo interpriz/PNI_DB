@@ -1,0 +1,1 @@
+copy main_block."Experiment" ("ID*", id_param, id_exp) FROM 'C:\5 semestr\DB project\Scripts\Loading data\experiments.txt' DELIMITER E'\t' ENCODING 'UTF8';

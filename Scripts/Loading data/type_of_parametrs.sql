@@ -1,0 +1,1 @@
+copy main_block."Type_of_parametrs" (name) FROM 'C:\5 semestr\DB project\Scripts\Loading data\type_of_parametrs.txt' DELIMITER E'\t' ENCODING 'UTF8';
