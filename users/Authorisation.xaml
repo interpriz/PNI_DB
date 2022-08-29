@@ -104,7 +104,7 @@
             <ColumnDefinition Width="297*"/>
         </Grid.ColumnDefinitions>
         <Grid.Background>
-            <ImageBrush ImageSource="New_itog_fon.png"/>
+            <ImageBrush ImageSource="/images/New_itog_fon.png"/>
         </Grid.Background>
         <Button x:Name="buttenter" Style="{DynamicResource MaterialDesignRaisedButton}"
                 Height="Auto" materialDesign:ButtonAssist.CornerRadius="10" 

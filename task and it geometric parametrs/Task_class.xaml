@@ -154,7 +154,7 @@
             <Button x:Name="Butt_image" Grid.Column="1" Margin="88,60,130,65" Height="Auto" Style="{DynamicResource MaterialDesignRaisedButton}"
                 materialDesign:ShadowAssist.ShadowDepth="Depth3" IsEnabled="False" Click="Butt_image_Click" BorderBrush="{x:Null}" Foreground="{x:Null}">
                 <Button.Background>
-                    <ImageBrush ImageSource="1_geom.jpg" Stretch="Uniform"/>
+                    <ImageBrush ImageSource="/images/1_geom.jpg" Stretch="Uniform"/>
                 </Button.Background>
             </Button>
 

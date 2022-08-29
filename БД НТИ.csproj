@@ -189,78 +189,78 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Calculator.cs" />
-    <Compile Include="DB_proc_func.cs" />
-    <Compile Include="Experiment_search.xaml.cs">
+    <Compile Include="calculator\Calculator.cs" />
+    <Compile Include="data\DB_proc_func.cs" />
+    <Compile Include="experiments\Experiment_search.xaml.cs">
       <DependentUpon>Experiment_search.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Exp_channel_class.cs" />
-    <Compile Include="Exp_obrabotka_view.xaml.cs">
+    <Compile Include="data\Exp_channel_class.cs" />
+    <Compile Include="experiments\Exp_obrabotka_view.xaml.cs">
       <DependentUpon>Exp_obrabotka_view.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Exp_result_view.xaml.cs">
+    <Compile Include="experiments\Exp_result_view.xaml.cs">
       <DependentUpon>Exp_result_view.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Exp_search_geom.xaml.cs">
+    <Compile Include="experiments\Exp_search_geom.xaml.cs">
       <DependentUpon>Exp_search_geom.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Modeling_add.xaml.cs">
+    <Compile Include="modeling\Modeling_add.xaml.cs">
       <DependentUpon>Modeling_add.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Model_obrabotka.xaml.cs">
+    <Compile Include="modeling\Model_obrabotka.xaml.cs">
       <DependentUpon>Model_obrabotka.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Model_obrabotka_view.xaml.cs">
+    <Compile Include="modeling\Model_obrabotka_view.xaml.cs">
       <DependentUpon>Model_obrabotka_view.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Model_result_class.cs" />
-    <Compile Include="Model_result_view.xaml.cs">
+    <Compile Include="data\Model_result_class.cs" />
+    <Compile Include="modeling\Model_result_view.xaml.cs">
       <DependentUpon>Model_result_view.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Model_rezh.xaml.cs">
+    <Compile Include="modeling\Model_rezh.xaml.cs">
       <DependentUpon>Model_rezh.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Model_result.xaml.cs">
+    <Compile Include="modeling\Model_result.xaml.cs">
       <DependentUpon>Model_result.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Model_settings.xaml.cs">
+    <Compile Include="modeling\Model_settings.xaml.cs">
       <DependentUpon>Model_settings.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Model_settings_view.xaml.cs">
+    <Compile Include="modeling\Model_settings_view.xaml.cs">
       <DependentUpon>Model_settings_view.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Verification.xaml.cs">
+    <Compile Include="verification\Verification.xaml.cs">
       <DependentUpon>Verification.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Verif_model.xaml.cs">
+    <Compile Include="verification\Verif_model.xaml.cs">
       <DependentUpon>Verif_model.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Vvod_func.xaml.cs">
+    <Compile Include="calculator\Vvod_func.xaml.cs">
       <DependentUpon>Vvod_func.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Data.cs" />
-    <Compile Include="Exp_construct.xaml.cs">
+    <Compile Include="data\Data.cs" />
+    <Compile Include="experiments\Exp_construct.xaml.cs">
       <DependentUpon>Exp_construct.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Geom_param.xaml.cs">
+    <Compile Include="task and it geometric parametrs\Geom_param.xaml.cs">
       <DependentUpon>Geom_param.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Exp_obrabotka.xaml.cs">
+    <Compile Include="experiments\Exp_obrabotka.xaml.cs">
       <DependentUpon>Exp_obrabotka.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Exp_result.xaml.cs">
+    <Compile Include="experiments\Exp_result.xaml.cs">
       <DependentUpon>Exp_result.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Exp_rezult_class.cs" />
-    <Compile Include="MyTimer.cs" />
-    <Compile Include="Exp_stand_PiM.xaml.cs">
+    <Compile Include="data\Exp_rezult_class.cs" />
+    <Compile Include="users\MyTimer.cs" />
+    <Compile Include="experiments\Exp_stand_PiM.xaml.cs">
       <DependentUpon>Exp_stand_PiM.xaml</DependentUpon>
     </Compile>
-    <Compile Include="User.cs" />
-    <Compile Include="Users.xaml.cs">
+    <Compile Include="users\User.cs" />
+    <Compile Include="users\Users.xaml.cs">
       <DependentUpon>Users.xaml</DependentUpon>
     </Compile>
-    <Page Include="Authorisation.xaml">
+    <Page Include="users\Authorisation.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -268,91 +268,91 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Authorisation.xaml.cs">
+    <Compile Include="users\Authorisation.xaml.cs">
       <DependentUpon>Authorisation.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Experiment_search.xaml">
+    <Page Include="experiments\Experiment_search.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Exp_obrabotka_view.xaml">
+    <Page Include="experiments\Exp_obrabotka_view.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Exp_result_view.xaml">
+    <Page Include="experiments\Exp_result_view.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Exp_search_geom.xaml">
+    <Page Include="experiments\Exp_search_geom.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Modeling_add.xaml">
+    <Page Include="modeling\Modeling_add.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Model_obrabotka.xaml">
+    <Page Include="modeling\Model_obrabotka.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Model_obrabotka_view.xaml">
+    <Page Include="modeling\Model_obrabotka_view.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Model_result_view.xaml">
+    <Page Include="modeling\Model_result_view.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Model_rezh.xaml">
+    <Page Include="modeling\Model_rezh.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Model_result.xaml">
+    <Page Include="modeling\Model_result.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Model_settings.xaml">
+    <Page Include="modeling\Model_settings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Model_settings_view.xaml">
+    <Page Include="modeling\Model_settings_view.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Verification.xaml">
+    <Page Include="verification\Verification.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Verif_model.xaml">
+    <Page Include="verification\Verif_model.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Vvod_func.xaml">
+    <Page Include="calculator\Vvod_func.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Experiment_add.xaml">
+    <Page Include="experiments\Experiment_add.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Exp_construct.xaml">
+    <Page Include="experiments\Exp_construct.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Geom_param.xaml">
+    <Page Include="task and it geometric parametrs\Geom_param.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Task_class.xaml">
+    <Page Include="task and it geometric parametrs\Task_class.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Exp_obrabotka.xaml">
+    <Page Include="experiments\Exp_obrabotka.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Exp_result.xaml">
+    <Page Include="experiments\Exp_result.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -360,7 +360,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Exp_stand_PiM.xaml">
+    <Page Include="experiments\Exp_stand_PiM.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -368,16 +368,16 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Users.xaml">
+    <Page Include="users\Users.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Experiment_add.xaml.cs">
+    <Compile Include="experiments\Experiment_add.xaml.cs">
       <DependentUpon>Experiment_add.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Task_class.xaml.cs">
+    <Compile Include="task and it geometric parametrs\Task_class.xaml.cs">
       <DependentUpon>Task_class.xaml</DependentUpon>
     </Compile>
     <Compile Include="Menu.xaml.cs">
@@ -410,19 +410,19 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="New_itog_fon.png" />
+    <Resource Include="images\New_itog_fon.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Рисунок1.png" />
+    <Resource Include="images\ris1.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Рисунок2.png" />
+    <Resource Include="images\ris2.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="1_geom.jpg" />
+    <Resource Include="images\1_geom.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="New_itog_fon_pict1.png" />
+    <Resource Include="images\New_itog_fon_pict1.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
@@ -436,6 +436,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\MaterialDesignThemes.4.1.0\build\MaterialDesignThemes.targets" Condition="Exists('packages\MaterialDesignThemes.4.1.0\build\MaterialDesignThemes.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

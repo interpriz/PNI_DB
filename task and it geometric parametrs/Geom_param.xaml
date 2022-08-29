@@ -209,7 +209,7 @@
                             Style="{DynamicResource MaterialDesignRaisedButton}"
                             materialDesign:ShadowAssist.ShadowDepth="Depth3" BorderBrush="{x:Null}" Foreground="{x:Null}">
                         <Button.Background>
-                            <ImageBrush ImageSource="1_geom.jpg" Stretch="Uniform"/>
+                            <ImageBrush ImageSource="/images/1_geom.jpg" Stretch="Uniform"/>
                         </Button.Background>
 
                     </Button>

@@ -8,7 +8,8 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Выбор стенда и ПиМ"  Width="1102" Height="530"
-      Background="LightCyan" Foreground="#FF000E99">
+      Background="LightCyan" Foreground="#FF000E99"
+      >
     <Page.Resources>
         <ResourceDictionary>
             <Style x:Key="ScrollThumbs" TargetType="{x:Type Thumb}">
@@ -133,7 +134,7 @@
                 <StackPanel Orientation="Vertical" Grid.Column="1" Margin="10,90,0,0">
                     <TextBlock Text="Трехмерная модель стенда:" Height="20" FontFamily="Comic Sans MS" FontSize="14"  Margin="0,0,0,10"/>
                     <Image HorizontalAlignment="Left" Height="310"  VerticalAlignment="Top" Width="477" 
-                           Source="Рисунок2.png" materialDesign:ShadowAssist.ShadowDepth="Depth3" Margin="3,0,0,0"/>
+                           Source="/images/ris2.png" materialDesign:ShadowAssist.ShadowDepth="Depth3" Margin="3,0,0,0"/>
                 </StackPanel>
                 <materialDesign:Card Grid.Column="1" Margin="0,0,0,195">
                     <Expander x:Name="expand" Foreground="#FF000E99" Background="Transparent"
@@ -156,7 +157,7 @@
                     <Button x:Name="Butt_image" Height="310" Style="{DynamicResource MaterialDesignRaisedButton}"
                         materialDesign:ShadowAssist.ShadowDepth="Depth3" Margin="8,0,5,0" Padding="0" BorderBrush="{x:Null}" Foreground="{x:Null}">
                         <Button.Background>
-                            <ImageBrush ImageSource="Рисунок1.png" Stretch="Uniform"/>
+                            <ImageBrush ImageSource="/images/ris1.png"  Stretch="Uniform"/>
                         </Button.Background>
                     </Button>
                 </StackPanel>

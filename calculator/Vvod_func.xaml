@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Calculator" Height="450" Width="800" WindowStyle="None" FontFamily="Comic Sans MS" FontSize="16" Foreground="#FF0017FE" WindowStartupLocation="CenterScreen" Closed="Window_Closed">
     <Window.Background>
-        <ImageBrush ImageSource="New_itog_fon_pict1.png"/>
+        <ImageBrush ImageSource="/images/New_itog_fon_pict1.png"/>
     </Window.Background>
 
 
