@@ -185,7 +185,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
+    <ApplicationDefinition Include="app\App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
@@ -242,7 +242,7 @@
     <Compile Include="experiments\Exp_construct.xaml.cs">
       <DependentUpon>Exp_construct.xaml</DependentUpon>
     </Compile>
-    <Compile Include="task and it geometric parametrs\Geom_param.xaml.cs">
+    <Compile Include="taskParametrs\Geom_param.xaml.cs">
       <DependentUpon>Geom_param.xaml</DependentUpon>
     </Compile>
     <Compile Include="experiments\Exp_obrabotka.xaml.cs">
@@ -260,15 +260,15 @@
     <Compile Include="users\Users.xaml.cs">
       <DependentUpon>Users.xaml</DependentUpon>
     </Compile>
-    <Page Include="users\Authorisation.xaml">
+    <Page Include="app\Authorisation.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="App.xaml.cs">
+    <Compile Include="app\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="users\Authorisation.xaml.cs">
+    <Compile Include="app\Authorisation.xaml.cs">
       <DependentUpon>Authorisation.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -340,11 +340,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="task and it geometric parametrs\Geom_param.xaml">
+    <Page Include="taskParametrs\Geom_param.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="task and it geometric parametrs\Task_class.xaml">
+    <Page Include="taskParametrs\Task_class.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -356,7 +356,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Menu.xaml">
+    <Page Include="app\Menu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -364,7 +364,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Resource_Color.xaml">
+    <Page Include="app\Resource_Color.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -377,10 +377,10 @@
     <Compile Include="experiments\Experiment_add.xaml.cs">
       <DependentUpon>Experiment_add.xaml</DependentUpon>
     </Compile>
-    <Compile Include="task and it geometric parametrs\Task_class.xaml.cs">
+    <Compile Include="taskParametrs\Task_class.xaml.cs">
       <DependentUpon>Task_class.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Menu.xaml.cs">
+    <Compile Include="app\Menu.xaml.cs">
       <DependentUpon>Menu.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -400,14 +400,14 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="packages.config" />
+    <None Include="app\packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="app\App.config" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="images\New_itog_fon.png" />
