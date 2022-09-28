@@ -356,7 +356,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="app\Menu.xaml">
+    <Page Include="menu\Menu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -380,7 +380,7 @@
     <Compile Include="taskParametrs\Task_class.xaml.cs">
       <DependentUpon>Task_class.xaml</DependentUpon>
     </Compile>
-    <Compile Include="app\Menu.xaml.cs">
+    <Compile Include="menu\Menu.xaml.cs">
       <DependentUpon>Menu.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
