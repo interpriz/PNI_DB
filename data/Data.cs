@@ -43,6 +43,8 @@ namespace БД_НТИ
         public static string php_name { get; set; }//тип физического процесса
         public static string tpe_name { get; set; }//тип энергетического оборудования
         public static string ar1_name { get; set; }//область расчетного случая/экспериментальный объект
+
+        public static Verif_options verif_Options = new Verif_options(); //см. страница Verif_model - экземпляр класса: прямая/обратная задача + модель
     }
 
     public struct Param
@@ -225,27 +227,32 @@ namespace БД_НТИ
                     val = Convert.ToDouble((String)value);
 
                 bool fl = false;
-                for(int i = 0; i < value_list.Count; i++)
-                {
-                    if (val == value_list[i])
-                    {
-                        fl = true;
-                        //flag = true;
-                        i = value_list.Count;
-                    }
-                }
 
-                if (!fl)
+                if (value_list != null)
                 {
-                    string str = "Значение не входит в список:";
                     for (int i = 0; i < value_list.Count; i++)
                     {
-                        str += $" {value_list[i]};";
+                        if (val == value_list[i])
+                        {
+                            fl = true;
+                            //flag = true;
+                            i = value_list.Count;
+                        }
                     }
-                    str = str.Remove(str.Length - 1);
-                    //flag = false;
-                    return new ValidationResult(false, str);
+
+                    if (!fl)
+                    {
+                        string str = "Значение не входит в список:";
+                        for (int i = 0; i < value_list.Count; i++)
+                        {
+                            str += $" {value_list[i]};";
+                        }
+                        str = str.Remove(str.Length - 1);
+                        //flag = false;
+                        return new ValidationResult(false, str);
+                    }
                 }
+                
                 //else
                 //{
                 //    string str = "Введите одно из значений:";

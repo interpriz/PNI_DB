@@ -44,12 +44,12 @@
         <Grid x:Name="GridMenu" HorizontalAlignment="Left" Height="607" VerticalAlignment="Top" Width="55" Background="#FF000E99" 
               materialDesign:ShadowAssist.ShadowDepth="Depth5" Panel.ZIndex="2" >
             <StackPanel>
-                <Grid Height="40" Background="LightCyan">
-                    <Button x:Name="ButCloseMenu" VerticalAlignment="Top" HorizontalAlignment="Right" Width="60" Height="40" 
+                <Grid Height="80" Background="LightCyan">
+                    <Button x:Name="ButCloseMenu" VerticalAlignment="Top" HorizontalAlignment="Right" Width="60" Height="80" 
                             Visibility="Collapsed" Click="ButtonCloseMenu_Click" ToolTip="Скрыть меню" Background="LightCyan" Style="{StaticResource MaterialDesignFlatButton}">
                         <materialDesign:PackIcon Kind="ArrowLeft" Height="35" Width="35" Foreground="#FF000E99" />
                     </Button>
-                    <Button x:Name="ButOpenMenu" VerticalAlignment="Top" HorizontalAlignment="Right" Width="55" Height="40" 
+                    <Button x:Name="ButOpenMenu" VerticalAlignment="Top" HorizontalAlignment="Right" Width="55" Height="80" 
                             Click="ButtonOpenMenu_Click" ToolTip="Меню" Background="LightCyan" Style="{StaticResource MaterialDesignFlatButton}">
                         <materialDesign:PackIcon Kind="Menu" Height="35" Width="35" Foreground="#FF000E99"/>
                     </Button>
@@ -64,19 +64,19 @@
                     <ListViewItem x:Name="item2" Height="70" IsEnabled="False" Selected="item2_Selected"  >
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="Numeric2Circle" Height="32" Width="32" VerticalAlignment="Center"/>
-                            <TextBlock Text="Ввод геометрических параметров объекта" VerticalAlignment="Center" Margin="15,0,0,0" TextWrapping="Wrap" Width="175"/>
-                        </StackPanel>
-                    </ListViewItem>
-                    <ListViewItem x:Name="item3" Height="70" IsEnabled="False"  >
-                        <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="Numeric3Circle" Height="32" Width="32" VerticalAlignment="Center"/>
                             <TextBlock Text="Выбор задачи и модели" VerticalAlignment="Center" Margin="15,0,0,0" TextWrapping="Wrap" Width="175"/>
                         </StackPanel>
                     </ListViewItem>
-                    <ListViewItem x:Name="item4" Height="70" IsEnabled="False"  >
+                    <ListViewItem x:Name="item3" Height="70" IsEnabled="False" Selected="item3_Selected"  >
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Numeric3Circle" Height="32" Width="32" VerticalAlignment="Center"/>
+                            <TextBlock Text="Предсказание параметров" VerticalAlignment="Center" Margin="15,0,0,0" TextWrapping="Wrap" Width="175"/>
+                        </StackPanel>
+                    </ListViewItem>
+                    <ListViewItem x:Name="item4" Height="70" IsEnabled="False" Selected="item4_Selected" Visibility="Hidden" >
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="Numeric4Circle" Height="32" Width="32" VerticalAlignment="Center"/>
-                            <TextBlock Text="Просмотр результатов измерения параметров эксперимента " VerticalAlignment="Center" Margin="15,0,0,0" TextWrapping="Wrap" Width="175"/>
+                            <TextBlock Text="Не знаю как назвать этот пункт" VerticalAlignment="Center" Margin="15,0,0,0" TextWrapping="Wrap" Width="175"/>
                         </StackPanel>
                     </ListViewItem>
                 </ListView>

@@ -67,7 +67,7 @@ namespace БД_НТИ
         {
             //User.LogOUT($"Update_users");
             //Application.Current.Windows.OfType<Window>().Where(x => x.Name == "Menu").FirstOrDefault().Show();
-            Application.Current.Windows[2].Show();
+            Application.Current.Windows.OfType<Window>().Where(x => x.Name == "Menu_wind").FirstOrDefault().Show();
         }
 
         private void butt_update_Click(object sender, RoutedEventArgs e)//обновить
