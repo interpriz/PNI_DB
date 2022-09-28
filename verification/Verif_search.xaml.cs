@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using БД_НТИ.Properties;
 
 namespace БД_НТИ
 {
@@ -121,12 +122,12 @@ namespace БД_НТИ
                 {
                     accuracy = Convert.ToSingle(txtbox_accuracy.Text);
                     MultiTarget_prediction predictor = new MultiTarget_prediction(
-                        testFile_path: "trubi.csv",
-                        y_model: "YModel_multiPred.zip",
-                        BLHeight_model: "BLHeightModel_miltPred.zip",
-                        GCSize_model: "GCSizeModel_multiPred.zip",
-                        LayerNumber_model: "LayerNumberModel_multiPred.zip",
-                        TurbModel_model: "TurbModel_multiPred.zip"
+                        testFile_path: "models\\trubi.csv",
+                        y_model: "models\\YModel_multiPred.zip",
+                        BLHeight_model: "models\\BLHeightModel_miltPred.zip",
+                        GCSize_model: "models\\GCSizeModel_multiPred.zip",
+                        LayerNumber_model: "models\\LayerNumberModel_multiPred.zip",
+                        TurbModel_model: "models\\TurbModel_multiPred.zip"
                     );
 
                     MultiTarget_prediction.ModelInput input = new MultiTarget_prediction.ModelInput()
@@ -260,7 +261,7 @@ namespace БД_НТИ
                 Re = Convert.ToSingle(list_txtbox[1].Text),
             };
 
-            Prediction pred = new Prediction("LossCoefModel.zip");
+            Prediction pred = new Prediction("models\\LossCoefModel.zip");
             var result = pred.Predict(example);
             txtbox_accuracy.Text = result.Score.ToString();
             dialog_accuracy.IsOpen = true;

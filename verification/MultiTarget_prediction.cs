@@ -122,7 +122,10 @@ namespace БД_НТИ
 
             foreach (var model_path in models)
             {
-                string MLNetModelPath = Path.GetFullPath(model_path.Value);
+
+                var exePath = AppDomain.CurrentDomain.BaseDirectory;//path to exe file
+                var MLNetModelPath = Path.Combine(exePath, model_path.Value);
+                //string MLNetModelPath = Path.GetFullPath(model_path.Value);
                 // IDataView testData=null; //=testfile
 
                 if (model_path.Key == "LayerNumber")
