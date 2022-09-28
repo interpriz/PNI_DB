@@ -1,0 +1,208 @@
+﻿<Page x:Class="БД_НТИ.Verif_search"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:local="clr-namespace:БД_НТИ"
+      mc:Ignorable="d" 
+      Background="LightCyan"
+      Width="1102" Height="530"
+      FontFamily="Comic Sans MS" Foreground="#FF000E99"
+      Title="Verif_search">
+    <Page.Resources>
+        <ResourceDictionary>
+            <Style x:Key="ScrollThumbs" TargetType="{x:Type Thumb}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate>
+                            <Grid x:Name="Grid">
+                                <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" 
+                                           Height="Auto" Fill="Transparent"/>
+                                <Border x:Name="Rectangle1" CornerRadius="10 0 0 10" HorizontalAlignment="Stretch" 
+                                        VerticalAlignment="Stretch" Width="Auto" Height="Auto" 
+                                        Background="{TemplateBinding Background}"/>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="Tag" Value="Horizontal">
+                                    <Setter TargetName="Rectangle1" Property="Width" Value="Auto"/>
+                                    <Setter TargetName="Rectangle1" Property="Height" Value="7"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <!--SCROLLBARS-->
+            <Style x:Key="{x:Type ScrollBar}" TargetType="{x:Type ScrollBar}">
+                <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+                <Setter Property="Foreground" Value="#FF000E99"/>
+                <Setter Property="Background" Value="LightCyan"/>
+                <Setter Property="Opacity" Value="0.75"/>
+                <Setter Property="Width" Value="10"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ScrollBar}">
+                            <Grid x:Name="GridRoot" Width="12" Background="{x:Null}">
+                                <Track x:Name="PART_Track" Grid.Row="0" IsDirectionReversed="true" Focusable="False">
+                                    <Track.Thumb>
+                                        <Thumb x:Name="Thumb" Background="{TemplateBinding Foreground}" 
+                                               Style="{DynamicResource ScrollThumbs}"/>
+                                    </Track.Thumb>
+                                    <Track.IncreaseRepeatButton>
+                                        <RepeatButton x:Name="PageUp" Command="ScrollBar.PageDownCommand" Opacity="0" Focusable="False"/>
+                                    </Track.IncreaseRepeatButton>
+                                    <Track.DecreaseRepeatButton>
+                                        <RepeatButton x:Name="PageDown" Command="ScrollBar.PageUpCommand" Opacity="0" Focusable="False"/>
+                                    </Track.DecreaseRepeatButton>
+                                </Track>
+                            </Grid>
+
+                            <ControlTemplate.Triggers>
+                                <Trigger SourceName="Thumb" Property="IsMouseOver" Value="true">
+                                    <Setter Value="{DynamicResource ButtonSelectBrush}" 
+                                            TargetName="Thumb" Property="Background"/>
+                                </Trigger>
+                                <Trigger SourceName="Thumb" Property="IsDragging" Value="true">
+                                    <Setter Value="{DynamicResource DarkBrush}" TargetName="Thumb" Property="Background"/>
+                                </Trigger>
+
+                                <Trigger Property="IsEnabled" Value="false">
+                                    <Setter TargetName="Thumb" Property="Visibility" Value="Collapsed"/>
+                                </Trigger>
+                                <Trigger Property="Orientation" Value="Horizontal">
+                                    <Setter TargetName="GridRoot" Property="LayoutTransform">
+                                        <Setter.Value>
+                                            <RotateTransform Angle="-90"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter TargetName="PART_Track" Property="LayoutTransform">
+                                        <Setter.Value>
+                                            <RotateTransform Angle="-90"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="Width" Value="Auto"/>
+                                    <Setter Property="Height" Value="12"/>
+                                    <Setter TargetName="Thumb" Property="Tag" Value="Horizontal"/>
+                                    <Setter TargetName="PageDown" Property="Command" Value="ScrollBar.PageLeftCommand"/>
+                                    <Setter TargetName="PageUp" Property="Command" Value="ScrollBar.PageRightCommand"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+        </ResourceDictionary>
+    </Page.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="9*"/>
+        </Grid.RowDefinitions>
+        <materialDesign:Card  Background="#FF86E2FD" Grid.Row="0" 
+                                   materialDesign:ShadowAssist.ShadowDepth="Depth3"  
+                                   materialDesign:ShadowAssist.ShadowEdges="Bottom,Left"
+                                   VerticalAlignment="Top" Height="80" >
+            <TextBlock x:Name="txtblock_header" Text="3. Предсказание параметров. " 
+                   Background="Transparent" Foreground="#000E99" FontSize="24" 
+                   FontFamily="Comic Sans MS" VerticalAlignment="Center" Height="35" Margin="38,8,0,7" HorizontalAlignment="Left"/>
+        </materialDesign:Card>
+        <materialDesign:DialogHost Grid.Row="1" x:Name="dialog_accuracy">
+            <materialDesign:DialogHost.DialogContent>
+                <Grid Background="LightCyan" >
+                    <StackPanel Margin="40,20" >
+                        <StackPanel.Resources>
+                            <ResourceDictionary>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="FontSize" Value="14"/>
+                                    <Setter Property="Margin" Value="5"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                </Style>
+                                <Style TargetType="TextBox" BasedOn="{StaticResource MaterialDesignTextBox}">
+                                    <Setter Property="Foreground" Value="#FF000E99"/>
+                                    <Setter Property="BorderBrush" Value="#FF000E99"/>
+                                    <Setter Property="BorderThickness" Value="1"/>
+                                    <Setter Property="Width" Value="180"/>
+                                    <Setter Property="Margin" Value="5"/>
+                                </Style>
+                            </ResourceDictionary>
+                        </StackPanel.Resources>
+                        <TextBlock x:Name="txtblock_parname" Margin="5,5,5,10" Text="Предсказание параметра: "/>
+                        <ScrollViewer Height="300">
+                            <StackPanel Name="stackpanel_dialog">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <TextBlock Text="Погрешность"  x:Name="txtblock_accuracy" />
+                                    <TextBox x:Name="txtbox_accuracy" BorderBrush="#FF000E99" />
+                                </StackPanel>
+                            </StackPanel>
+                        </ScrollViewer>
+                        <Button x:Name="butt_calculate_or_exit" materialDesign:RippleAssist.Feedback="#FF86E2FD"
+                            Background="LightCyan" Foreground="#FF000E99" 
+                            BorderBrush="#FF000E99" BorderThickness="1"
+                            Content="Рассчитать" Margin="0,10,0,0" Click="butt_calculate_or_exit_Click"/>
+                    </StackPanel>
+                </Grid>
+            </materialDesign:DialogHost.DialogContent>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20*"/>
+                    <RowDefinition Height="178*"/>
+                    <RowDefinition Height="27*"/>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,20,0">
+                    <TextBlock Text="Оценка точности модели" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                    <materialDesign:RatingBar VerticalAlignment="Center" />
+                </StackPanel>
+                <Grid Grid.Row="1">
+                    <ScrollViewer VerticalAlignment="Center" Height="331" Margin="165,25,302,0" Width="635" HorizontalAlignment="Center">
+                        <StackPanel x:Name="stackpanel" VerticalAlignment="Center" Width="561">
+                            <StackPanel.Resources>
+                                <ResourceDictionary>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="FontSize" Value="14"/>
+                                        <Setter Property="Margin" Value="10"/>
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                    </Style>
+                                    <Style TargetType="TextBox" BasedOn="{StaticResource MaterialDesignTextBox}">
+                                        <Setter Property="Foreground" Value="#FF000E99"/>
+                                        <Setter Property="BorderBrush" Value="#FF000E99"/>
+                                        <Setter Property="BorderThickness" Value="1"/>
+                                        <Setter Property="Width" Value="180"/>
+                                        <Setter Property="Margin" Value="10"/>
+                                    </Style>
+                                </ResourceDictionary>
+                            </StackPanel.Resources>
+                            <StackPanel x:Name="stackpanel_Y" Orientation="Horizontal" HorizontalAlignment="Right">
+                                <TextBlock Text="Y+" />
+                                <TextBox x:Name="txtbox_y" BorderBrush="#FF000E99"/>
+                            </StackPanel>
+                            <StackPanel x:Name="stackpanel_GCSize" Orientation="Horizontal" HorizontalAlignment="Right">
+                                <TextBlock Text="Величина глобальной ячейки"/>
+                                <TextBox x:Name="txtbox_GCSize" BorderBrush="#FF000E99"/>
+                            </StackPanel>
+                            <StackPanel x:Name="stackpanel_BLHeight" Orientation="Horizontal" HorizontalAlignment="Right">
+                                <TextBlock Text="Общая высота пограничного слоя" />
+                                <TextBox x:Name="txtbox_BLHeight" BorderBrush="#FF000E99"/>
+                            </StackPanel>
+                            <StackPanel x:Name="stackpanel_LayerNumber" Orientation="Horizontal" HorizontalAlignment="Right">
+                                <TextBlock Text="Число слоев"/>
+                                <TextBox x:Name="txtbox_LayerNumber" BorderBrush="#FF000E99"/>
+                            </StackPanel>
+                            <StackPanel x:Name="stackpanel_TurbModel" Orientation="Horizontal" HorizontalAlignment="Right">
+                                <TextBlock Text="Модель турбулентности"/>
+                                <TextBox x:Name="txtbox_TurbModel" BorderBrush="#FF000E99"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+                <Button x:Name="butt_calculate_accuracy" Grid.Row="2" Content="Рассчитать погрешность" HorizontalAlignment="Center"
+                        materialDesign:RippleAssist.Feedback="#FF86E2FD"
+                        Background="LightCyan" Foreground="#FF000E99" 
+                        BorderBrush="#FF000E99" BorderThickness="1"  Width="240" Margin="420,14,442,14" 
+                        Height="26" FontSize="16" VerticalAlignment="Center" Click="butt_calculate_accuracy_Click"/>
+            </Grid>
+        </materialDesign:DialogHost>
+    </Grid>
+</Page>

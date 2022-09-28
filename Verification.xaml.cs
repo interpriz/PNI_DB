@@ -24,6 +24,8 @@ namespace БД_НТИ
         string step = "step1";
         Page new_Task_class;
         Page new_Geom;
+        Page new_Verif_model;
+        Page new_Verif_search;
 
         public Verification()
         {
@@ -68,8 +70,8 @@ namespace БД_НТИ
                     if (rdr_chan_count.HasRows)
                     {
                         rdr_chan_count.Close();
-                        chan_count = comm_chan_count.ExecuteScalar().ToString();
-                        new_Geom = new Exp_search_geom(chan_count, "Verification");
+                        //chan_count = comm_chan_count.ExecuteScalar().ToString();
+                        //new_Geom = new Exp_search_geom(chan_count, "Verification");
                         item1.IsSelected = false;
                         item2.IsEnabled = true;
                         item2.IsSelected = true;
@@ -82,6 +84,18 @@ namespace БД_НТИ
 
                     sqlconn.Close();
                     break;
+
+                case "step2":
+                    item3.IsEnabled = true;
+                    item2.IsSelected = false;
+                    item3.IsSelected = true;
+                    break;
+
+                case "step3":
+                    item4.IsEnabled = true;
+                    item3.IsSelected = false;
+                    item4.IsSelected = true;
+                    break;
             }
         }
 
@@ -92,6 +106,27 @@ namespace БД_НТИ
                 case "step1":
                     this.Close();
                     break;
+
+                case "step2":
+                    step = "step1";
+                    item2.IsSelected = false;
+                    item1.IsSelected = true;
+                    break;
+
+                case "step3":
+                    step = "step2";
+                    item2.IsSelected = true;
+                    item3.IsSelected = false;
+
+                    Butt_next.Visibility = Visibility.Visible;
+                    break;
+
+                //case "step4":
+                //    step = "step3";
+                //    item3.IsSelected = true;
+                //    item4.IsSelected = false;
+                //    Butt_next.Visibility = Visibility.Visible;
+                //    break;
             }
         }
 
@@ -102,10 +137,36 @@ namespace БД_НТИ
 
         private void item2_Selected(object sender, RoutedEventArgs e)
         {
-            frame.Navigate(new_Geom);
-            item3.IsEnabled = false;
-            item4.IsEnabled = false;
+            //frame.Navigate(new_Geom);
+            //item3.IsEnabled = false;
+            //item4.IsEnabled = false;
+            //step = "step2";
+
+            Butt_next.IsEnabled = false;
+            new_Verif_model = new Verif_model();
+            frame.Navigate(new_Verif_model);
             step = "step2";
+        }
+
+        private void item3_Selected(object sender, RoutedEventArgs e)
+        {
+            //Butt_next.IsEnabled = false;
+            //new_Verif_model = new Verif_model();
+            //frame.Navigate(new_Verif_model);
+            //step = "step3";
+
+            Butt_next.Visibility = Visibility.Hidden;
+            new_Verif_search = new Verif_search();
+            frame.Navigate(new_Verif_search);
+            step = "step3";
+        }
+
+        private void item4_Selected(object sender, RoutedEventArgs e)
+        {
+            //Butt_next.Visibility = Visibility.Hidden;
+            //new_Verif_search = new Verif_search();
+            //frame.Navigate(new_Verif_search);
+            //step = "step4";
         }
     }
 }
