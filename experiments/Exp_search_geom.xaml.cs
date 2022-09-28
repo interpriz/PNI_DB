@@ -149,75 +149,83 @@ namespace БД_НТИ
             int row = e.Row.GetIndex();// индекс текущего параметра
 
             // 
-            if (row == 0)   //первый параметр в таблице (обращение к предыдущему каналу)
+            if (param_exp_verif == "Exp_search")
             {
-                if (chan != 0) // не первый канал
+                if (row == 0)   //первый параметр в таблице (обращение к предыдущему каналу)
+                {
+                    if (chan != 0) // не первый канал
+                    {
+                        string spisok = "";
+                        // считывание всех исполнений у последнего параметра предыдущего канала
+                        for (int i = 0; i < chan_params[chan - 1].realization[chan_params[chan - 1].realization.Count - 1].Count; i++)
+                        {
+                            spisok += $"{{{chan_params[chan - 1].realization[chan_params[chan - 1].realization.Count - 1][i]}}},"; //заполнение строки с номерами исполнений
+                        }
+                        spisok = spisok.Remove(spisok.Length - 1); // удаление последней запятой
+
+
+                        for (int i = 0; i < chan_params[chan].realization.Count; i++)
+                        {
+                            chan_params[chan].realization[i].Clear();   //очищение всех списков с исполнениями начиная со списка для текущего параметра
+                        }
+
+                        List<double> par1_values = new List<double>();
+
+                        // фильтрация (считывание номеров исполнений и возможных вариантов значений текущего  с учетом значения предыдущего параметра)
+                        NpgsqlConnection sqlconn = new NpgsqlConnection(conn_str);
+                        sqlconn.Open();
+                        NpgsqlCommand comm_par1 = new NpgsqlCommand($"select * from main_block.experiment_filter({Data.id}, {chan}, {chan + 1}, '{{{spisok}}}', '{chan_params[chan - 1].geom_pars[chan_params[chan - 1].geom_pars.Count - 1].par_name}', {chan_params[chan - 1].geom_pars[chan_params[chan - 1].geom_pars.Count - 1].par_value.Replace(',', '.')},'{chan_params[chan].geom_pars[row].par_name}')", sqlconn);
+                        NpgsqlDataReader rdr_par1 = comm_par1.ExecuteReader();
+                        while (rdr_par1.Read())
+                        {
+                            chan_params[chan].realization[0].Add(Convert.ToInt32(rdr_par1[0]));
+                            par1_values.Add(Convert.ToDouble(rdr_par1[1]));
+                        }
+                        sqlconn.Close();
+
+
+                        NotEmptyNumericRule.value_list = par1_values.Distinct().ToList();
+                    }
+                    else
+                    {
+                        NotEmptyNumericRule.value_list = par0_values;
+                    }
+                }
+                else   //не первые параметры в таблице (обращение к текущему каналу)
                 {
                     string spisok = "";
-                    // считывание всех испонений у последнего параметра предыдущего канала
-                    for (int i = 0; i < chan_params[chan-1].realization[chan_params[chan - 1].realization.Count - 1].Count; i++)
+                    // считывание всех исполнений у предыдущего параметра текущего канала
+                    for (int i = 0; i < chan_params[chan].realization[row - 1].Count; i++)
                     {
-                        spisok += $"{{{chan_params[chan - 1].realization[chan_params[chan - 1].realization.Count - 1][i]}}},"; //заполнение строки с номерами исполнений
+                        spisok += $"{{{chan_params[chan].realization[row - 1][i]}}},";  //заполнение строки с номерами исполнений
                     }
-                    spisok = spisok.Remove(spisok.Length - 1); // удаление последней запятой
+                    spisok = spisok.Remove(spisok.Length - 1);
 
-
-                    for (int i = 0; i < chan_params[chan].realization.Count; i++)
+                    for (int i = row; i < chan_params[chan].realization.Count; i++)
                     {
                         chan_params[chan].realization[i].Clear();   //очищение всех списков с исполнениями начиная со списка для текущего параметра
                     }
 
-                    List<double> par1_values = new List<double>();
-
-                    // фильтрация (считывание номеров исполнений и возможных вариантов значений текущего  с учетом значения предыдущего параметра)
+                    List<double> par_values = new List<double>();
                     NpgsqlConnection sqlconn = new NpgsqlConnection(conn_str);
                     sqlconn.Open();
-                    NpgsqlCommand comm_par1 = new NpgsqlCommand($"select * from main_block.experiment_filter({Data.id}, {chan}, {chan + 1}, '{{{spisok}}}', '{chan_params[chan-1].geom_pars[chan_params[chan - 1].geom_pars.Count-1].par_name}', {chan_params[chan-1].geom_pars[chan_params[chan - 1].geom_pars.Count - 1].par_value.Replace(',', '.')},'{chan_params[chan].geom_pars[row].par_name}')", sqlconn);
-                    NpgsqlDataReader rdr_par1 = comm_par1.ExecuteReader();
-                    while (rdr_par1.Read())
+                    NpgsqlCommand com_par = new NpgsqlCommand($"select * from main_block.experiment_filter({Data.id}, {chan + 1}, {chan + 1}, '{{{spisok}}}', '{chan_params[chan].geom_pars[row - 1].par_name}', {chan_params[chan].geom_pars[row - 1].par_value.Replace(',', '.')},'{chan_params[chan].geom_pars[row].par_name}')", sqlconn);
+                    NpgsqlDataReader rdr_par = com_par.ExecuteReader();
+                    while (rdr_par.Read())
                     {
-                        chan_params[chan].realization[0].Add(Convert.ToInt32(rdr_par1[0]));
-                        par1_values.Add(Convert.ToDouble(rdr_par1[1]));
+                        chan_params[chan].realization[row].Add(Convert.ToInt32(rdr_par[0]));
+                        par_values.Add(Convert.ToDouble(rdr_par[1]));
                     }
+
                     sqlconn.Close();
 
-                    NotEmptyNumericRule.value_list = par1_values.Distinct().ToList();
+                    if (param_exp_verif == "Exp_search")
+                    {
+                        NotEmptyNumericRule.value_list = par_values.Distinct().ToList();
+                    }
                 }
-                else
-                {
-                    NotEmptyNumericRule.value_list = par0_values;
-                }            
             }
-            else   //не первые параметры в таблице (обращение к текущему каналу)
-            {
-                string spisok = "";
-                // считывание всех исполнений у предыдущего параметра текущего канала
-                for (int i = 0; i < chan_params[chan].realization[row-1].Count; i++)
-                {
-                    spisok += $"{{{chan_params[chan].realization[row-1][i]}}},";  //заполнение строки с номерами исполнений
-                }
-                spisok = spisok.Remove(spisok.Length - 1);
-
-                for(int i = row; i < chan_params[chan].realization.Count; i++)
-                {
-                    chan_params[chan].realization[i].Clear();   //очищение всех списков с исполнениями начиная со списка для текущего параметра
-                }
-
-                List<double> par_values = new List<double>();
-                NpgsqlConnection sqlconn = new NpgsqlConnection(conn_str);
-                sqlconn.Open();
-                NpgsqlCommand com_par = new NpgsqlCommand($"select * from main_block.experiment_filter({Data.id}, {chan + 1}, {chan + 1}, '{{{spisok}}}', '{chan_params[chan].geom_pars[row-1].par_name}', {chan_params[chan].geom_pars[row - 1].par_value.Replace(',','.')},'{chan_params[chan].geom_pars[row].par_name}')", sqlconn);
-                NpgsqlDataReader rdr_par = com_par.ExecuteReader();
-                while (rdr_par.Read())
-                {
-                    chan_params[chan].realization[row].Add(Convert.ToInt32(rdr_par[0]));
-                    par_values.Add(Convert.ToDouble(rdr_par[1]));
-                }
-
-                sqlconn.Close();
-
-                NotEmptyNumericRule.value_list = par_values.Distinct().ToList();
-            }
+                
 
             if (row != chan_params[chan].geom_pars.Count - 1)   //если не последняя строка в списке
             {
@@ -259,15 +267,24 @@ namespace БД_НТИ
                     var txt = e.EditingElement as TextBox;
                     double val = Convert.ToDouble(txt.Text);
                     bool fl = false;
-                    // проверка введенного значения на наличие его в базе
-                    for (int i = 0; i < NotEmptyNumericRule.value_list.Count; i++)
+                    
+                    if (param_exp_verif == "Exp_search")
                     {
-                        if (val == NotEmptyNumericRule.value_list[i])
+                        // проверка введенного значения на наличие его в базе
+                        for (int i = 0; i < NotEmptyNumericRule.value_list.Count; i++)
                         {
-                            fl = true;
-                            i = NotEmptyNumericRule.value_list.Count;
+                            if (val == NotEmptyNumericRule.value_list[i])
+                            {
+                                fl = true;
+                                i = NotEmptyNumericRule.value_list.Count;
+                            }
                         }
                     }
+                    else if (param_exp_verif == "Verification")
+                    {
+                        fl = true;
+                    }
+                        
                     // блокировка и очистка параметров следующих каналов
                     for (int i = chan + 1; i < count; i++)
                     {
@@ -292,46 +309,48 @@ namespace БД_НТИ
                     var txt = e.EditingElement as TextBox;
                     double val = Convert.ToDouble(txt.Text);
                     bool fl = false;
-                    // проверка введенного значения на наличие его в базе
-                    for (int i = 0; i < NotEmptyNumericRule.value_list.Count; i++)
+                   
+                    if (param_exp_verif == "Exp_search")
                     {
-                        if (val == NotEmptyNumericRule.value_list[i])
+                        // проверка введенного значения на наличие его в базе
+                        for (int i = 0; i < NotEmptyNumericRule.value_list.Count; i++)
                         {
-                            fl = true;
-                            i = NotEmptyNumericRule.value_list.Count;
+                            if (val == NotEmptyNumericRule.value_list[i])
+                            {
+                                fl = true;
+                                i = NotEmptyNumericRule.value_list.Count;
+                            }
+                        }
+
+                        // конечная фильтрация (поиск необходимого исполнения)
+                        if (fl)
+                        {
+                            exp_wind_search.Butt_next.IsEnabled = true;
+                            string spisok = "";
+
+                            for (int i = 0; i < chan_params[chan].realization[chan_params[chan].realization.Count - 1].Count; i++)
+                            {
+                                spisok += $"{chan_params[chan].realization[chan_params[chan].realization.Count - 1][i]},";
+                            }
+                            spisok = spisok.Remove(spisok.Length - 1);
+
+                            NpgsqlConnection sqlconn = new NpgsqlConnection(conn_str);
+                            sqlconn.Open();
+                            NpgsqlCommand comm_par1 = new NpgsqlCommand("select rc.\"Realization\" from main_block.\"Realization_channel\" rc join main_block.\"Geometric_parametrs\" gp " +
+                                $"on rc.\"Id_R_C\" = gp.\"Id_R_C\" where rc.\"Channel\" = {chan + 1} and rc.\"Id$\" = (select \"Id$\" from main_block.\"Stand_ID*\" where \"ID*\" = {Data.id}) and " +
+                                $"gp.\"id_param\" = (select id_param from main_block.\"Parametrs\" where name_param = '{chan_params[chan].geom_pars[chan_params[chan].geom_pars.Count - 1].par_name}') and " +
+                                $"gp.\"value_number\" = {val.ToString().Replace(',', '.')} and array[rc.\"Realization\"] <@ array[{spisok}]", sqlconn);
+                            Data.current_realization = comm_par1.ExecuteScalar().ToString();
+
+                            sqlconn.Close();
+
                         }
                     }
-                    // конечная фильтрация (поиск необходимого исполнения)
-                    if (fl)
+                    else if (param_exp_verif == "Verification")
                     {
-                        switch (param_exp_verif)
-                        {
-                            case "Exp_search":
-                                exp_wind_search.Butt_next.IsEnabled = true;
-                                break;
-                            case "Verification":
-                                verif_wind.Butt_next.IsEnabled = true;
-                                break;
-                        }
-                        string spisok = "";
-
-                        for (int i = 0; i < chan_params[chan].realization[chan_params[chan].realization.Count - 1].Count; i++)
-                        {
-                            spisok += $"{chan_params[chan].realization[chan_params[chan].realization.Count - 1][i]},";
-                        }
-                        spisok = spisok.Remove(spisok.Length - 1);
-
-                        NpgsqlConnection sqlconn = new NpgsqlConnection(conn_str);
-                        sqlconn.Open();
-                        NpgsqlCommand comm_par1 = new NpgsqlCommand("select rc.\"Realization\" from main_block.\"Realization_channel\" rc join main_block.\"Geometric_parametrs\" gp " +
-                            $"on rc.\"Id_R_C\" = gp.\"Id_R_C\" where rc.\"Channel\" = {chan+1} and rc.\"Id$\" = (select \"Id$\" from main_block.\"Stand_ID*\" where \"ID*\" = {Data.id}) and " +
-                            $"gp.\"id_param\" = (select id_param from main_block.\"Parametrs\" where name_param = '{chan_params[chan].geom_pars[chan_params[chan].geom_pars.Count-1].par_name}') and " +
-                            $"gp.\"value_number\" = {val.ToString().Replace(',', '.')} and array[rc.\"Realization\"] <@ array[{spisok}]", sqlconn);
-                        Data.current_realization = comm_par1.ExecuteScalar().ToString();
-
-                        sqlconn.Close();
-
+                        verif_wind.Butt_next.IsEnabled = true;
                     }
+                        
 
                 }
             }

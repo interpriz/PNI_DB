@@ -76,6 +76,8 @@ namespace БД_НТИ
                     Window newin6 = new Verification();
                     newin6.ShowDialog();
                     break;
+                default:
+                    break;
             }
             
         }

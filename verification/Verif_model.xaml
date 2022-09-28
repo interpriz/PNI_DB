@@ -106,11 +106,11 @@
                                    materialDesign:ShadowAssist.ShadowDepth="Depth3"  
                                    materialDesign:ShadowAssist.ShadowEdges="Bottom,Left"
                                    VerticalAlignment="Top" Height="80" >
-            <TextBlock Text="3. Выбор задачи и модели" 
+            <TextBlock Text="2. Выбор задачи и модели" 
                    Background="Transparent" Foreground="#000E99" FontSize="24" 
                    FontFamily="Comic Sans MS" VerticalAlignment="Center" Height="35" Margin="38,8,0,7" HorizontalAlignment="Left"/>
         </materialDesign:Card>
-        <Grid Grid.Row="1">
+        <Grid x:Name="grid_verif_task" Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="165"/>
                 <RowDefinition/>
@@ -125,34 +125,43 @@
                 </TextBlock>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,20,0,0">
                     <materialDesign:Card Background="#FFB8ECFD" Margin="0,0,15,0">
-                        <RadioButton Content="Прямая задача" FontSize="20" 
-                                  Height="46" 
-                                 BorderBrush="#FF000E99" BorderThickness="2"
-                                 GroupName="Task"/>
+                        <RadioButton Content="Прямая задача" FontSize="16" 
+                                     Height="46" GroupName="Task"
+                                     BorderBrush="#FF000E99" BorderThickness="2"
+                                     IsChecked="{Binding Path=task, Mode=TwoWay}" Checked="RadioButton_Checked"/>
+                    </materialDesign:Card>
+                    <materialDesign:Card Background="#FFB8ECFD" Margin="15,0,15,0">
+                        <RadioButton Content="Обратная задача (все параметры)" FontSize="16" 
+                                     Height="46" GroupName="Task" 
+                                     BorderBrush="#FF000E99" BorderThickness="2" Checked="RadioButton_Checked"
+                                     IsChecked="{Binding Path=count_pars, Mode=TwoWay}"/>
                     </materialDesign:Card>
                     <materialDesign:Card Background="#FFB8ECFD" Margin="15,0,0,0">
-                        <RadioButton Content="Обратная задача" FontSize="20" 
-                                  Height="46" 
-                                  BorderBrush="#FF000E99" BorderThickness="2"
-                                 GroupName="Task"/>
+                        <RadioButton Content="Обратная задача (один параметр)" FontSize="16" 
+                                     Height="46" GroupName="Task" 
+                                     BorderBrush="#FF000E99" BorderThickness="2" Checked="RadioButton_Checked"/>
                     </materialDesign:Card>
-                    
                 </StackPanel>
             </StackPanel>
             <materialDesign:Card Grid.Row="1" Margin="60,10,82,35" Background="#FFB8ECFD">
                 <StackPanel Margin="10">
                     <ComboBox x:Name="combox_model"
-                    materialDesign:HintAssist.Hint="Выберите модель"
-                    materialDesign:HintAssist.HintOpacity=".3"
-                    MaxDropDownHeight="100" Margin="0,0,675,15"
-                          FontSize="14" BorderBrush="#FF000E99"/>
+                              materialDesign:HintAssist.Hint="Выберите модель"
+                              materialDesign:HintAssist.HintOpacity=".3"
+                              MaxDropDownHeight="100" Margin="0,0,675,15"
+                              FontSize="14" BorderBrush="#FF000E99" 
+                              SelectionChanged="combox_model_SelectionChanged"
+                              ItemsSource="{Binding Path=list_model, Mode=TwoWay}"/>
                     <Border Height="170" BorderBrush="#FF000E99" BorderThickness="1">
                         <GroupBox  Header="Описание модели" FontSize="14" Background="LightCyan"
-                              Style="{StaticResource MaterialDesignGroupBox}"
-                              materialDesign:ShadowAssist.ShadowDepth="Depth2"
-                              BorderThickness="1" BorderBrush="#FF000E99">
-                            <TextBlock x:Name="txtbox_desription" FontSize="14"
-                               TextWrapping="Wrap"/>
+                                   Style="{StaticResource MaterialDesignGroupBox}"
+                                   materialDesign:ShadowAssist.ShadowDepth="Depth2"
+                                   BorderThickness="1" BorderBrush="#FF000E99" ScrollViewer.CanContentScroll="True" Height="168">
+                            <ScrollViewer Height="115">
+                                <TextBlock x:Name="txtbox_desription" FontSize="12"
+                                           TextWrapping="Wrap" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+                            </ScrollViewer>
+                                
                         </GroupBox>
                     </Border>
                 </StackPanel>
